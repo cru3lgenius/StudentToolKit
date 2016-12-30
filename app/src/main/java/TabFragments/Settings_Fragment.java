@@ -19,7 +19,7 @@ public class Settings_Fragment extends Fragment{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        viewRoot = inflater.inflate(R.layout.settings_fragment, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_settings, container, false);
 
         return viewRoot;
     }

@@ -1,10 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit;
 
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 import TabFragments.Flashcards_Fragment;
 import TabFragments.Settings_Fragment;
@@ -111,7 +106,7 @@ public class TabsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.tabs_activity_fragment, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_tabs_activity, container, false);
 
             return rootView;
         }
