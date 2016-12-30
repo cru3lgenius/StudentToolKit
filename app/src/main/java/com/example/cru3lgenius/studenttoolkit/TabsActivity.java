@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import TabFragments.Flashcards_Fragment;
+import TabFragments.Settings_Fragment;
 
 public class TabsActivity extends AppCompatActivity {
 
@@ -55,14 +56,7 @@ public class TabsActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
     }
 
@@ -139,9 +133,11 @@ public class TabsActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    new Flashcards_Fragment();
+                    return new Flashcards_Fragment();
+                case 1:
+                    return new Settings_Fragment();
             }
-            return PlaceholderFragment.newInstance(position + 1);
+            return new Flashcards_Fragment();
         }
 
         @Override
@@ -154,9 +150,9 @@ public class TabsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Flashcards";
                 case 1:
-                    return "SECTION 2";
+                    return "Settings";
 
             }
             return null;

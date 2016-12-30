@@ -6,12 +6,25 @@
 
 
     <Button
-        android:text="Create A FLASHCARD"
+        android:text="@string/create_a_flashcard"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/btnCreateFlashcard"
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:background="#000000"
+        android:clickable="true"
         android:textColor="#FFFFFF"/>
+
+    <Button
+        android:text="Review Cards"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="@id/btnCreateFlashcard"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="#000000"
+        android:textColor="#FFFFFF"
+        android:clickable="true"
+        android:id="@+id/btnReviewCards" />
 </RelativeLayout>
