@@ -1,5 +1,6 @@
 package com.example.cru3lgenius.studenttoolkit;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,6 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.cru3lgenius.studenttoolkit.Activities.CreateFlashcard;
+import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import TabFragments.Flashcards_Fragment;
 import TabFragments.Settings_Fragment;
@@ -33,12 +40,31 @@ public class TabsActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    /* All preferences */
+    public static final String FIRST_LOGIN = "firstLogin";  // getInt returns -1 if this is the first login
+    public static final String FLASHCARD_PREFERENCES = "flashcardPrefs"; // loads the sharedPreferences
+    public static final String MY_FLASHCARDS_ARRAYLIST = "flashcardsArrayList"; // getString returns the json representations of the arrList
 
+
+    public static ArrayList<String> myFlashcards = null;
+    final Gson gson = new Gson();
+    SharedPreferences sharedPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
+        /* Checks if this is the first login and if so there are no flashcards to load */
 
+        sharedPrefs = getSharedPreferences(TabsActivity.FLASHCARD_PREFERENCES,MODE_PRIVATE);
+        int logged = sharedPrefs.getInt(FIRST_LOGIN,-1);
+        /* Checks if this is the first login and if so there are no flashcards to load */
+        if(logged == -1){
+            myFlashcards = new ArrayList<String>();
+        }else{
+
+            String temp = sharedPrefs.getString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,"default");
+            myFlashcards = gson.fromJson(temp,ArrayList.class);
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

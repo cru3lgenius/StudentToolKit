@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Flashcard implements Serializable{
     private String question;
     private String answer;
-
+    private String flashcardName;
     public String getAnswer(){
         return this.answer;
     };
@@ -18,5 +18,11 @@ public class Flashcard implements Serializable{
     }
     public void setQuestion(String question){
         this.question = question;
+    }
+    public void setFlashcardName(String flashcardName){
+        this.flashcardName = flashcardName;
+    }
+    public String getFlashcardName(){
+        return this.flashcardName;
     }
 }
