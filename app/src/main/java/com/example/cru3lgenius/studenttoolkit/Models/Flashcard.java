@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class Flashcard implements Serializable{
+    private String Id;
     private String question;
     private String answer;
     private String flashcardName;
@@ -24,5 +25,12 @@ public class Flashcard implements Serializable{
     }
     public String getFlashcardName(){
         return this.flashcardName;
+    }
+    public String getId(){
+        return this.Id;
+    }
+    public void setId(String Id){
+        this.Id = Id;
+
     }
 }

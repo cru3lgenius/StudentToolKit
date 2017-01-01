@@ -13,6 +13,7 @@ import com.example.cru3lgenius.studenttoolkit.R;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class CreateFlashcard extends AppCompatActivity {
     Button saveFlashcardButton;
@@ -43,23 +44,31 @@ public class CreateFlashcard extends AppCompatActivity {
 
     //TODO: Creates and saves a new flashcard
     private void saveFlashcard(){
+        /* Generates attributes for the card */
+        String flashcardId = UUID.randomUUID().toString();
         String flashCardNameStr = flashCardName.getText().toString();
         String answerStr = answer.getText().toString();
         String questStr = question.getText().toString();
+
+        /* Handle the case when the user does not give appropriate information */
         if(flashCardNameStr.equals("") || answerStr.equals("") || questStr.equals("")){
             Toast.makeText(this.getApplicationContext(),"Empty fields are not allowed!",Toast.LENGTH_SHORT).show();
             return;
         }
+
+        /* Initialize the card with the above attributes */
         Flashcard card = new Flashcard();
         card.setFlashcardName(flashCardNameStr);
         card.setAnswer(answerStr);
         card.setQuestion(questStr);
-        String jsonCard = gson.toJson(card);
-        TabsActivity.myFlashcards.add(flashCardNameStr);
+        card.setId(flashcardId);
+
+       // String jsonCard = gson.toJson(card);
+        TabsActivity.myFlashcards.add(card);
         String jsonFlashcardsList = gson.toJson(TabsActivity.myFlashcards);
         prefEdit.putInt(TabsActivity.FIRST_LOGIN,1);
         prefEdit.putString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,jsonFlashcardsList);
-        prefEdit.putString(flashCardNameStr,jsonCard);
+        //prefEdit.putString(flashCardNameStr,jsonCard);
         prefEdit.commit();
     }
 }

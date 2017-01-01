@@ -46,7 +46,7 @@ public class TabsActivity extends AppCompatActivity {
     public static final String MY_FLASHCARDS_ARRAYLIST = "flashcardsArrayList"; // getString returns the json representations of the arrList
 
 
-    public static ArrayList<String> myFlashcards = null;
+    public static ArrayList<Flashcard> myFlashcards = null;
     final Gson gson = new Gson();
     SharedPreferences sharedPrefs;
     @Override
@@ -59,7 +59,7 @@ public class TabsActivity extends AppCompatActivity {
         int logged = sharedPrefs.getInt(FIRST_LOGIN,-1);
         /* Checks if this is the first login and if so there are no flashcards to load */
         if(logged == -1){
-            myFlashcards = new ArrayList<String>();
+            myFlashcards = new ArrayList<Flashcard>();
         }else{
 
             String temp = sharedPrefs.getString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,"default");
