@@ -70,5 +70,6 @@ public class CreateFlashcard extends AppCompatActivity {
         prefEdit.putString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,jsonFlashcardsList);
         //prefEdit.putString(flashCardNameStr,jsonCard);
         prefEdit.commit();
+        Toast.makeText(this.getApplicationContext(),"Your flashcard was saved successfully!",Toast.LENGTH_SHORT).show();
     }
 }

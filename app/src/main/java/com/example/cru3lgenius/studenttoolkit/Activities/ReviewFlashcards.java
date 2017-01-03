@@ -4,10 +4,13 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.TabsActivity;
@@ -28,7 +31,7 @@ public class ReviewFlashcards extends AppCompatActivity {
 
     SharedPreferences sharedPrefs;
     ArrayList<Flashcard>myFlashcards = TabsActivity.myFlashcards;
-    ArrayAdapter<Flashcard> arrayAdapter;
+    FlashcardsAdapter arrayAdapter;
     ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,16 @@ public class ReviewFlashcards extends AppCompatActivity {
             for(Flashcard each:myFlashcards){
                 System.out.println(each.getFlashcardName());
             }
-            arrayAdapter = new ArrayAdapter<Flashcard>(this,R.layout.listview_layout,myFlashcards);
+            //arrayAdapter = new ArrayAdapter<Flashcard>(this,R.layout.listview_layout,myFlashcards);
+            arrayAdapter = new FlashcardsAdapter(this,R.layout.listview_layout,myFlashcards);
             listView.setAdapter(arrayAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Flashcard temp  = arrayAdapter.getFlashcards().get(i);
+                    Toast.makeText(getApplicationContext(),temp.getFlashcardName(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
     }
