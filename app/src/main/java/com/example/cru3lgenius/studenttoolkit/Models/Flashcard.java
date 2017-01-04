@@ -1,12 +1,14 @@
 package com.example.cru3lgenius.studenttoolkit.Models;
 
+import android.support.design.internal.ParcelableSparseArray;
+
 import java.io.Serializable;
 
 /**
  * Created by Denis on 12/30/16.
  */
 
-public class Flashcard implements Serializable{
+public class Flashcard  implements Serializable{
     private String Id;
     private String question;
     private String answer;

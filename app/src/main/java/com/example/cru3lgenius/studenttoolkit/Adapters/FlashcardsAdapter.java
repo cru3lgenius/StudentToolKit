@@ -1,10 +1,13 @@
 package com.example.cru3lgenius.studenttoolkit.Adapters;
 
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
@@ -19,22 +22,26 @@ import java.util.List;
 
 public class FlashcardsAdapter extends ArrayAdapter<Flashcard> {
     private List <Flashcard> flashcards ;
-
+    SparseBooleanArray mCheckedStates;
     private static LayoutInflater layoutInflater;
     public FlashcardsAdapter(Context context, int resource ,List<Flashcard>flashcards) {
         super(context, resource);
         this.flashcards = flashcards;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mCheckedStates = new SparseBooleanArray(flashcards.size());
     }
 
     public static class ViewHolder{
-        public TextView flashcardName;
+        public CheckBox flashcardName;
     }
 
     public int getCount(){
         return this.flashcards.size();
     }
 
+    public SparseBooleanArray getCheckedStates(){
+        return mCheckedStates;
+    }
     public ArrayList<Flashcard> getFlashcards(){
         return (ArrayList<Flashcard>)this.flashcards;
     }
@@ -47,17 +54,17 @@ public class FlashcardsAdapter extends ArrayAdapter<Flashcard> {
         if (convertView == null) {
             vi = layoutInflater.inflate(R.layout.flashcard_listview, null);
             holder = new ViewHolder();
-            holder.flashcardName = (TextView)  vi.findViewById(R.id.tvFlashcardList);
+            holder.flashcardName = (CheckBox) vi.findViewById(R.id.cbFlashcardToReview);
             vi.setTag(holder);
         } else {
             holder = (ViewHolder) vi.getTag();
 
         }
-
-
         holder.flashcardName.setText(flashcards.get(position).getFlashcardName());
+
 
 
         return vi;
     }
+
 }

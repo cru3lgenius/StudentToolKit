@@ -1,12 +1,16 @@
 package com.example.cru3lgenius.studenttoolkit.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,7 +34,8 @@ public class ReviewFlashcards extends AppCompatActivity {
     final Gson gson = new Gson();
 
     SharedPreferences sharedPrefs;
-    ArrayList<Flashcard>myFlashcards = TabsActivity.myFlashcards;
+    ArrayList<Flashcard> myFlashcards = TabsActivity.myFlashcards;
+    ArrayList<Flashcard> flashcardsToReview = new ArrayList<Flashcard>();
     FlashcardsAdapter arrayAdapter;
     ListView listView;
     @Override
@@ -39,6 +44,7 @@ public class ReviewFlashcards extends AppCompatActivity {
         setContentView(R.layout.activity_review_flashcards);
         sharedPrefs = getSharedPreferences(TabsActivity.FLASHCARD_PREFERENCES,MODE_PRIVATE);
         listView = (ListView) findViewById(R.id.lvFlashcards);
+        Button reviewSelectedCards = (Button)findViewById(R.id.btnReviewSelectedCards);
         String jsonFlashcardList = sharedPrefs.getString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,"default");
         if(jsonFlashcardList.equals("default")){
             Toast.makeText(getApplicationContext(),"You have no flashcards yet!",Toast.LENGTH_LONG).show();
@@ -54,13 +60,30 @@ public class ReviewFlashcards extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Flashcard temp  = arrayAdapter.getFlashcards().get(i);
-                    Toast.makeText(getApplicationContext(),temp.getFlashcardName(),Toast.LENGTH_SHORT).show();
+                    CheckBox cb =(CheckBox)view.findViewById(R.id.cbFlashcardToReview);
+                    cb.setChecked(!cb.isChecked());
+                    Flashcard toReview = (Flashcard)arrayAdapter.getFlashcards().get(i);
+                    if(cb.isChecked()){
+                        flashcardsToReview.add(toReview);
+                    }
+                    else if(!cb.isChecked() && flashcardsToReview.contains(toReview)){
+                        flashcardsToReview.remove(toReview);
+                    }
+
                 }
             });
+            reviewSelectedCards.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getApplicationContext(),ReviewSelectedCards.class);
+                    i.putExtra("flashcardsToReview",flashcardsToReview);
+                    startActivity(i);
+                }
+            });
+
         }
 
     }
 
-    public class FlashcardList extends ArrayList<Flashcard>{}
+
 }
