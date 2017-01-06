@@ -35,4 +35,7 @@ public class Flashcard  implements Serializable{
         this.Id = Id;
 
     }
+    public String getQuestion(){
+        return this.question;
+    }
 }

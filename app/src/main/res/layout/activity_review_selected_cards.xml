@@ -8,6 +8,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="com.example.cru3lgenius.studenttoolkit.Activities.ReviewSelectedCards">
 
+    <TextView
+        android:text="Question:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="46dp"
+        android:id="@+id/tvQuestionLabel"
+        android:textSize="15dp"
+        android:textColor="#00c300"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#8e44ad"
+        android:lines="6"
+        android:maxLines="6"
+        android:layout_marginTop="35dp"
+        android:id="@+id/tvQuestionField"
+        android:layout_below="@+id/tvQuestionLabel"
+        android:layout_alignLeft="@+id/tvQuestionLabel"
+        android:layout_alignStart="@+id/tvQuestionLabel" />
 </RelativeLayout>
