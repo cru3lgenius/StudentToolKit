@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".Activities.CreateFlashcard" />
         <activity android:name=".Activities.ReviewFlashcards" />
-        <activity android:name=".Activities.ReviewSelectedCards"></activity>
+        <activity android:name=".Activities.ReviewSelectedCards" />
+        <activity android:name=".Activities.CheckResult"></activity>
     </application>
 
 </manifest>

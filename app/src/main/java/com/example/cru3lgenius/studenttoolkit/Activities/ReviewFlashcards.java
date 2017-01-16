@@ -75,6 +75,10 @@ public class ReviewFlashcards extends AppCompatActivity {
             reviewSelectedCards.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(flashcardsToReview.isEmpty()){
+                        Toast.makeText(getApplicationContext(),"You haven't selected any cards yet!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Intent i = new Intent(getApplicationContext(),ReviewSelectedCards.class);
                     i.putExtra("flashcardsToReview",flashcardsToReview);
                     startActivity(i);
