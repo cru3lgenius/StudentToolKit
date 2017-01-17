@@ -37,6 +37,8 @@ public class ReviewSelectedCards extends AppCompatActivity {
         nextCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /* These changes will happen only if there are still cards to be added */
                 if(cardCounter!=flashcardsToReview.size()) {
                     System.out.println(flashcardsToReview.size());
                     answersMap.put(flashcardsToReview.get(cardCounter), answer.getText().toString());
@@ -44,7 +46,10 @@ public class ReviewSelectedCards extends AppCompatActivity {
                 }
                 /* Handles the case when this was the last card */
                 if(cardCounter==flashcardsToReview.size()){
-                    startActivity(new Intent(getApplicationContext(),CheckResult.class));
+                    /* Goes to the activity when the check of your results will happen */
+                    Intent i = new Intent(getApplicationContext(),CheckResult.class);
+                    i.putExtra("answersMap",answersMap);
+                    startActivity(i);
                     return;
 
                 }
@@ -57,6 +62,7 @@ public class ReviewSelectedCards extends AppCompatActivity {
         });
         /* Loads the question from the first card */
         question.setText(flashcardsToReview.get(cardCounter).getQuestion());
+        /* Checks if there is only one card */
         if(checkIfLastcard(flashcardsToReview)){
             nextCard.setText("Finish!");
         }

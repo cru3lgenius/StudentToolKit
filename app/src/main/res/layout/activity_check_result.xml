@@ -10,4 +10,92 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cru3lgenius.studenttoolkit.Activities.CheckResult">
 
+    <TextView
+        android:text="Your answer:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:id="@+id/tvYourAnswerLabel"
+        android:layout_below="@+id/tvCardNameLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="6"
+        android:layout_marginTop="18dp"
+        android:id="@+id/tvCorrectAnswer"
+        android:background="@drawable/customborder"
+        android:layout_below="@+id/tvCorrectAnswerLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="6"
+        android:id="@+id/tvYourAnswer"
+        android:background="@drawable/customborder"
+        android:layout_below="@+id/tvYourAnswerLabel"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:text="Card name:"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tvCardNameLabel"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Correct answer:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvCorrectAnswerLabel"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tvYourAnswer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <Button
+        android:text="Next"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btnNextAnswerCheck" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_above="@+id/btnNextAnswerCheck"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <RadioButton
+            android:text="Correct"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/rbCorrectAnswer"
+            android:layout_marginLeft="50dp"/>
+
+        <RadioButton
+            android:text="False"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:id="@+id/rbFalseAnswer"
+            android:layout_marginRight="30dp"
+             />
+    </RadioGroup>
+
 </RelativeLayout>
