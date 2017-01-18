@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
@@ -47,7 +46,7 @@ public class ReviewSelectedCards extends AppCompatActivity {
                 /* Handles the case when this was the last card */
                 if(cardCounter==flashcardsToReview.size()){
                     /* Goes to the activity when the check of your results will happen */
-                    Intent i = new Intent(getApplicationContext(),CheckResult.class);
+                    Intent i = new Intent(getApplicationContext(),CheckAnswers.class);
                     i.putExtra("answersMap",answersMap);
                     startActivity(i);
                     return;
