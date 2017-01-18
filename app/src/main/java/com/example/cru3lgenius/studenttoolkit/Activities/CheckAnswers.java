@@ -24,6 +24,7 @@ public class CheckAnswers extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton rbCorrectAnswer,rbFalseAnswer;
     int counter,correctAnswersCount;
+    HashMap<Flashcard,Boolean> correctAnswersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,8 @@ public class CheckAnswers extends AppCompatActivity {
         cardName = (TextView)findViewById(R.id.tvCardNameLabel);
         rbCorrectAnswer = (RadioButton) findViewById(R.id.rbCorrectAnswer);
         rbFalseAnswer = (RadioButton) findViewById(R.id.rbFalseAnswer);
-
-        /* Extract transfered from previous activity data */
+        correctAnswersMap = new HashMap<Flashcard,Boolean>();
+        /* Extract data transfered from previous activity */
         Bundle b = getIntent().getExtras();
         final HashMap<Flashcard,String> answersMap = (HashMap<Flashcard,String>)b.get("answersMap");
 
@@ -65,6 +66,9 @@ public class CheckAnswers extends AppCompatActivity {
                     return;
                 }
 
+                /* Put in the map whether the answer is correct or not */
+                correctAnswersMap.put(allRevisitedCards.get(counter),rbCorrectAnswer.isChecked());
+
                 /* If you are at the last card */
                 if(counter == allRevisitedCards.size()-1){
 
@@ -76,7 +80,7 @@ public class CheckAnswers extends AppCompatActivity {
                     /* Finish and show the number of correct answers */
                     Intent i = new Intent(getApplicationContext(),ShowResults.class);
                     i.putExtra("correctAnswersCount",correctAnswersCount);
-                    i.putExtra("allAnswersCount",allRevisitedCards.size());
+                    i.putExtra("correctAnswersMap",correctAnswersMap);
                     startActivity(i);
                     return;
                 }
