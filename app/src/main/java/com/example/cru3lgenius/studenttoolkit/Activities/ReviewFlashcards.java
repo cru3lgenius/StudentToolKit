@@ -82,6 +82,7 @@ public class ReviewFlashcards extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(),ReviewSelectedCards.class);
                     i.putExtra("flashcardsToReview",flashcardsToReview);
                     startActivity(i);
+                    finish();
                 }
             });
 

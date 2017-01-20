@@ -21,16 +21,25 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="14dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="22dp"
-        android:id="@+id/textView3" />
+        android:id="@+id/tvYourResults" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/tvYourResults"
         android:layout_marginTop="19dp"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3"
+        android:layout_marginBottom="40dp"
+        android:layout_alignLeft="@+id/tvYourResults"
         android:id="@+id/lvResults"/>
+
+    <Button
+        android:text="Go Back To Menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="385dp"
+        android:id="@+id/btnGoBackToMenu"
+        android:layout_alignTop="@+id/lvResults"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

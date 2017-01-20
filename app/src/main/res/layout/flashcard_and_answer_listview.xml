@@ -4,7 +4,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/myColorPrimaryDark"
+        android:textSize="15dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_border_background"
         android:id="@+id/tvFlashcardAndAnswer" />
 </LinearLayout>

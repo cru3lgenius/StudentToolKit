@@ -25,7 +25,7 @@ public class FlashcardWithAnswersAdapter extends ArrayAdapter<Flashcard> {
     private List <Flashcard> flashcards ;
     ArrayList<Boolean> results;
     private static LayoutInflater layoutInflater;
-    public FlashcardWithAnswersAdapter(Context context, int resource , List<Flashcard>flashcards, Set results) {
+    public FlashcardWithAnswersAdapter(Context context, int resource , List<Flashcard>flashcards, ArrayList<Boolean> results) {
         super(context, resource);
         this.flashcards = flashcards;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,6 +58,7 @@ public class FlashcardWithAnswersAdapter extends ArrayAdapter<Flashcard> {
             holder = (ViewHolder) vi.getTag();
 
         }
+        System.out.println("which flashcard " + flashcards.get(position).getFlashcardName());
         holder.flashcardName.setText(flashcards.get(position).getFlashcardName()+" : "+ results.get(position));
 
 

@@ -1,8 +1,10 @@
 package com.example.cru3lgenius.studenttoolkit.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,8 @@ public class CreateFlashcard extends AppCompatActivity {
     EditText answer,question,flashCardName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_flashcard);
         saveFlashcardButton = (Button)findViewById(R.id.btnSaveFlashcard);
@@ -34,6 +38,9 @@ public class CreateFlashcard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveFlashcard();
+                answer.setText("");
+                question.setText("");
+                flashCardName.setText("");
             }
         });
 
@@ -42,7 +49,6 @@ public class CreateFlashcard extends AppCompatActivity {
 
     }
 
-    //TODO: Creates and saves a new flashcard
     private void saveFlashcard(){
         /* Generates attributes for the card */
         String flashcardId = UUID.randomUUID().toString();
@@ -71,5 +77,11 @@ public class CreateFlashcard extends AppCompatActivity {
         //prefEdit.putString(flashCardNameStr,jsonCard);
         prefEdit.commit();
         Toast.makeText(this.getApplicationContext(),"Your flashcard was saved successfully!",Toast.LENGTH_SHORT).show();
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), TabsActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+
     }
 }

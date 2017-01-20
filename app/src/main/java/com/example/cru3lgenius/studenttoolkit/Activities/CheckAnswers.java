@@ -30,6 +30,7 @@ public class CheckAnswers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_answers);
         /* Initialize widgets */
+        radioGroup = (RadioGroup) findViewById(R.id.rgCheckAnswerRadioButtons);
         nextAnswerCheck = (Button)findViewById(R.id.btnNextAnswerCheck);
         yourAnswer = (TextView) findViewById(R.id.tvYourAnswer);
         correctAnswer = (TextView)findViewById(R.id.tvCorrectAnswer);
@@ -102,8 +103,7 @@ public class CheckAnswers extends AppCompatActivity {
                     if(counter==allRevisitedCards.size()-1){
                         nextAnswerCheck.setText("Check your results");
                     }
-                    rbCorrectAnswer.setChecked(false);
-                    rbFalseAnswer.setChecked(false);
+                    radioGroup.clearCheck();
                 }
             }
         });
