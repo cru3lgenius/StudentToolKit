@@ -69,7 +69,6 @@ public class CreateFlashcard extends AppCompatActivity {
         card.setQuestion(questStr);
         card.setId(flashcardId);
 
-       // String jsonCard = gson.toJson(card);
         TabsActivity.myFlashcards.add(card);
         String jsonFlashcardsList = gson.toJson(TabsActivity.myFlashcards);
         prefEdit.putInt(TabsActivity.FIRST_LOGIN,1);

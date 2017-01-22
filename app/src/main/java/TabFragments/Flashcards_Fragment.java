@@ -22,9 +22,10 @@ public class Flashcards_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        viewRoot = inflater.inflate(R.layout.fragment_tabs_activity, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_flashcards, container, false);
         /* Initialize widgets block */
         createFlashcard = (Button)viewRoot.findViewById(R.id.btnCreateFlashcard);
+        System.out.println(createFlashcard);
         reviewFlashcards = (Button)viewRoot.findViewById(R.id.btnReviewCards);
 
         /* Create button functions */

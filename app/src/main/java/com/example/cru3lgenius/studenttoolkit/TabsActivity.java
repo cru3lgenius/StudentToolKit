@@ -15,13 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cru3lgenius.studenttoolkit.Activities.CreateFlashcard;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import TabFragments.Flashcards_Fragment;
+import TabFragments.Notes_Fragment;
 import TabFragments.Settings_Fragment;
 
 public class TabsActivity extends AppCompatActivity {
@@ -132,7 +132,7 @@ public class TabsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_tabs_activity, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_flashcards, container, false);
 
             return rootView;
         }
@@ -154,8 +154,10 @@ public class TabsActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    return new Flashcards_Fragment();
+                    return new Notes_Fragment();
                 case 1:
+                    return new Flashcards_Fragment();
+                case 2:
                     return new Settings_Fragment();
             }
             return new Flashcards_Fragment();
@@ -164,15 +166,17 @@ public class TabsActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Flashcards";
+                    return "Notes";
                 case 1:
+                    return "Flashcards";
+                case 2:
                     return "Settings";
 
             }

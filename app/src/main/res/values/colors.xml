@@ -6,4 +6,5 @@
     <color name="myColorPrimary">#000000</color>
     <color name="myColorPrimaryDark">#410093</color>
     <color name="myColorAccent">#00c300</color>
+    <color name="materialGreen">#2ecc71</color>
 </resources>

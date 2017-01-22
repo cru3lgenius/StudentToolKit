@@ -58,8 +58,8 @@ public class FlashcardWithAnswersAdapter extends ArrayAdapter<Flashcard> {
             holder = (ViewHolder) vi.getTag();
 
         }
-        System.out.println("which flashcard " + flashcards.get(position).getFlashcardName());
-        holder.flashcardName.setText(flashcards.get(position).getFlashcardName()+" : "+ results.get(position));
+        String res = results.get(position) ? "Correct" : "False" ;
+        holder.flashcardName.setText(flashcards.get(position).getFlashcardName()+" : "+ res);
 
 
 
