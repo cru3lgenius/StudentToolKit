@@ -63,6 +63,7 @@ public class CreateFlashcard extends AppCompatActivity {
         }
 
         /* Initialize the card with the above attributes */
+        //TODO: OVERRIDE the constructor and build the flashcard in it
         Flashcard card = new Flashcard();
         card.setFlashcardName(flashCardNameStr);
         card.setAnswer(answerStr);

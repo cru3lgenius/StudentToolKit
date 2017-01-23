@@ -4,13 +4,14 @@ import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.TimeZone;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by denis on 1/22/17.
  */
 
-public class Note {
+public class Note implements Serializable {
 
     private String mTitle;
     private long mDateTime;
