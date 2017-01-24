@@ -49,12 +49,7 @@ public class ReviewFlashcards extends AppCompatActivity {
         if(jsonFlashcardList.equals("default")){
             Toast.makeText(getApplicationContext(),"You have no flashcards yet!",Toast.LENGTH_LONG).show();
         }else {
-            System.out.println(jsonFlashcardList);
             myFlashcards = (ArrayList<Flashcard>) gson.fromJson(jsonFlashcardList,new TypeToken<ArrayList<Flashcard>>() {}.getType());
-            for(Flashcard each:myFlashcards){
-                System.out.println(each.getFlashcardName());
-            }
-            //arrayAdapter = new ArrayAdapter<Flashcard>(this,R.layout.listview_layout,myFlashcards);
             arrayAdapter = new FlashcardsAdapter(this,R.layout.listview_layout,myFlashcards);
             listView.setAdapter(arrayAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

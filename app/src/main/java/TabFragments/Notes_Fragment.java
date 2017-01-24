@@ -1,6 +1,7 @@
 package TabFragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +14,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.cru3lgenius.studenttoolkit.Activities.CreateNote;
+import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
+import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,17 +28,19 @@ import java.util.List;
 public class Notes_Fragment extends Fragment {
     View viewRoot;
     ListView displayNotes;
-
-
-
+    SharedPreferences prefs;
+    SharedPreferences.Editor prefsEditor;
+    public static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_notes, container, false);
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         setHasOptionsMenu(true);
-
-
+        ArrayList<Note> allNotes  = Note_Utilities.loadNotes(getContext(),NOTE_PREFERENCES);
+        for(Note each:allNotes){
+            System.out.println(each.getmTitle());
+        }
 
 
         return viewRoot;
