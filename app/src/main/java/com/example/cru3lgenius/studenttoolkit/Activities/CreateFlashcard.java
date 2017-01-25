@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.cru3lgenius.studenttoolkit.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
+import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -20,9 +21,6 @@ import java.util.UUID;
 public class CreateFlashcard extends AppCompatActivity {
     Button saveFlashcardButton;
 
-    SharedPreferences prefs;
-    SharedPreferences.Editor prefEdit;
-    final Gson gson = new Gson();
     EditText answer,question,flashCardName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +42,6 @@ public class CreateFlashcard extends AppCompatActivity {
             }
         });
 
-        prefs = getSharedPreferences(TabsActivity.FLASHCARD_PREFERENCES,MODE_PRIVATE);
-        prefEdit = prefs.edit();
 
     }
 
@@ -63,20 +59,8 @@ public class CreateFlashcard extends AppCompatActivity {
         }
 
         /* Initialize the card with the above attributes */
-        //TODO: OVERRIDE the constructor and build the flashcard in it
-        Flashcard card = new Flashcard();
-        card.setFlashcardName(flashCardNameStr);
-        card.setAnswer(answerStr);
-        card.setQuestion(questStr);
-        card.setId(flashcardId);
-
-        TabsActivity.myFlashcards.add(card);
-        String jsonFlashcardsList = gson.toJson(TabsActivity.myFlashcards);
-        prefEdit.putInt(TabsActivity.FIRST_LOGIN,1);
-        prefEdit.putString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,jsonFlashcardsList);
-        //prefEdit.putString(flashCardNameStr,jsonCard);
-        prefEdit.commit();
-        Toast.makeText(this.getApplicationContext(),"Your flashcard was saved successfully!",Toast.LENGTH_SHORT).show();
+        Flashcard card = new Flashcard(flashcardId, questStr, answerStr, flashCardNameStr);
+        Flashcard_Utilities.saveFlashcard(getApplicationContext(),card);
     }
     public boolean onOptionsItemSelected(MenuItem item){
         Intent myIntent = new Intent(getApplicationContext(), TabsActivity.class);

@@ -28,21 +28,14 @@ import java.util.List;
 public class Notes_Fragment extends Fragment {
     View viewRoot;
     ListView displayNotes;
-    SharedPreferences prefs;
-    SharedPreferences.Editor prefsEditor;
-    public static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
+
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_notes, container, false);
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         setHasOptionsMenu(true);
-        ArrayList<Note> allNotes  = Note_Utilities.loadNotes(getContext(),NOTE_PREFERENCES);
-        for(Note each:allNotes){
-            System.out.println(each.getmTitle());
-        }
-
-
+        ArrayList<Note> allNotes  = Note_Utilities.loadNotes(getContext());
         return viewRoot;
     }
 

@@ -17,8 +17,6 @@ import TabFragments.Notes_Fragment;
 
 public class CreateNote extends AppCompatActivity {
     EditText noteTitle,noteContent;
-    SharedPreferences prefs;
-    SharedPreferences.Editor prefsEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +24,6 @@ public class CreateNote extends AppCompatActivity {
         setContentView(R.layout.activity_create_note);
         noteTitle = (EditText)findViewById(R.id.etNoteTitle);
         noteContent = (EditText)findViewById(R.id.etNoteContent);
-        prefs = getSharedPreferences(Notes_Fragment.NOTE_PREFERENCES,MODE_PRIVATE);
-        prefsEditor = prefs.edit();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,7 +36,6 @@ public class CreateNote extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_action_SaveNote:
-                //TODO:SAVE ACTTION
                 Note note = new Note(noteTitle.getText().toString(),System.currentTimeMillis(),noteContent.getText().toString());
                 saveNote(note);
                 break;
@@ -49,7 +44,7 @@ public class CreateNote extends AppCompatActivity {
     }
 
     public void saveNote(Note note){
-        Note_Utilities.saveNote(getApplicationContext(),note,Notes_Fragment.NOTE_PREFERENCES);
+        Note_Utilities.saveNote(getApplicationContext(),note);
         Intent i  = new Intent(getApplicationContext(), TabsActivity.class);
         startActivity(i);
         finish();

@@ -18,6 +18,7 @@ import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.TabsActivity;
+import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -34,7 +35,6 @@ public class ReviewFlashcards extends AppCompatActivity {
     final Gson gson = new Gson();
 
     SharedPreferences sharedPrefs;
-    ArrayList<Flashcard> myFlashcards = TabsActivity.myFlashcards;
     ArrayList<Flashcard> flashcardsToReview = new ArrayList<Flashcard>();
     FlashcardsAdapter arrayAdapter;
     ListView listView;
@@ -42,14 +42,13 @@ public class ReviewFlashcards extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_flashcards);
-        sharedPrefs = getSharedPreferences(TabsActivity.FLASHCARD_PREFERENCES,MODE_PRIVATE);
+
         listView = (ListView) findViewById(R.id.lvFlashcards);
         Button reviewSelectedCards = (Button)findViewById(R.id.btnReviewSelectedCards);
-        String jsonFlashcardList = sharedPrefs.getString(TabsActivity.MY_FLASHCARDS_ARRAYLIST,"default");
-        if(jsonFlashcardList.equals("default")){
+        ArrayList<Flashcard> myFlashcards = Flashcard_Utilities.loadFlashcards(getApplicationContext());
+        if(myFlashcards.isEmpty()){
             Toast.makeText(getApplicationContext(),"You have no flashcards yet!",Toast.LENGTH_LONG).show();
         }else {
-            myFlashcards = (ArrayList<Flashcard>) gson.fromJson(jsonFlashcardList,new TypeToken<ArrayList<Flashcard>>() {}.getType());
             arrayAdapter = new FlashcardsAdapter(this,R.layout.listview_layout,myFlashcards);
             listView.setAdapter(arrayAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

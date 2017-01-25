@@ -18,9 +18,12 @@ import java.util.ArrayList;
 public class Note_Utilities  {
 
     final static Gson gson = new Gson();
+    static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
     final static String NOTES_ARRAYLIST = "notesArrayList";
-    public static void saveNote(Context context, Note note,String sharedPrefs){
-        SharedPreferences prefs = context.getSharedPreferences(sharedPrefs,Context.MODE_PRIVATE);
+
+
+    public static void saveNote(Context context, Note note){
+        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_ARRAYLIST,"default");
         ArrayList<Note> allNotes = new ArrayList<Note>();
@@ -32,8 +35,8 @@ public class Note_Utilities  {
         prefsEditor.putString(NOTES_ARRAYLIST,jsonAllNotes);
         prefsEditor.commit();
     }
-    public static ArrayList<Note> loadNotes(Context context, String sharedPrefs){
-        SharedPreferences prefs = context.getSharedPreferences(sharedPrefs,Context.MODE_PRIVATE);
+    public static ArrayList<Note> loadNotes(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_ARRAYLIST,"default");
         ArrayList<Note> allNotes = new ArrayList<Note>();

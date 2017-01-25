@@ -13,6 +13,14 @@ public class Flashcard  implements Serializable{
     private String question;
     private String answer;
     private String flashcardName;
+
+    public Flashcard(String id, String question, String answer, String flashcardName) {
+        this.Id = id;
+        this.question = question;
+        this.answer = answer;
+        this.flashcardName = flashcardName;
+    }
+
     public String getAnswer(){
         return this.answer;
     };
