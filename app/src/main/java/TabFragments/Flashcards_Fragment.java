@@ -25,7 +25,6 @@ public class Flashcards_Fragment extends Fragment {
         viewRoot = inflater.inflate(R.layout.fragment_flashcards, container, false);
         /* Initialize widgets block */
         createFlashcard = (Button)viewRoot.findViewById(R.id.btnCreateFlashcard);
-        System.out.println(createFlashcard);
         reviewFlashcards = (Button)viewRoot.findViewById(R.id.btnReviewCards);
 
         /* Create button functions */

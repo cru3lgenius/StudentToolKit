@@ -29,6 +29,7 @@ public class Notes_Fragment extends Fragment {
     View viewRoot;
     ListView displayNotes;
 
+
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -59,4 +60,10 @@ public class Notes_Fragment extends Fragment {
     public void setHasOptionsMenu(boolean hasMenu) {
         super.setHasOptionsMenu(hasMenu);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
 }

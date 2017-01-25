@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
@@ -52,7 +50,7 @@ public class FlashcardsAdapter extends ArrayAdapter<Flashcard> {
         View vi = convertView;
         final ViewHolder holder;
         if (convertView == null) {
-            vi = layoutInflater.inflate(R.layout.flashcard_listview, null);
+            vi = layoutInflater.inflate(R.layout.item_flashcard_listview, null);
             holder = new ViewHolder();
             holder.flashcardName = (CheckBox) vi.findViewById(R.id.cbFlashcardToReview);
             vi.setTag(holder);

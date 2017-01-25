@@ -1,21 +1,17 @@
 package com.example.cru3lgenius.studenttoolkit.Adapters;
 
 import android.content.Context;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Denis on 1/3/17.
@@ -50,7 +46,7 @@ public class FlashcardWithAnswersAdapter extends ArrayAdapter<Flashcard> {
         View vi = convertView;
         final ViewHolder holder;
         if (convertView == null) {
-            vi = layoutInflater.inflate(R.layout.flashcard_and_answer_listview, null);
+            vi = layoutInflater.inflate(R.layout.item_flashcard_and_answer_listview, null);
             holder = new ViewHolder();
             holder.flashcardName = (TextView) vi.findViewById(R.id.tvFlashcardAndAnswer);
             vi.setTag(holder);
