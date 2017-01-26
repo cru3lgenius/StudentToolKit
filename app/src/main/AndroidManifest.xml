@@ -22,7 +22,8 @@
         <activity android:name=".Activities.ReviewSelectedCards" />
         <activity android:name=".Activities.CheckAnswers" />
         <activity android:name=".Activities.ShowResults" />
-        <activity android:name=".Activities.CreateNote"></activity>
+        <activity android:name=".Activities.CreateNote" />
+        <activity android:name=".Activities.EditNote"></activity>
     </application>
 
 </manifest>

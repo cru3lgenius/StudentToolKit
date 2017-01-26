@@ -29,6 +29,7 @@ public class CreateNote extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_save_note,menu);
+        getMenuInflater().inflate(R.menu.menu_update_note,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -36,17 +37,24 @@ public class CreateNote extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_action_SaveNote:
-                Note note = new Note(noteTitle.getText().toString(),System.currentTimeMillis(),noteContent.getText().toString());
-                saveNote(note);
+                saveNote(false);
+                break;
+            case R.id.menu_action_updateNote:
+                saveNote(true);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void saveNote(Note note){
+    public void saveNote(boolean toUpdate){
+        if(toUpdate){
+            //TODO: HERE YOU HANDLE THE UPDATE OF A NOTE
+        }else{
+        Note note = new Note(noteTitle.getText().toString(),System.currentTimeMillis(),noteContent.getText().toString());
         Note_Utilities.saveNote(getApplicationContext(),note);
         Intent i  = new Intent(getApplicationContext(), TabsActivity.class);
         startActivity(i);
         finish();
+        }
     }
 }
