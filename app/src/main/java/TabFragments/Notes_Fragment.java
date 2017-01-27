@@ -76,10 +76,11 @@ public class Notes_Fragment extends Fragment {
         displayNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getActivity(), EditNote.class);
+                Intent i = new Intent(getActivity(), CreateNote.class);
                 Note note = notes.get(position);
-                i.putExtra("noteToDisplay",note);
+                i.putExtra("noteToDisplay",note).putExtra("positionOfNote",position);
                 startActivity(i);
+
             }
         });
     }

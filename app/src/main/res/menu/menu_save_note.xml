@@ -10,5 +10,11 @@
         android:orderInCategory="0"
         app:showAsAction="always"/>
 
-
+    <item
+        android:title="deleteNote"
+        android:id="@+id/menu_action_deleteNote"
+        android:icon="@drawable/ic_clear_black_24dp"
+        android:enabled="true"
+        android:orderInCategory="0"
+        app:showAsAction="always"/>
 </menu>

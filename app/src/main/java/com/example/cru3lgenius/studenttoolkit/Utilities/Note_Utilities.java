@@ -48,4 +48,18 @@ public class Note_Utilities  {
         return allNotes;
     }
 
+    public static void deleteNote(Context context,int position){
+        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        String jsonAllNotes = prefs.getString(NOTES_ARRAYLIST,"default");
+        ArrayList<Note> allNotes = new ArrayList<Note>();
+        if(!jsonAllNotes.equals("default")){
+            allNotes = gson.fromJson(jsonAllNotes,new TypeToken<ArrayList<Note>>(){}.getType());
+            allNotes.remove(position);
+            jsonAllNotes = gson.toJson(allNotes);
+            prefsEditor.putString(NOTES_ARRAYLIST,jsonAllNotes);
+            prefsEditor.commit();
+        }
+    }
+
 }
