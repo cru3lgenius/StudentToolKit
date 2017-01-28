@@ -1,6 +1,5 @@
-package com.example.cru3lgenius.studenttoolkit;
+package com.example.cru3lgenius.studenttoolkit.Main;
 
-import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -9,21 +8,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-
-import TabFragments.Flashcards_Fragment;
-import TabFragments.Notes_Fragment;
-import TabFragments.Settings_Fragment;
+import com.example.cru3lgenius.studenttoolkit.R;
+import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
+import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
+import com.example.cru3lgenius.studenttoolkit.TabFragments.Settings_Fragment;
 
 public class TabsActivity extends AppCompatActivity {
 

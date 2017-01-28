@@ -1,7 +1,6 @@
-package com.example.cru3lgenius.studenttoolkit.Activities;
+package com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities;
 
 import android.content.Intent;
-import android.support.v4.util.ArraySet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,13 +11,10 @@ import android.widget.TextView;
 import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardWithAnswersAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
-import com.example.cru3lgenius.studenttoolkit.TabsActivity;
-
-import org.w3c.dom.Text;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 public class ShowResults extends AppCompatActivity {

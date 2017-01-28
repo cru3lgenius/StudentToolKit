@@ -1,4 +1,4 @@
-package com.example.cru3lgenius.studenttoolkit.Activities;
+package com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

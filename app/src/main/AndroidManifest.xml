@@ -10,20 +10,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/myTheme">
-        <activity android:name=".TabsActivity">
+        <activity android:name=".Main.TabsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.CreateFlashcard" />
-        <activity android:name=".Activities.ReviewFlashcards" />
-        <activity android:name=".Activities.ReviewSelectedCards" />
-        <activity android:name=".Activities.CheckAnswers" />
-        <activity android:name=".Activities.ShowResults" />
-        <activity android:name=".Activities.CreateNote" />
-        <activity android:name=".Activities.EditNote"></activity>
+        <activity android:name=".Activities.Flashcard_Activities.CreateFlashcard" />
+        <activity android:name=".Activities.Flashcard_Activities.ReviewFlashcards" />
+        <activity android:name=".Activities.Flashcard_Activities.ReviewSelectedCards" />
+        <activity android:name=".Activities.Flashcard_Activities.CheckAnswers" />
+        <activity android:name=".Activities.Flashcard_Activities.ShowResults" />
+        <activity android:name=".Activities.Note_Activities.CreateNote" />
+        <activity android:name=".Activities.Note_Activities.EditNote" />
+        <activity android:name=".Activities.Authentication_Activities.Register"></activity>
     </application>
 
 </manifest>

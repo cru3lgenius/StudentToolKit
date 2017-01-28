@@ -1,7 +1,6 @@
-package com.example.cru3lgenius.studenttoolkit.Activities;
+package com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,13 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.cru3lgenius.studenttoolkit.TabsActivity;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
-import com.google.gson.Gson;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 public class CreateFlashcard extends AppCompatActivity {

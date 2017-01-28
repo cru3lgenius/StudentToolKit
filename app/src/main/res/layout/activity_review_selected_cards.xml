@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#f1c40f"
 
-    tools:context="com.example.cru3lgenius.studenttoolkit.Activities.ReviewSelectedCards">
+    tools:context="com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.ReviewSelectedCards">
 
     <TextView
         android:text="Question:"

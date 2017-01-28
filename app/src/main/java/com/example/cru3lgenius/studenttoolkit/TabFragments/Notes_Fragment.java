@@ -1,7 +1,6 @@
-package TabFragments;
+package com.example.cru3lgenius.studenttoolkit.TabFragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,19 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.cru3lgenius.studenttoolkit.Activities.CreateNote;
-import com.example.cru3lgenius.studenttoolkit.Activities.EditNote;
+import com.example.cru3lgenius.studenttoolkit.Activities.Note_Activities.CreateNote;
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by denis on 1/22/17.

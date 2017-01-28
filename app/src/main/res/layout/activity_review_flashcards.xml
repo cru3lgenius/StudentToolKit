@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.cru3lgenius.studenttoolkit.Activities.ReviewFlashcards">
+    tools:context="com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.ReviewFlashcards">
 
     <Button
         android:text="Review selected cards"

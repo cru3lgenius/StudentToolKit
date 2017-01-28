@@ -1,9 +1,7 @@
-package com.example.cru3lgenius.studenttoolkit.Activities;
+package com.example.cru3lgenius.studenttoolkit.Activities.Note_Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +12,8 @@ import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
-import com.example.cru3lgenius.studenttoolkit.TabsActivity;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
-
-import TabFragments.Notes_Fragment;
 
 public class CreateNote extends AppCompatActivity {
     EditText noteTitle,noteContent;

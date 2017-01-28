@@ -1,14 +1,11 @@
-package com.example.cru3lgenius.studenttoolkit.Activities;
+package com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -17,18 +14,9 @@ import android.widget.Toast;
 import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
-import com.example.cru3lgenius.studenttoolkit.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ReviewFlashcards extends AppCompatActivity {

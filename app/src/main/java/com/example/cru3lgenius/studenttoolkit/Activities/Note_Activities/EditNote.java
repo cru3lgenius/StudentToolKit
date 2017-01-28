@@ -1,4 +1,4 @@
-package com.example.cru3lgenius.studenttoolkit.Activities;
+package com.example.cru3lgenius.studenttoolkit.Activities.Note_Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
