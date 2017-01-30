@@ -1,6 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.text.TextUtilsCompat;
@@ -40,7 +41,9 @@ public class Register extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: GO TO SIGN IN
+                startActivity(new Intent(getApplicationContext(),SignIn.class));
+                finish();
+
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
