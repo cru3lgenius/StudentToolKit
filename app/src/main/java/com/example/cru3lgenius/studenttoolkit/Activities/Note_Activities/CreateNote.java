@@ -14,17 +14,21 @@ import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateNote extends AppCompatActivity {
     EditText noteTitle,noteContent;
     private Note currNote = null;
     private int position;
+    DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
         noteTitle = (EditText)findViewById(R.id.etNoteTitle);
         noteContent = (EditText)findViewById(R.id.etNoteContent);
+        ref = FirebaseDatabase.getInstance().getReference();
         Bundle b = getIntent().getExtras();
         if(getIntent().hasExtra("noteToDisplay")&&getIntent().hasExtra("positionOfNote")){
             currNote = (Note) b.get("noteToDisplay");

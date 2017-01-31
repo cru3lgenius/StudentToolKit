@@ -1,6 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit.TabFragments;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -28,13 +31,14 @@ import java.util.ArrayList;
 public class Notes_Fragment extends Fragment {
     View viewRoot;
     ListView displayNotes;
-
+    DatabaseReference mDatabaseReference;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_notes, container, false);
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
         ArrayList<Note> allNotes  = Note_Utilities.loadNotes(getContext());
         return viewRoot;
@@ -64,7 +68,6 @@ public class Notes_Fragment extends Fragment {
         super.onResume();
         final ArrayList<Note> notes = (ArrayList<Note>) Note_Utilities.loadNotes(getContext());
         if(notes.isEmpty()){
-            Toast.makeText(getContext(), "You have no notes yet!", Toast.LENGTH_SHORT).show();
             return;
         }
         NoteAdapter noteAdapter = new NoteAdapter(getContext(),R.layout.item_note_listview,notes);

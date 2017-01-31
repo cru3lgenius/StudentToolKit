@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,10 @@ public class Register extends AppCompatActivity {
         signIn = (TextView) findViewById(R.id.tvSignIn);
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser()!=null){
+            startActivity(new Intent(getApplicationContext(), TabsActivity.class));
+            finish();
+        }
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

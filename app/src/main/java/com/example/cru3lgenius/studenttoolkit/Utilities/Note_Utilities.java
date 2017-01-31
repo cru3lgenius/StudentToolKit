@@ -40,9 +40,7 @@ public class Note_Utilities  {
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_ARRAYLIST,"default");
         ArrayList<Note> allNotes = new ArrayList<Note>();
-        if(jsonAllNotes.equals("default")){
-            Toast.makeText(context,"You have no notes yet!",Toast.LENGTH_SHORT).show();
-        }else{
+        if(!jsonAllNotes.equals("default")){
             allNotes = gson.fromJson(jsonAllNotes,new TypeToken<ArrayList<Note>>(){}.getType());
         }
         return allNotes;

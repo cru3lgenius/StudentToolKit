@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
-import com.example.cru3lgenius.studenttoolkit.TabFragments.Settings_Fragment;
+import com.example.cru3lgenius.studenttoolkit.TabFragments.Profile_Fragment;
 
 public class TabsActivity extends AppCompatActivity {
 
@@ -133,7 +133,7 @@ public class TabsActivity extends AppCompatActivity {
                 case 1:
                     return new Flashcards_Fragment();
                 case 2:
-                    return new Settings_Fragment();
+                    return new Profile_Fragment();
             }
             return new Flashcards_Fragment();
         }
@@ -152,7 +152,7 @@ public class TabsActivity extends AppCompatActivity {
                 case 1:
                     return "Flashcards";
                 case 2:
-                    return "Settings";
+                    return "Profile";
 
             }
             return null;
