@@ -77,7 +77,7 @@ public class Notes_Fragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getActivity(), CreateNote.class);
                 Note note = notes.get(position);
-                i.putExtra("noteToDisplay",note).putExtra("positionOfNote",position);
+                i.putExtra("noteToDisplay",note).putExtra("noteId",note.getId());
                 startActivity(i);
 
             }

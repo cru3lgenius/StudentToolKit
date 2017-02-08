@@ -17,10 +17,12 @@ import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
+
 public class CreateNote extends AppCompatActivity {
     EditText noteTitle,noteContent;
     private Note currNote = null;
-    private int position;
+    private String Id;
     DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +32,13 @@ public class CreateNote extends AppCompatActivity {
         noteContent = (EditText)findViewById(R.id.etNoteContent);
         ref = FirebaseDatabase.getInstance().getReference();
         Bundle b = getIntent().getExtras();
-        if(getIntent().hasExtra("noteToDisplay")&&getIntent().hasExtra("positionOfNote")){
+        if(getIntent().hasExtra("noteToDisplay")&&getIntent().hasExtra("noteId")){
             currNote = (Note) b.get("noteToDisplay");
             noteContent.setText(currNote.getmContent());
             noteTitle.setText(currNote.getmTitle());
-            position = b.getInt("positionOfNote");
+            Id = b.getString("noteId");
             getIntent().removeExtra("noteToDisplay");
-            getIntent().removeExtra("positionOfNote");
+            getIntent().removeExtra("noteId");
         }
 
     }
@@ -69,7 +71,7 @@ public class CreateNote extends AppCompatActivity {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Note_Utilities.deleteNote(getApplicationContext(),position);
+                            Note_Utilities.deleteNote(getApplicationContext(),Id);
                             startActivity(new Intent(getApplicationContext(), TabsActivity.class));
                             Toast.makeText(getApplicationContext(),"Note was deleted",Toast.LENGTH_SHORT).show();
                             finish();
@@ -87,11 +89,17 @@ public class CreateNote extends AppCompatActivity {
 
     public void saveNote(){
         if(currNote != null){
-            Note_Utilities.deleteNote(getApplicationContext(),position);
+            System.out.println("VLIZAAAAM TOKA");
+            currNote.setmTitle(noteTitle.getText().toString());
+            currNote.setmContent(noteContent.getText().toString());
+            currNote.setmDateTime(System.currentTimeMillis());
+            Note_Utilities.saveNote(getApplicationContext(),currNote);
+        }else {
+            String Id = UUID.randomUUID().toString();
+            Note note = new Note(noteTitle.getText().toString(), System.currentTimeMillis(), noteContent.getText().toString(), Id);
+            Note_Utilities.saveNote(getApplicationContext(), note);
         }
-        Note note = new Note(noteTitle.getText().toString(),System.currentTimeMillis(),noteContent.getText().toString());
-        Note_Utilities.saveNote(getApplicationContext(),note);
-        Intent i  = new Intent(getApplicationContext(), TabsActivity.class);
+        Intent i = new Intent(getApplicationContext(), TabsActivity.class);
         startActivity(i);
         finish();
 

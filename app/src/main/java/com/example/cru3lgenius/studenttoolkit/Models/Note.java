@@ -6,6 +6,7 @@ import android.icu.util.TimeZone;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by denis on 1/22/17.
@@ -16,11 +17,13 @@ public class Note implements Serializable {
     private String mTitle;
     private long mDateTime;
     private String mContent;
+    private String Id;
 
-    public Note(String mTitle, long mDateTime, String mContent) {
+    public Note(String mTitle, long mDateTime, String mContent,String Id) {
         this.mTitle = mTitle;
         this.mDateTime = mDateTime;
         this.mContent = mContent;
+        this.Id = Id;
     }
 
     public void setmTitle(String mTitle) {
@@ -42,7 +45,10 @@ public class Note implements Serializable {
     public long getmDateTime() {
         return mDateTime;
     }
-
+    public void setId(String Id){
+        this.Id = Id;
+    }
+    public String getId(){return this.Id;}
     public String getmContent() {
         return mContent;
     }
