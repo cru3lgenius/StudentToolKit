@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by denis on 1/22/17.
  */
@@ -40,7 +42,9 @@ public class Notes_Fragment extends Fragment {
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
-        ArrayList<Note> allNotes  = Note_Utilities.loadNotes(getContext());
+        //ArrayList<Note> allNotes  = Note_Utilities.loadNotesLocally(getContext());
+        ArrayList<Note> allNotes = Note_Utilities.loadNotesFirebase();
+
         return viewRoot;
     }
 
@@ -66,7 +70,7 @@ public class Notes_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final ArrayList<Note> notes = (ArrayList<Note>) Note_Utilities.loadNotes(getContext());
+        final ArrayList<Note> notes = (ArrayList<Note>) Note_Utilities.loadNotesLocally(getContext());
         if(notes.isEmpty()){
             return;
         }
