@@ -1,10 +1,16 @@
 package com.example.cru3lgenius.studenttoolkit.Utilities;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -83,24 +89,53 @@ public class Note_Utilities  {
         }
     }
 
-    public static ArrayList<Note> loadNotesFirebase(){
-        final ArrayList<Note> allNotes  = new ArrayList<Note>();
+    public static void loadNotesFirebase(final NoteAdapter adapter , final ProgressDialog dialog, Context context, final ArrayList<Note> allNotes){
+        System.out.println("TEQ PAK ME VIKAT ");
+        dialog.show();
         databaseReference.child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 int counter = 0;
-                for(DataSnapshot each: dataSnapshot.getChildren()){
+                for(DataSnapshot each: dataSnapshot.getChildren()) {
 
                     String title = (String) each.child("mTitle").getValue();
-                    String content = (String)each.child("mContent").getValue();
-                    long dateTime = (long)each.child("mDateTime").getValue();
-                    String id = (String)each.child("id").getValue();
-                    Note temp = new Note(title,dateTime,content,id);
-                    System.out.println(temp);
+                    String content = (String) each.child("mContent").getValue();
+                    long dateTime = (long) each.child("mDateTime").getValue();
+                    String id = (String) each.child("id").getValue();
+                    Note temp = new Note(title, dateTime, content, id);
                     allNotes.add(temp);
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
 
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                System.out.println("TOKA STAVA MAZALOTO BRAT"+dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -109,7 +144,7 @@ public class Note_Utilities  {
 
             }
         });
-        return allNotes;
+
     }
 
 }

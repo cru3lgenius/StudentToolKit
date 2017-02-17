@@ -88,13 +88,13 @@ public class CreateNote extends AppCompatActivity {
     }
 
     public void saveNote(){
+        /* If you are editing a note */
         if(currNote != null){
-            System.out.println("VLIZAAAAM TOKA");
             currNote.setmTitle(noteTitle.getText().toString());
             currNote.setmContent(noteContent.getText().toString());
             currNote.setmDateTime(System.currentTimeMillis());
             Note_Utilities.saveNote(getApplicationContext(),currNote);
-        }else {
+            }else{ /* If you are creating new Note */
             String Id = UUID.randomUUID().toString();
             Note note = new Note(noteTitle.getText().toString(), System.currentTimeMillis(), noteContent.getText().toString(), Id);
             Note_Utilities.saveNote(getApplicationContext(), note);

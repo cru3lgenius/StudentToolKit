@@ -1,6 +1,9 @@
 package com.example.cru3lgenius.studenttoolkit.TabFragments;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -19,8 +22,11 @@ import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -32,9 +38,11 @@ import static java.lang.Thread.sleep;
 
 public class Notes_Fragment extends Fragment {
     View viewRoot;
-    ListView displayNotes;
-    DatabaseReference mDatabaseReference;
-
+    private ProgressDialog progressDialog;
+    private ListView displayNotes;
+    private NoteAdapter noteAdapter;
+    private DatabaseReference mDatabaseReference;
+    private ArrayList<Note> allNotes =  new ArrayList<Note>();
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -43,7 +51,26 @@ public class Notes_Fragment extends Fragment {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
         //ArrayList<Note> allNotes  = Note_Utilities.loadNotesLocally(getContext());
-        ArrayList<Note> allNotes = Note_Utilities.loadNotesFirebase();
+        noteAdapter = new NoteAdapter(getContext(),R.layout.item_note_listview,allNotes);
+        progressDialog = new ProgressDialog(this.getContext());
+        progressDialog.setMessage("Loading Notes...");
+        progressDialog.setTitle("Notes");
+
+        if(allNotes.isEmpty()){
+            Note_Utilities.loadNotesFirebase(noteAdapter,progressDialog,getContext(),allNotes);
+            System.out.println("KOGA SE VIKAM ONCREATE a.k.a AZ");
+        }
+        displayNotes.setAdapter(noteAdapter);
+        displayNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getActivity(), CreateNote.class);
+                Note note = allNotes.get(position);
+                i.putExtra("noteToDisplay",note).putExtra("noteId",note.getId());
+                startActivity(i);
+
+            }
+        });
 
         return viewRoot;
     }
@@ -70,22 +97,8 @@ public class Notes_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final ArrayList<Note> notes = (ArrayList<Note>) Note_Utilities.loadNotesLocally(getContext());
-        if(notes.isEmpty()){
-            return;
-        }
-        NoteAdapter noteAdapter = new NoteAdapter(getContext(),R.layout.item_note_listview,notes);
-        displayNotes.setAdapter(noteAdapter);
-        displayNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getActivity(), CreateNote.class);
-                Note note = notes.get(position);
-                i.putExtra("noteToDisplay",note).putExtra("noteId",note.getId());
-                startActivity(i);
 
-            }
-        });
+
     }
 
 }
