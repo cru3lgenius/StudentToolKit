@@ -14,10 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Profile_Fragment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TabsActivity extends AppCompatActivity {
 
@@ -34,8 +38,12 @@ public class TabsActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    private static HashMap<String,Note> allNotes =  new HashMap<String,Note>();
     private ViewPager mViewPager;
 
+    public static HashMap<String,Note> getAllNotes(){
+        return allNotes;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

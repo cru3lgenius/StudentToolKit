@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Activities.Note_Activities.CreateNote;
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
+import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
@@ -29,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.Thread.sleep;
 
@@ -40,9 +44,10 @@ public class Notes_Fragment extends Fragment {
     View viewRoot;
     private ProgressDialog progressDialog;
     private ListView displayNotes;
-    private NoteAdapter noteAdapter;
+    //private NoteAdapter noteAdapter;
+    private NoteAdapterHashMap noteAdapter;
     private DatabaseReference mDatabaseReference;
-    private ArrayList<Note> allNotes =  new ArrayList<Note>();
+    final private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,7 +56,9 @@ public class Notes_Fragment extends Fragment {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
         //ArrayList<Note> allNotes  = Note_Utilities.loadNotesLocally(getContext());
-        noteAdapter = new NoteAdapter(getContext(),R.layout.item_note_listview,allNotes);
+        //final ArrayList<Note> allNotesList = new ArrayList<Note>(allNotes.values());
+        //noteAdapter = new NoteAdapter(getContext(),R.layout.item_note_listview,allNotesList);
+        noteAdapter = new NoteAdapterHashMap(allNotes);
         progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setMessage("Loading Notes...");
         progressDialog.setTitle("Notes");
@@ -60,17 +67,20 @@ public class Notes_Fragment extends Fragment {
             Note_Utilities.loadNotesFirebase(noteAdapter,progressDialog,getContext(),allNotes);
             System.out.println("KOGA SE VIKAM ONCREATE a.k.a AZ");
         }
+
         displayNotes.setAdapter(noteAdapter);
         displayNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getActivity(), CreateNote.class);
-                Note note = allNotes.get(position);
+                Map.Entry<String,Note> noteEntry = (Map.Entry<String,Note>)  displayNotes.getItemAtPosition(position);
+                Note note = noteEntry.getValue();
                 i.putExtra("noteToDisplay",note).putExtra("noteId",note.getId());
                 startActivity(i);
 
             }
         });
+
 
         return viewRoot;
     }
