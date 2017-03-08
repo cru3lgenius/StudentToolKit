@@ -1,12 +1,16 @@
 package com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
@@ -19,12 +23,21 @@ public class CreateFlashcard extends AppCompatActivity {
     Button saveFlashcardButton;
 
     EditText answer,question,flashCardName;
+    RelativeLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_flashcard);
+        layout = (RelativeLayout) findViewById(R.id.activity_create_flashcard);
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
         saveFlashcardButton = (Button)findViewById(R.id.btnSaveFlashcard);
         answer = (EditText) findViewById(R.id.etAnswer);
         question = (EditText) findViewById(R.id.etQuestion);
@@ -65,4 +78,11 @@ public class CreateFlashcard extends AppCompatActivity {
         return true;
 
     }
+
+    protected void hideKeyboard(View view)
+    {
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
 }

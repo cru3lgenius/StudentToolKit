@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class ReviewFlashcards extends AppCompatActivity {
+public class SelectCardsForReview extends AppCompatActivity {
     final Gson gson = new Gson();
 
     SharedPreferences sharedPrefs;
@@ -29,7 +29,7 @@ public class ReviewFlashcards extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_flashcards);
+        setContentView(R.layout.activity_select_for_review);
 
         listView = (ListView) findViewById(R.id.lvFlashcards);
         Button reviewSelectedCards = (Button)findViewById(R.id.btnReviewSelectedCards);

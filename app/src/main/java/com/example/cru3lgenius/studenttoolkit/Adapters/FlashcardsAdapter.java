@@ -58,6 +58,7 @@ public class FlashcardsAdapter extends ArrayAdapter<Flashcard> {
             holder = (ViewHolder) vi.getTag();
 
         }
+        holder.flashcardName.setTextAppearance(android.R.style.TextAppearance_Large);
         holder.flashcardName.setText(flashcards.get(position).getFlashcardName());
 
 

@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.Flashcard_Activities.CreateFlashcard" />
-        <activity android:name=".Activities.Flashcard_Activities.ReviewFlashcards" />
+        <activity android:name=".Activities.Flashcard_Activities.SelectCardsForReview" />
         <activity android:name=".Activities.Flashcard_Activities.ReviewSelectedCards" />
         <activity android:name=".Activities.Flashcard_Activities.CheckAnswers" />
         <activity android:name=".Activities.Flashcard_Activities.ShowResults" />
