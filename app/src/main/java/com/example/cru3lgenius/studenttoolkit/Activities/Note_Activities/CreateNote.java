@@ -71,7 +71,8 @@ public class CreateNote extends AppCompatActivity {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Note_Utilities.deleteNote(getApplicationContext(),Id);
+                            //Note_Utilities.deleteNoteLocally(getApplicationContext(),Id);
+                            Note_Utilities.deleteNoteFirebase(getApplicationContext(),Id);
                             startActivity(new Intent(getApplicationContext(), TabsActivity.class));
                             Toast.makeText(getApplicationContext(),"Note was deleted",Toast.LENGTH_SHORT).show();
                             finish();
@@ -94,7 +95,8 @@ public class CreateNote extends AppCompatActivity {
             currNote.setmContent(noteContent.getText().toString());
             currNote.setmDateTime(System.currentTimeMillis());
             Note_Utilities.saveNote(getApplicationContext(),currNote);
-            }else{ /* If you are creating new Note */
+            }else{
+            /* If you are creating new Note */
             String Id = UUID.randomUUID().toString();
             Note note = new Note(noteTitle.getText().toString(), System.currentTimeMillis(), noteContent.getText().toString(), Id);
             Note_Utilities.saveNote(getApplicationContext(), note);

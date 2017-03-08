@@ -2,6 +2,7 @@ package com.example.cru3lgenius.studenttoolkit.Utilities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +10,9 @@ import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
+import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +36,8 @@ public class Note_Utilities  {
     final static Gson gson = new Gson();
     static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
     final static String NOTES_HASHMAP = "notesHashMap";
+    final static NoteAdapterHashMap adapter = Notes_Fragment.getNoteAdapter();
+
 
 
     public static void saveNote(Context context, Note note){
@@ -55,28 +60,8 @@ public class Note_Utilities  {
 
         prefsEditor.commit();
     }
-    public static HashMap<String,Note> loadNotesLocally(Context context){
-        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
-        HashMap<String,Note> allNotes = new HashMap<String,Note>();
-        if(!jsonAllNotes.equals("default")){
-            System.out.println(jsonAllNotes);
-            allNotes = gson.fromJson(jsonAllNotes,new TypeToken<HashMap<String,Note>>(){}.getType());
-        }
-        /*
-        ArrayList<Note> allNotes = new ArrayList<Note>();
-        for(String eachId:allNotesId){
-            String jsonNote = (prefs.getString(eachId,"default"));
-            Note note = gson.fromJson(jsonNote,Note.class);
-            allNotes.add(note);
-        }
-        */
 
-        return allNotes;
-    }
-
-    public static void deleteNote(Context context,String noteId){
+    public static void deleteNoteLocally(Context context,String noteId){
         SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
@@ -91,29 +76,38 @@ public class Note_Utilities  {
             prefsEditor.commit();
         }
     }
+    public static void deleteNoteFirebase(Context context,String noteId) {
+        databaseReference.child("notes").child(noteId).removeValue();
+        HashMap<String,Note> allNotes = TabsActivity.getAllNotes();
+        allNotes.remove(noteId);
+        adapter.updateAdapter(allNotes);
 
-    public static void loadNotesFirebase(final NoteAdapterHashMap adapter , final ProgressDialog dialog, Context context, final HashMap<String,Note> allNotes){
+    }
+    public static HashMap<String,Note> loadNotesLocally(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
+        HashMap<String,Note> allNotes = new HashMap<String,Note>();
+        if(!jsonAllNotes.equals("default")){
+            //System.out.println(jsonAllNotes);
+            allNotes = gson.fromJson(jsonAllNotes,new TypeToken<HashMap<String,Note>>(){}.getType());
+        }
+
+        //System.out.println("KFO PRAIM TUKA " + allNotes.keySet());
+        return allNotes;
+    }
+
+
+    public static void loadNotesFirebase( final ProgressDialog dialog, Context context, final HashMap<String,Note> allNotes){
         if(dialog!=null){
             dialog.show();
         }
+
         databaseReference.child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("KOLKO CHESTO VLIZAM TOKA");
-                int counter = 0;
-                for(DataSnapshot each: dataSnapshot.getChildren()) {
 
-                    String title = (String) each.child("mTitle").getValue();
-                    String content = (String) each.child("mContent").getValue();
-                    long dateTime = (long) each.child("mDateTime").getValue();
-                    String id = (String) each.child("id").getValue();
-                    Note temp = new Note(title, dateTime, content, id);
-                    allNotes.put(temp.getId(),temp);
-                    System.out.println("Notify !!!!!!!!!!!!!!!!!");
-                    adapter.updateAdapter(allNotes);
-                    dialog.dismiss();
-                }
-
+                dialog.dismiss();
             }
 
             @Override
@@ -123,15 +117,31 @@ public class Note_Utilities  {
         });
 
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
+
+        databaseReference.child("notes").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                String id = (String) dataSnapshot.child("id").getValue();
+                String title = (String) dataSnapshot.child("mTitle").getValue();
+                String content = (String) dataSnapshot.child("mContent").getValue();
+                long date = (long) dataSnapshot.child("mDateTime").getValue();
+                Note changedNote = new Note(title,date,content,id);
+                allNotes.put(id,changedNote);
+                adapter.updateAdapter(allNotes);
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+                String id = (String) dataSnapshot.child("id").getValue();
+                String title = (String) dataSnapshot.child("mTitle").getValue();
+                String content = (String) dataSnapshot.child("mContent").getValue();
+                long date = (long) dataSnapshot.child("mDateTime").getValue();
+                Note changedNote = new Note(title,date,content,id);
+                allNotes.put(id,changedNote);
+                adapter.updateAdapter(allNotes);
             }
 
             @Override

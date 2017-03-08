@@ -45,7 +45,7 @@ public class Notes_Fragment extends Fragment {
     private ProgressDialog progressDialog;
     private ListView displayNotes;
     //private NoteAdapter noteAdapter;
-    private NoteAdapterHashMap noteAdapter;
+    private static NoteAdapterHashMap  noteAdapter;
     private DatabaseReference mDatabaseReference;
     final private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
     public View onCreateView(LayoutInflater inflater,
@@ -64,8 +64,17 @@ public class Notes_Fragment extends Fragment {
         progressDialog.setTitle("Notes");
 
         if(allNotes.isEmpty()){
-            Note_Utilities.loadNotesFirebase(noteAdapter,progressDialog,getContext(),allNotes);
-            System.out.println("KOGA SE VIKAM ONCREATE a.k.a AZ");
+            Note_Utilities.loadNotesFirebase(progressDialog,getContext(),allNotes);
+
+            /* Version with  Loading notes locally
+
+            HashMap<String,Note> temp = Note_Utilities.loadNotesLocally(getContext());
+            for(Map.Entry<String,Note> each: temp.entrySet()){
+                allNotes.put(each.getKey(),each.getValue());
+            }
+            noteAdapter.updateAdapter(allNotes);
+
+            */
         }
 
         displayNotes.setAdapter(noteAdapter);
@@ -111,4 +120,8 @@ public class Notes_Fragment extends Fragment {
 
     }
 
+    public static NoteAdapterHashMap getNoteAdapter() {
+        return noteAdapter;
+    }
 }
+
