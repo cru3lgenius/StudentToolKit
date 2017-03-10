@@ -1,11 +1,14 @@
 package com.example.cru3lgenius.studenttoolkit.Adapters;
 
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 
@@ -19,11 +22,11 @@ import java.util.Map;
 
 public class FlashcardsAdapterHashMap extends BaseAdapter {
     private ArrayList mData;
-
-    public FlashcardsAdapterHashMap(Map<String, Note> map) {
+    public FlashcardsAdapterHashMap(Map<String, Flashcard> map) {
 
         mData = new ArrayList();
         mData.addAll(map.entrySet());
+
 
     }
 
@@ -33,7 +36,7 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
     }
 
     @Override
-    public Map.Entry<String, Note> getItem(int position) {
+    public Map.Entry<String, Flashcard> getItem(int position) {
         return (Map.Entry) mData.get(position);
     }
 
@@ -48,30 +51,25 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
         final View result;
 
         if (convertView == null) {
-            result = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_listview, parent, false);
+            result = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_flashcard_listview, parent, false);
         } else {
             result = convertView;
         }
 
-        Note note = getItem(position).getValue();
-        if(note!=null){
-            TextView title = (TextView) result.findViewById(R.id.list_note_title);
-            TextView date = (TextView) result.findViewById(R.id.list_note_date);
-            TextView content = (TextView) result.findViewById(R.id.list_note_content);
-            title.setText(note.getmTitle());
-            date.setText(note.getDataFormatted(parent.getContext()));
-            content.setText(note.getmContent());
+        Flashcard flashcard = getItem(position).getValue();
+        if(flashcard!=null){
+            CheckBox flashcardCB = (CheckBox) result.findViewById(R.id.cbFlashcardToReview);
+            flashcardCB.setTextAppearance(android.R.style.TextAppearance_Large);
+            flashcardCB.setText(flashcard.getFlashcardName());
 
-            if(note.getmContent().length()>50){
-                content.setText(note.getmContent().substring(0,50));
-            }
+
 
         }
 
 
         return result;
     }
-    public void updateAdapter(HashMap<String,Note> map){
+    public void updateAdapter(HashMap<String,Flashcard> map){
         this.mData = new ArrayList(map.entrySet());
         notifyDataSetChanged();
     }
