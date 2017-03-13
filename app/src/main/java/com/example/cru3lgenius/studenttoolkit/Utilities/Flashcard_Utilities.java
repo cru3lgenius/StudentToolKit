@@ -6,7 +6,12 @@ import android.os.health.ServiceHealthStats;
 import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
+import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -23,14 +28,14 @@ import java.util.HashMap;
 public class Flashcard_Utilities {
 
     public static final String FLASHCARD_PREFERENCES = "flashcardPrefs"; // loads the sharedPreferences
-    static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-    static SharedPreferences prefs;
-    static SharedPreferences.Editor prefsEdit;
+    private static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private static SharedPreferences prefs;
+    private static SharedPreferences.Editor prefsEdit;
     public static final String MY_FLASHCARDS_HASHMAP = "flashcardsHashMap"; // getString returns the json representations of the arrList
     static final Gson gson = new Gson();
-
+    private static FlashcardsAdapterHashMap adapter = Flashcards_Fragment.getAdapter();
     public static void saveFlashcard(Context context,Flashcard card){
-        database.child("flashcards").push().setValue(card);
+        database.child("flashcards").child(card.getId()).setValue(card);
         prefs = context.getSharedPreferences(FLASHCARD_PREFERENCES,Context.MODE_PRIVATE);
         prefsEdit = prefs.edit();
         String jsonAllCards = prefs.getString(MY_FLASHCARDS_HASHMAP,"default");
@@ -58,7 +63,40 @@ public class Flashcard_Utilities {
         return allCards;
     }
 
-    //TODO: loadFlashcards from firebase
+    public static void loadFlashcardsFirebase(final HashMap<String,Flashcard> cards, final FlashcardsAdapterHashMap adapter){
+        database.child("flashcards").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String id = (String) dataSnapshot.child("Id").getValue();
+                String question = (String) dataSnapshot.child("question").getValue();
+                String answer = (String) dataSnapshot.child("answer").getValue();
+                String flashcardName = (String)dataSnapshot.child("flashcardName").getValue();
+                Flashcard card = new Flashcard(id,question,answer,flashcardName);
+                cards.put(card.getId(),card);
+                adapter.updateAdapter(cards);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     public static void deleteFlashcards(ArrayList<Flashcard> cards, Context context, FlashcardsAdapterHashMap adapter){
         prefs = context.getSharedPreferences(FLASHCARD_PREFERENCES,Context.MODE_PRIVATE);
@@ -77,5 +115,14 @@ public class Flashcard_Utilities {
         prefsEdit.putString(MY_FLASHCARDS_HASHMAP,jsonAllCards);
         prefsEdit.commit();
         adapter.updateAdapter(allCards);
+    }
+    public static void deleteFlashcardsFirebase(ArrayList<Flashcard> cards){
+        HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
+        for(Flashcard each: cards){
+            database.child("flashcards").child(each.getId()).removeValue();
+            allFlashcards.remove(each.getId());
+        }
+        adapter.updateAdapter(allFlashcards);
+
     }
 }

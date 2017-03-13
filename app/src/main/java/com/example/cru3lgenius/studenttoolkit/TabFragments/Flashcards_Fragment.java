@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.CreateFlashcard;
 import com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.ReviewSelectedCards;
 import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
@@ -36,8 +37,8 @@ public class Flashcards_Fragment extends Fragment {
     private Button reviewSelectedCards,deleteBtn;
     private ListView listView;
     private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();
-    private FlashcardsAdapterHashMap adapter;
-
+    private static FlashcardsAdapterHashMap adapter;
+    private HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,12 +74,12 @@ public class Flashcards_Fragment extends Fragment {
                 System.out.println("PRAA NESHTO");
             }
         });
-        HashMap<String,Flashcard> myFlashcards = Flashcard_Utilities.loadFlashcardsLocally(getContext());
+         allFlashcards = Flashcard_Utilities.loadFlashcardsLocally(getContext());
 
-        if(myFlashcards.isEmpty()){
+        if(allFlashcards.isEmpty()){
             Toast.makeText(getContext(),"You have no flashcards yet!",Toast.LENGTH_LONG).show();
         }else {
-            adapter = new FlashcardsAdapterHashMap(myFlashcards);
+            adapter = new FlashcardsAdapterHashMap(allFlashcards);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -128,14 +129,13 @@ public class Flashcards_Fragment extends Fragment {
         super.setHasOptionsMenu(hasMenu);
     }
 
-    public FlashcardsAdapterHashMap getAdapter(){
+    public static FlashcardsAdapterHashMap getAdapter(){
         return adapter;
     }
 
     public void delete(ArrayList<Flashcard> cards){
         Flashcard_Utilities.deleteFlashcards(cards,getContext(),adapter);
     }
-
 
 
 }

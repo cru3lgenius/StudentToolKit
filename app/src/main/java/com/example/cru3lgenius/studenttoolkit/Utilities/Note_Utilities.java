@@ -76,7 +76,7 @@ public class Note_Utilities  {
             prefsEditor.commit();
         }
     }
-    public static void deleteNoteFirebase(Context context,String noteId) {
+    public static void deleteNoteFirebase(String noteId) {
         databaseReference.child("notes").child(noteId).removeValue();
         HashMap<String,Note> allNotes = TabsActivity.getAllNotes();
         allNotes.remove(noteId);
