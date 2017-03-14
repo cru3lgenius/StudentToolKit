@@ -70,7 +70,10 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
         return result;
     }
     public void updateAdapter(HashMap<String,Flashcard> map){
+
         this.mData = new ArrayList(map.entrySet());
-        notifyDataSetChanged();
+
+        this.notifyDataSetChanged();
+
     }
 }

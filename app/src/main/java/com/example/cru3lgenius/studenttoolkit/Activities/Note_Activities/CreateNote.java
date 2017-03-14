@@ -72,7 +72,7 @@ public class CreateNote extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //Note_Utilities.deleteNoteLocally(getApplicationContext(),Id);
-                            Note_Utilities.deleteNoteFirebase(getApplicationContext(),Id);
+                            Note_Utilities.deleteNoteFirebase(currNote.getId());
                             startActivity(new Intent(getApplicationContext(), TabsActivity.class));
                             Toast.makeText(getApplicationContext(),"Note was deleted",Toast.LENGTH_SHORT).show();
                             finish();

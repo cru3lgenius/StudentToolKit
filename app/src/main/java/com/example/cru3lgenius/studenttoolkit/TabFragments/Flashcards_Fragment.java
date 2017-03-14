@@ -46,10 +46,50 @@ public class Flashcards_Fragment extends Fragment {
         viewRoot = inflater.inflate(R.layout.fragment_flashcards, container, false);
         /* Initialize widgets block */
         setHasOptionsMenu(true);
+        if(allFlashcards.equals(null)){
+            allFlashcards = new HashMap<String,Flashcard>();
+        }
         deleteBtn = (Button)viewRoot.findViewById(R.id.btnDelete);
         listView = (ListView)viewRoot.findViewById(R.id.lvFlashcards);
         reviewSelectedCards = (Button) viewRoot.findViewById(R.id.btnReviewSelectedCards);
+        adapter = new FlashcardsAdapterHashMap(allFlashcards);
+        listView.setAdapter(adapter);
+        Flashcard_Utilities.loadFlashcardsFirebase(allFlashcards);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                CheckBox cb =(CheckBox)view.findViewById(R.id.cbFlashcardToReview);
+                cb.setChecked(!cb.isChecked());
+                Flashcard toReview = (Flashcard)adapter.getItem(i).getValue();
+
+                if(cb.isChecked()){
+                    selectedCards.add(toReview);
+                }
+                else if(!cb.isChecked() && selectedCards.contains(toReview)){
+
+                    selectedCards.remove(toReview);
+                }
+
+            }
+        });
+
+
+
         /* Create button functions */
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selectedCards.isEmpty()){
+                    Toast.makeText(getContext(),"You haven't selected any cards for deletion",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                delete(selectedCards);
+                selectedCards.clear();
+                adapter.updateAdapter(allFlashcards);
+
+            }
+        });
         reviewSelectedCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,46 +103,12 @@ public class Flashcards_Fragment extends Fragment {
                 getActivity().finish();
             }
         });
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(selectedCards.isEmpty()){
-                    Toast.makeText(getContext(),"You haven't selected any cards for deletion",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                delete(selectedCards);
-                System.out.println("PRAA NESHTO");
-            }
-        });
-         allFlashcards = Flashcard_Utilities.loadFlashcardsLocally(getContext());
 
-        if(allFlashcards.isEmpty()){
-            Toast.makeText(getContext(),"You have no flashcards yet!",Toast.LENGTH_LONG).show();
-        }else {
-            adapter = new FlashcardsAdapterHashMap(allFlashcards);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    CheckBox cb =(CheckBox)view.findViewById(R.id.cbFlashcardToReview);
-                    cb.setChecked(!cb.isChecked());
-                    Flashcard toReview = (Flashcard)adapter.getItem(i).getValue();
-
-                    if(cb.isChecked()){
-                        selectedCards.add(toReview);
-                    }
-                    else if(!cb.isChecked() && selectedCards.contains(toReview)){
-
-                        selectedCards.remove(toReview);
-                    }
-
-                }
-            });
+         //allFlashcards = Flashcard_Utilities.loadFlashcardsLocally(getContext());
 
 
 
-        }
+
 
 
 
@@ -134,7 +140,7 @@ public class Flashcards_Fragment extends Fragment {
     }
 
     public void delete(ArrayList<Flashcard> cards){
-        Flashcard_Utilities.deleteFlashcards(cards,getContext(),adapter);
+        Flashcard_Utilities.deleteFlashcardsFirebase(cards);
     }
 
 
