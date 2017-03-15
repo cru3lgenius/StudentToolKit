@@ -1,19 +1,13 @@
 package com.example.cru3lgenius.studenttoolkit.Utilities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
-import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,8 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -89,11 +81,8 @@ public class Note_Utilities  {
         String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
         HashMap<String,Note> allNotes = new HashMap<String,Note>();
         if(!jsonAllNotes.equals("default")){
-            //System.out.println(jsonAllNotes);
             allNotes = gson.fromJson(jsonAllNotes,new TypeToken<HashMap<String,Note>>(){}.getType());
         }
-
-        //System.out.println("KFO PRAIM TUKA " + allNotes.keySet());
         return allNotes;
     }
 

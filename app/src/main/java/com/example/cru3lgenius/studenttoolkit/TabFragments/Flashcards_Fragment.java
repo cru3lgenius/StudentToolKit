@@ -73,9 +73,6 @@ public class Flashcards_Fragment extends Fragment {
 
             }
         });
-
-
-
         /* Create button functions */
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,15 +100,6 @@ public class Flashcards_Fragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-         //allFlashcards = Flashcard_Utilities.loadFlashcardsLocally(getContext());
-
-
-
-
-
-
-
 
         return viewRoot;
     }

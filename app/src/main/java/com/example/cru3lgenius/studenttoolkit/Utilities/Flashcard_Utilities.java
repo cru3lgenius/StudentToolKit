@@ -74,9 +74,8 @@ public class Flashcard_Utilities {
                 String flashcardName = (String)dataSnapshot.child("flashcardName").getValue();
                 Flashcard card = new Flashcard(id,question,answer,flashcardName);
                 cards.put(card.getId(),card);
-                System.out.println(card.getId() + "AZ SUM TFA BE BRAT KFO STANA TUKA");
                 adapter.updateAdapter(cards);
-                System.out.println(cards.size() + "AZ SUM TFA BE BRAT KFO STANA TUKA");
+
             }
 
             @Override

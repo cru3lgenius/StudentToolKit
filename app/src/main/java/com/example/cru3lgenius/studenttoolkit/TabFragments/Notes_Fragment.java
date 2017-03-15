@@ -1,10 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit.TabFragments;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,22 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Activities.Note_Activities.CreateNote;
-import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapter;
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +35,7 @@ public class Notes_Fragment extends Fragment {
     View viewRoot;
     private ProgressDialog progressDialog;
     private ListView displayNotes;
-    //private NoteAdapter noteAdapter;
-    private static NoteAdapterHashMap  noteAdapter;
+    private static NoteAdapterHashMap noteAdapter;
     private DatabaseReference mDatabaseReference;
     final private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
     public View onCreateView(LayoutInflater inflater,
@@ -55,9 +45,6 @@ public class Notes_Fragment extends Fragment {
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
-        //ArrayList<Note> allNotes  = Note_Utilities.loadNotesLocally(getContext());
-        //final ArrayList<Note> allNotesList = new ArrayList<Note>(allNotes.values());
-        //noteAdapter = new NoteAdapter(getContext(),R.layout.item_note_listview,allNotesList);
         noteAdapter = new NoteAdapterHashMap(allNotes);
         progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setMessage("Loading Notes...");
@@ -89,8 +76,6 @@ public class Notes_Fragment extends Fragment {
 
             }
         });
-
-
         return viewRoot;
     }
 
