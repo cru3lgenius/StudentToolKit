@@ -79,6 +79,7 @@ public class CreateFlashcard extends AppCompatActivity {
 
     }
 
+    /* Hides the keyboard by clicking somewhere */
     protected void hideKeyboard(View view)
     {
         InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

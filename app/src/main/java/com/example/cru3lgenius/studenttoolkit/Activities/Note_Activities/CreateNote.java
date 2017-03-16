@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CreateNote extends AppCompatActivity {
     EditText noteTitle,noteContent;
     private Note currNote = null;
-    private String Id;
+    private String id;
     DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class CreateNote extends AppCompatActivity {
             currNote = (Note) b.get("noteToDisplay");
             noteContent.setText(currNote.getmContent());
             noteTitle.setText(currNote.getmTitle());
-            Id = b.getString("noteId");
+            id = b.getString("noteId");
             getIntent().removeExtra("noteToDisplay");
             getIntent().removeExtra("noteId");
         }
@@ -63,6 +63,8 @@ public class CreateNote extends AppCompatActivity {
     }
 
     private void deleteNote() {
+
+        /* Checks you have opened an existing note */
         if(currNote!=null){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setTitle("delete")

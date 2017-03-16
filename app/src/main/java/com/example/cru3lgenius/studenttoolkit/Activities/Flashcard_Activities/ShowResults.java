@@ -32,13 +32,11 @@ public class ShowResults extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         int correctAnswersCount = (Integer) b.get("correctAnswersCount");
         HashMap<Flashcard,Boolean>correctAnswersMap = (HashMap<Flashcard,Boolean>)b.get("correctAnswersMap");
-        for(Flashcard each: correctAnswersMap.keySet()){
-            System.out.println(each.getFlashcardName() + " and answer is: " + correctAnswersMap.get(each));
-        }
+
         Set<Flashcard> allCardsSet = correctAnswersMap.keySet();
         ArrayList<Boolean> boolArr = new ArrayList<Boolean>(correctAnswersMap.values());
         ArrayList<Flashcard> allRevisitedFlashcards = new ArrayList<Flashcard>(allCardsSet);
-        System.out.println("size of mySet and then of allRevisitedCards " + boolArr.size() + allRevisitedFlashcards.size() );
+
 
         FlashcardWithAnswersAdapter adapter = new FlashcardWithAnswersAdapter(getApplicationContext(),R.layout.listview_layout,allRevisitedFlashcards,boolArr);
         yourResultTextView.setText("Results: " + "You answered " +correctAnswersCount + " (out of " + allRevisitedFlashcards.size() +")"+ " questions correctly");

@@ -1,8 +1,9 @@
 package com.example.cru3lgenius.studenttoolkit.Models;
 
 import android.content.Context;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.TimeZone;
+import java.text.SimpleDateFormat;
+
+import java.util.TimeZone;
 
 import java.io.Serializable;
 import java.util.Date;

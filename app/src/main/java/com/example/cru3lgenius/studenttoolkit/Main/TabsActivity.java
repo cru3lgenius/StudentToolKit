@@ -39,6 +39,8 @@ public class TabsActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+
+    /* Keep the cards and notes loaded all the time*/
     private static HashMap<String,Note> allNotes =  new HashMap<String,Note>();
     private static HashMap<String,Flashcard> allCards = new HashMap<String,Flashcard>();
     private ViewPager mViewPager;

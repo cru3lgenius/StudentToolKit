@@ -35,8 +35,15 @@ public class Flashcard_Utilities {
     public static final String MY_FLASHCARDS_HASHMAP = "flashcardsHashMap"; // getString returns the json representations of the arrList
     static final Gson gson = new Gson();
     private static FlashcardsAdapterHashMap adapter = Flashcards_Fragment.getAdapter();
+
+
+
     public static void saveFlashcard(Context context,Flashcard card){
+        /* Store cards in firebase*/
         database.child("flashcards").child(card.getId()).setValue(card);
+
+        /* Store Cards Locally */
+        /* --------------------*
         prefs = context.getSharedPreferences(FLASHCARD_PREFERENCES,Context.MODE_PRIVATE);
         prefsEdit = prefs.edit();
         String jsonAllCards = prefs.getString(MY_FLASHCARDS_HASHMAP,"default");
@@ -49,25 +56,28 @@ public class Flashcard_Utilities {
         prefsEdit.putString(MY_FLASHCARDS_HASHMAP,jsonAllCards);
         prefsEdit.commit();
         Toast.makeText(context,"Your Flashcard was saved successfully!",Toast.LENGTH_SHORT).show();
+        */
     }
 
-    public static HashMap<String,Flashcard> loadFlashcardsLocally(Context context){
 
-        prefs = context.getSharedPreferences(FLASHCARD_PREFERENCES,Context.MODE_PRIVATE);
-        prefsEdit = prefs.edit();
-        HashMap<String,Flashcard> allCards = new HashMap<String,Flashcard>();;
-        String jsonAllCards = prefs.getString(MY_FLASHCARDS_HASHMAP,"default");
-        if(!jsonAllCards.equals("default")){
-            allCards = gson.fromJson(jsonAllCards, new TypeToken<HashMap<String,Flashcard>>() {}.getType());
-            return allCards;
+
+
+    /* Blocks that handle flashcards in Firebase */
+    public static void deleteFlashcardsFirebase(ArrayList<Flashcard> cards){
+        HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
+        for(Flashcard each: cards){
+            database.child("flashcards").child(each.getId()).removeValue();
+            allFlashcards.remove(each.getId());
+
         }
-        return allCards;
-    }
 
+    }
     public static void loadFlashcardsFirebase(final HashMap<String,Flashcard> cards){
         database.child("flashcards").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                /* Retrieving data from Firebase */
                 String id = (String) dataSnapshot.child("id").getValue();
                 String question = (String) dataSnapshot.child("question").getValue();
                 String answer = (String) dataSnapshot.child("answer").getValue();
@@ -100,9 +110,14 @@ public class Flashcard_Utilities {
         });
     }
 
-    public static void deleteFlashcards(ArrayList<Flashcard> cards, Context context, FlashcardsAdapterHashMap adapter){
+
+    /* Block for handling flashcards locally*/
+
+    public static void deleteFlashcardsLocally(ArrayList<Flashcard> cards, Context context, FlashcardsAdapterHashMap adapter){
         prefs = context.getSharedPreferences(FLASHCARD_PREFERENCES,Context.MODE_PRIVATE);
         prefsEdit = prefs.edit();
+
+        /* Overriding the old data */
         HashMap<String,Flashcard> allCards = new HashMap<String,Flashcard>();;
         String jsonAllCards = prefs.getString(MY_FLASHCARDS_HASHMAP,"default");
         if(!jsonAllCards.equals("default")){
@@ -118,14 +133,17 @@ public class Flashcard_Utilities {
         prefsEdit.commit();
         adapter.updateAdapter(allCards);
     }
-    public static void deleteFlashcardsFirebase(ArrayList<Flashcard> cards){
-        HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
-        for(Flashcard each: cards){
-            database.child("flashcards").child(each.getId()).removeValue();
-            allFlashcards.remove(each.getId());
 
+    public static HashMap<String,Flashcard> loadFlashcardsLocally(Context context){
+        /* Loading data from the Shared Prefs */
+        prefs = context.getSharedPreferences(FLASHCARD_PREFERENCES,Context.MODE_PRIVATE);
+        prefsEdit = prefs.edit();
+        HashMap<String,Flashcard> allCards = new HashMap<String,Flashcard>();;
+        String jsonAllCards = prefs.getString(MY_FLASHCARDS_HASHMAP,"default");
+        if(!jsonAllCards.equals("default")){
+            allCards = gson.fromJson(jsonAllCards, new TypeToken<HashMap<String,Flashcard>>() {}.getType());
+            return allCards;
         }
-
-
+        return allCards;
     }
 }

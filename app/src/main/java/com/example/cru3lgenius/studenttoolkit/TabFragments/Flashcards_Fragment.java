@@ -44,17 +44,24 @@ public class Flashcards_Fragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_flashcards, container, false);
-        /* Initialize widgets block */
+
         setHasOptionsMenu(true);
+
+        /* If there are no flashcards initialize new Hashmap */
         if(allFlashcards.equals(null)){
             allFlashcards = new HashMap<String,Flashcard>();
         }
+
+        /* Initializing widgets */
         deleteBtn = (Button)viewRoot.findViewById(R.id.btnDelete);
         listView = (ListView)viewRoot.findViewById(R.id.lvFlashcards);
         reviewSelectedCards = (Button) viewRoot.findViewById(R.id.btnReviewSelectedCards);
         adapter = new FlashcardsAdapterHashMap(allFlashcards);
         listView.setAdapter(adapter);
+
+
         Flashcard_Utilities.loadFlashcardsFirebase(allFlashcards);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -73,7 +80,7 @@ public class Flashcards_Fragment extends Fragment {
 
             }
         });
-        /* Create button functions */
+
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +88,7 @@ public class Flashcards_Fragment extends Fragment {
                     Toast.makeText(getContext(),"You haven't selected any cards for deletion",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                delete(selectedCards);
+                deleteCards(selectedCards);
                 selectedCards.clear();
                 adapter.updateAdapter(allFlashcards);
 
@@ -98,6 +105,7 @@ public class Flashcards_Fragment extends Fragment {
                 i.putExtra("flashcardsToReview",selectedCards);
                 startActivity(i);
                 getActivity().finish();
+                selectedCards.clear();
             }
         });
 
@@ -127,7 +135,7 @@ public class Flashcards_Fragment extends Fragment {
         return adapter;
     }
 
-    public void delete(ArrayList<Flashcard> cards){
+    public void deleteCards(ArrayList<Flashcard> cards){
         Flashcard_Utilities.deleteFlashcardsFirebase(cards);
     }
 
