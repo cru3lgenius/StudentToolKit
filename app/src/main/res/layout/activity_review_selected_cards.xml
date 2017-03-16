@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#f1c40f"
+    android:background="#1abc9c"
 
     tools:context="com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.ReviewSelectedCards">
 
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="top"
-        android:background="@drawable/custom_border_background"
+        android:background="@drawable/customborder"
         android:lines="6"
         android:maxLines="6"
         android:textColor="#8e44ad"
@@ -57,8 +57,7 @@
         android:layout_height="wrap_content"
         android:textColor="#8e44ad"
         android:lines="7"
-        android:background="@drawable/custom_border_background"
-        android:maxLines="7"
+        android:background="@drawable/customborder"
         android:layout_marginTop="14dp"
         android:layout_marginRight="35dp"
         android:id="@+id/tvQuestionField"

@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/blue_bg"
     tools:context="com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities.SignIn">
 
     <LinearLayout
@@ -22,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
+            android:textColorHint="#000000"
             android:ems="10"
+            android:textColor="#410093"
             android:layout_gravity="center_vertical"
             android:id="@+id/etEmailLogin" />
 
@@ -30,6 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:textColorHint="#000000"
+            android:textColor="#410093"
             android:hint="Password"
             android:id="@+id/etPasswordLogin" />
 
@@ -38,22 +43,17 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:id="@+id/btnSignIn" />
+            android:id="@+id/btnSignIn"
+            android:background="@drawable/button_with_border"/>
         <TextView
             android:id="@+id/tvSignIn"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register"
+            android:textColor="#95a5a6"
              />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp"
-        app:srcCompat="@drawable/ic_launcher-web" />
+
 </RelativeLayout>

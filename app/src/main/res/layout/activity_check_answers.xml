@@ -7,10 +7,14 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="#1abc9c"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.CheckAnswers">
 
     <TextView
+
+        android:textStyle="bold"
+        android:textColor="#410093"
         android:text="Your answer:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,6 +25,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
+        android:textColor="#410093"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="6"
@@ -38,9 +43,13 @@
         android:id="@+id/tvYourAnswer"
         android:background="@drawable/customborder"
         android:layout_below="@+id/tvYourAnswerLabel"
-        android:layout_marginTop="18dp" />
+        android:layout_marginTop="18dp"
+         />
 
     <TextView
+        android:background="@drawable/customborder"
+        android:textStyle="bold"
+        android:textColor="#bd081c"
         android:text="Card name:"
         android:gravity="center"
         android:layout_width="wrap_content"
@@ -52,6 +61,8 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
+        android:textStyle="bold"
+        android:textColor="#410093"
         android:text="Correct answer:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,8 +75,10 @@
 
     <Button
         android:text="Next"
+        android:textColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/button_with_border_2"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/btnNextAnswerCheck" />
@@ -76,10 +89,11 @@
         android:orientation="horizontal"
         android:id="@+id/rgCheckAnswerRadioButtons"
         android:layout_above="@+id/btnNextAnswerCheck"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="13dp">
         <RadioButton
             android:text="Correct"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,6 +103,7 @@
 
         <RadioButton
             android:text="False"
+            android:textStyle="bold"
             android:clickable="true"
             android:layout_weight="1"
             android:layout_width="wrap_content"

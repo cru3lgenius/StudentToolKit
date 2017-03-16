@@ -7,14 +7,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PROFILE_NAME"
-        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:textColor="#410093"
         android:layout_centerHorizontal="true"
         android:id="@+id/tvProfileName"
         />
 
     <Button
-        android:background="@color/colorAccent"
+        android:background="@drawable/button_with_border_2"
         android:text="Logout"
+        android:textColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnLogout"

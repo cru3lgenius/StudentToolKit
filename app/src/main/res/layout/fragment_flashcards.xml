@@ -9,8 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:background="#f39c12"
+        android:background="@drawable/button_with_border_2"
         android:text="Review"
+        android:textColor="#FFFFFF"
         android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
@@ -21,7 +22,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/btnReviewSelectedCards" />
+        android:layout_above="@+id/btnReviewSelectedCards"
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/btnDelete"
@@ -29,7 +31,8 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         android:clickable="true"
-        android:background="#f39c12"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_with_border_2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp" />

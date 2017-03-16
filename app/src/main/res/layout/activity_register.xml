@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/blue_bg"
     tools:context="com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities.Register">
 
     <LinearLayout
@@ -21,6 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:textColorHint="#000000"
+        android:textColor="#410093"
         android:ems="10"
         android:id="@+id/etEmailRegister" />
 
@@ -29,6 +32,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="Password"
+        android:textColorHint="#000000"
+        android:textColor="#410093"
         android:ems="10"
         android:id="@+id/etPasswordRegister" />
 
@@ -36,12 +41,14 @@
         android:text="Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_with_border"
         android:id="@+id/btnRegister" />
     <TextView
         android:id="@+id/tvSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign In"
+        android:textColor="#95a5a6"
         android:layout_gravity="center"/>
     </LinearLayout>
 </RelativeLayout>

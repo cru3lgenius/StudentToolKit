@@ -25,7 +25,7 @@
         <activity android:name=".Activities.Flashcard_Activities.ShowResults" />
         <activity android:name=".Activities.Note_Activities.CreateNote" />
 
-        <activity android:name=".Activities.Authentication_Activities.SignIn"></activity>
+        <activity android:name=".Activities.Authentication_Activities.SignIn" android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>
