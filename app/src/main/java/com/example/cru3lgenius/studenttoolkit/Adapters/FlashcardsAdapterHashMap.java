@@ -1,11 +1,14 @@
 package com.example.cru3lgenius.studenttoolkit.Adapters;
 
+import android.graphics.Typeface;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
@@ -60,6 +63,7 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
         if(flashcard!=null){
             CheckBox flashcardCB = (CheckBox) result.findViewById(R.id.cbFlashcardToReview);
             flashcardCB.setTextAppearance(android.R.style.TextAppearance_Large);
+            flashcardCB.setTypeface(null, Typeface.BOLD);
             flashcardCB.setText(flashcard.getFlashcardName());
 
 

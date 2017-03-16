@@ -47,7 +47,6 @@
          />
 
     <TextView
-        android:background="@drawable/customborder"
         android:textStyle="bold"
         android:textColor="#bd081c"
         android:text="Card name:"
@@ -90,7 +89,8 @@
         android:id="@+id/rgCheckAnswerRadioButtons"
         android:layout_above="@+id/btnNextAnswerCheck"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="13dp">
+        android:layout_marginBottom="13dp"
+        android:layout_alignParentEnd="true">
         <RadioButton
             android:text="Correct"
             android:textStyle="bold"
