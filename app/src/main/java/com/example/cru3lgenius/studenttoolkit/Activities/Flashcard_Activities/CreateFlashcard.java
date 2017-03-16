@@ -72,6 +72,8 @@ public class CreateFlashcard extends AppCompatActivity {
         Flashcard card = new Flashcard(flashcardId, questStr, answerStr, flashCardNameStr);
         Flashcard_Utilities.saveFlashcard(getApplicationContext(),card);
     }
+
+    /* Create new Flashcard */
     public boolean onOptionsItemSelected(MenuItem item){
         Intent myIntent = new Intent(getApplicationContext(), TabsActivity.class);
         startActivityForResult(myIntent, 0);

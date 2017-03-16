@@ -1,6 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit.TabFragments;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities.Register;
 import com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities.SignIn;
+import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -39,7 +41,11 @@ public class Profile_Fragment extends Fragment{
             public void onClick(View view) {
                 auth.signOut();
                 startActivity(new Intent(getActivity(), SignIn.class));
+                auth.signOut();
+                TabsActivity.getAllCards().clear();
+                TabsActivity.getAllNotes().clear();
                 getActivity().finish();
+
             }
         });
         return viewRoot;

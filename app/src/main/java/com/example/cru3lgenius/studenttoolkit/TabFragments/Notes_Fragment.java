@@ -51,6 +51,8 @@ public class Notes_Fragment extends Fragment {
         progressDialog.setTitle("Notes");
 
         if(allNotes.isEmpty()){
+
+            System.out.println("LOADVAM KATO LUD");
             Note_Utilities.loadNotesFirebase(progressDialog,getContext(),allNotes);
 
             /* Version with  Loading notes locally

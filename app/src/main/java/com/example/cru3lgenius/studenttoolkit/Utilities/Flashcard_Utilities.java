@@ -10,6 +10,7 @@ import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapterHashMap;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +32,7 @@ public class Flashcard_Utilities {
     public static final String FLASHCARD_PREFERENCES = "flashcardPrefs"; // loads the sharedPreferences
     private static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     private static SharedPreferences prefs;
+    private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static SharedPreferences.Editor prefsEdit;
     public static final String MY_FLASHCARDS_HASHMAP = "flashcardsHashMap"; // getString returns the json representations of the arrList
     static final Gson gson = new Gson();
@@ -40,7 +42,7 @@ public class Flashcard_Utilities {
 
     public static void saveFlashcard(Context context,Flashcard card){
         /* Store cards in firebase*/
-        database.child("flashcards").child(card.getId()).setValue(card);
+        database.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("flashcards").child(card.getId()).setValue(card);
 
         /* Store Cards Locally */
         /* --------------------*
@@ -66,23 +68,27 @@ public class Flashcard_Utilities {
     public static void deleteFlashcardsFirebase(ArrayList<Flashcard> cards){
         HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
         for(Flashcard each: cards){
-            database.child("flashcards").child(each.getId()).removeValue();
+            database.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("flashcards").child(each.getId()).removeValue();
             allFlashcards.remove(each.getId());
 
         }
 
     }
     public static void loadFlashcardsFirebase(final HashMap<String,Flashcard> cards){
-        database.child("flashcards").addChildEventListener(new ChildEventListener() {
+        System.out.println(auth.getCurrentUser().getEmail().toString() + "DJFIAJIFIJFIJFIJFIJFIJAFIJIJFJIAJIF");
+        database.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("flashcards").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 /* Retrieving data from Firebase */
+                System.out.println("KFOSTAVABEBRAT");
                 String id = (String) dataSnapshot.child("id").getValue();
                 String question = (String) dataSnapshot.child("question").getValue();
                 String answer = (String) dataSnapshot.child("answer").getValue();
                 String flashcardName = (String)dataSnapshot.child("flashcardName").getValue();
+                long date = (long) dataSnapshot.child("date").getValue();
                 Flashcard card = new Flashcard(id,question,answer,flashcardName);
+                card.setDate(date);
                 cards.put(card.getId(),card);
                 adapter.updateAdapter(cards);
 

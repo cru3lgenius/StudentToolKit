@@ -8,6 +8,7 @@ import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 
 public class Note_Utilities  {
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private static FirebaseAuth auth = FirebaseAuth.getInstance();
     final static Gson gson = new Gson();
     static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
     final static String NOTES_HASHMAP = "notesHashMap";
@@ -35,7 +37,7 @@ public class Note_Utilities  {
     public static void saveNote(Context context, Note note){
 
         /* Save the note in firebase */
-        databaseReference.child("notes").child(note.getId()).setValue(note);
+        databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(note.getId()).setValue(note);
 
         /* Save the note locally using Shared Preferences*/
         SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
@@ -62,7 +64,7 @@ public class Note_Utilities  {
     /* Blocks dedicated to storing and retrieving data from Firebase */
 
     public static void deleteNoteFirebase(String noteId) {
-        databaseReference.child("notes").child(noteId).removeValue();
+        databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(noteId).removeValue();
         HashMap<String,Note> allNotes = TabsActivity.getAllNotes();
         allNotes.remove(noteId);
         adapter.updateAdapter(allNotes);
@@ -73,7 +75,7 @@ public class Note_Utilities  {
             dialog.show();
         }
 
-        databaseReference.child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -88,7 +90,7 @@ public class Note_Utilities  {
 
 
 
-        databaseReference.child("notes").addChildEventListener(new ChildEventListener() {
+        databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 

@@ -62,6 +62,9 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
         Flashcard flashcard = getItem(position).getValue();
         if(flashcard!=null){
             CheckBox flashcardCB = (CheckBox) result.findViewById(R.id.cbFlashcardToReview);
+            TextView flashcardTV = (TextView) result.findViewById(R.id.tvFlashcardItem);
+            flashcardTV.setTextAppearance(android.R.style.TextAppearance_Small);
+            flashcardTV.setText(flashcard.getDateFormatted(parent.getContext()));
             flashcardCB.setTextAppearance(android.R.style.TextAppearance_Large);
             flashcardCB.setTypeface(null, Typeface.BOLD);
             flashcardCB.setText(flashcard.getFlashcardName());

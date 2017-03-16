@@ -24,7 +24,7 @@
         android:layout_marginTop="26dp"
         android:id="@+id/tvQuestionLabel"
         android:textSize="15dp"
-        android:textColor="#c0392b"/>
+        android:textColor="#410093"/>
 
     <TextView
         android:text="Write your answer:"
@@ -34,7 +34,7 @@
         android:layout_alignLeft="@+id/tvQuestionField"
         android:layout_alignStart="@+id/tvQuestionField"
         android:layout_marginTop="16dp"
-        android:textColor="#c0392b"
+        android:textColor="#410093"
         android:id="@+id/tvAnswerLabel" />
 
     <EditText
@@ -44,7 +44,7 @@
         android:background="@drawable/customborder"
         android:lines="6"
         android:maxLines="6"
-        android:textColor="#8e44ad"
+        android:textColor="#410093"
         android:layout_marginRight="35dp"
         android:layout_marginTop="14dp"
         android:id="@+id/etAnswerGuess"
@@ -55,7 +55,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#8e44ad"
+        android:textColor="#410093"
         android:lines="7"
         android:background="@drawable/customborder"
         android:layout_marginTop="14dp"

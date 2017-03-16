@@ -1,15 +1,19 @@
 package com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +29,24 @@ import org.w3c.dom.Text;
 
 public class SignIn extends AppCompatActivity {
 
-    Button signIn;
-    TextView register;
-    FirebaseAuth auth;
-    EditText emailLogin,passLogin;
-    ProgressDialog progressDialog;
+    private Button signIn;
+    private TextView register;
+    private FirebaseAuth auth;
+    private EditText emailLogin,passLogin;
+    private ProgressDialog progressDialog;
+    private RelativeLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        layout = (RelativeLayout) findViewById(R.id.activity_sign_in);
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
         signIn = (Button) findViewById(R.id.btnSignIn);
         register = (TextView)findViewById(R.id.tvSignIn);
         emailLogin = (EditText) findViewById(R.id.etEmailLogin);
@@ -84,4 +97,12 @@ public class SignIn extends AppCompatActivity {
                     }
                 });
     }
+
+    /* Hides the keyboard by clicking somewhere */
+    protected void hideKeyboard(View view)
+    {
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
 }

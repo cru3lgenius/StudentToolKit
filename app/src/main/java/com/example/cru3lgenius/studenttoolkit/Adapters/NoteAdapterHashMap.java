@@ -59,7 +59,7 @@ public class NoteAdapterHashMap extends BaseAdapter{
             TextView date = (TextView) result.findViewById(R.id.list_note_date);
             TextView content = (TextView) result.findViewById(R.id.list_note_content);
             title.setText(note.getmTitle());
-            date.setText(note.getDataFormatted(parent.getContext()));
+            date.setText(note.getDateFormatted(parent.getContext()));
             content.setText(note.getmContent());
 
             if(note.getmContent().length()>50){
