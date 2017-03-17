@@ -23,6 +23,8 @@
         android:layout_alignParentTop="true"
         android:divider="#000000"
         android:dividerHeight="3dip"
+        android:scrollingCache="false"
+        android:cacheColorHint="@android:color/transparent"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/btnReviewSelectedCards"
         android:layout_marginBottom="10dp"/>

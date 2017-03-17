@@ -45,28 +45,17 @@ public class Notes_Fragment extends Fragment {
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
-        noteAdapter = new NoteAdapterHashMap(allNotes);
+
         progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setMessage("Loading Notes...");
         progressDialog.setTitle("Notes");
-
+        noteAdapter = new NoteAdapterHashMap(allNotes);
+        displayNotes.setAdapter(noteAdapter);
+        System.out.println("WTF BE BRAT 1");
         if(allNotes.isEmpty()){
-
-            System.out.println("LOADVAM KATO LUD");
             Note_Utilities.loadNotesFirebase(progressDialog,getContext(),allNotes);
-
-            /* Version with  Loading notes locally
-
-            HashMap<String,Note> temp = Note_Utilities.loadNotesLocally(getContext());
-            for(Map.Entry<String,Note> each: temp.entrySet()){
-                allNotes.put(each.getKey(),each.getValue());
-            }
-            noteAdapter.updateAdapter(allNotes);
-
-            */
         }
 
-        displayNotes.setAdapter(noteAdapter);
         displayNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -41,8 +41,9 @@ public class TabsActivity extends AppCompatActivity {
      */
 
     /* Keep the cards and notes loaded all the time*/
-    private static HashMap<String,Note> allNotes =  new HashMap<String,Note>();
-    private static HashMap<String,Flashcard> allCards = new HashMap<String,Flashcard>();
+
+    private static HashMap<String,Note> allNotes;
+    private static HashMap<String,Flashcard> allCards;
     private ViewPager mViewPager;
 
     public static HashMap<String,Note> getAllNotes(){
@@ -55,11 +56,12 @@ public class TabsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
-        /* Checks if this is the first login and if so there are no flashcards to load */
-
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        if(allNotes == null){
+           allNotes = new HashMap<String,Note>();
+        }
+        if(allCards== null){
+            allCards = new HashMap<String,Flashcard>();
+        }
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.

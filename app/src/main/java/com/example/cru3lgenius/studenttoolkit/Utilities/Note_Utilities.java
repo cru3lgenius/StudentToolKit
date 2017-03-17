@@ -78,7 +78,7 @@ public class Note_Utilities  {
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                adapter.updateAdapter(allNotes);
                 dialog.dismiss();
             }
 
@@ -101,8 +101,6 @@ public class Note_Utilities  {
                 long date = (long) dataSnapshot.child("mDateTime").getValue();
                 Note changedNote = new Note(title,date,content,id);
                 allNotes.put(id,changedNote);
-                adapter.updateAdapter(allNotes);
-
             }
 
             @Override

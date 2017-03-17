@@ -72,7 +72,8 @@ public class NoteAdapterHashMap extends BaseAdapter{
         return result;
     }
     public void updateAdapter(HashMap<String,Note> map){
-        this.mData = new ArrayList(map.entrySet());
+        this.mData.clear();
+        this.mData.addAll(map.entrySet());
         notifyDataSetChanged();
     }
 }

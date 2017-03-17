@@ -40,7 +40,7 @@ public class Profile_Fragment extends Fragment{
             @Override
             public void onClick(View view) {
                 auth.signOut();
-                startActivity(new Intent(getActivity(), SignIn.class));
+                startActivity(new Intent(getActivity(), SignIn.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 auth.signOut();
                 TabsActivity.getAllCards().clear();
                 TabsActivity.getAllNotes().clear();

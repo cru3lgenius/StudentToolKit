@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lvNotes"
+        android:scrollingCache="false"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="#000000"
         android:dividerHeight="3dip"
         android:background="@drawable/background_listview"/>
