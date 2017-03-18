@@ -1,5 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit.Main;
 
+import android.content.Context;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,8 +13,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
@@ -42,8 +47,9 @@ public class TabsActivity extends AppCompatActivity {
 
     /* Keep the cards and notes loaded all the time*/
 
-    private static HashMap<String,Note> allNotes;
-    private static HashMap<String,Flashcard> allCards;
+    public static HashMap<String,Note> allNotes;
+    private CoordinatorLayout layout;
+    public static HashMap<String,Flashcard> allCards;
     private ViewPager mViewPager;
 
     public static HashMap<String,Note> getAllNotes(){
@@ -59,7 +65,7 @@ public class TabsActivity extends AppCompatActivity {
         if(allNotes == null){
            allNotes = new HashMap<String,Note>();
         }
-        if(allCards== null){
+        if(allCards == null){
             allCards = new HashMap<String,Flashcard>();
         }
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -145,11 +151,11 @@ public class TabsActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
-                case 0:
-                    return new Notes_Fragment();
                 case 1:
-                    return new Flashcards_Fragment();
+                    return new Notes_Fragment();
                 case 2:
+                    return new Flashcards_Fragment();
+                case 0:
                     return new Profile_Fragment();
             }
             return new Flashcards_Fragment();
@@ -164,15 +170,22 @@ public class TabsActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
-                    return "Notes";
                 case 1:
-                    return "Flashcards";
+                    return "Notes";
                 case 2:
+                    return "Flashcards";
+                case 0:
                     return "Profile";
 
             }
             return null;
         }
     }
+    /* Hides the keyboard by clicking somewhere */
+    protected void hideKeyboard(View view)
+    {
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
 }

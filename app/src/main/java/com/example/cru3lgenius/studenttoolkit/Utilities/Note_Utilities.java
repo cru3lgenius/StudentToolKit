@@ -95,6 +95,7 @@ public class Note_Utilities  {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 /* Retrieving data from Firebase */
+                System.out.println("VLiza v change-a !!!!");
                 String id = (String) dataSnapshot.child("id").getValue();
                 String title = (String) dataSnapshot.child("mTitle").getValue();
                 String content = (String) dataSnapshot.child("mContent").getValue();
@@ -105,14 +106,13 @@ public class Note_Utilities  {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 String id = (String) dataSnapshot.child("id").getValue();
                 String title = (String) dataSnapshot.child("mTitle").getValue();
                 String content = (String) dataSnapshot.child("mContent").getValue();
                 long date = (long) dataSnapshot.child("mDateTime").getValue();
                 Note changedNote = new Note(title,date,content,id);
                 allNotes.put(id,changedNote);
-                adapter.updateAdapter(allNotes);
+
             }
 
             @Override

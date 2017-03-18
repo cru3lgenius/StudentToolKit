@@ -47,11 +47,6 @@ public class Flashcards_Fragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        /* If there are no flashcards initialize new Hashmap */
-        if(allFlashcards.equals(null)){
-            allFlashcards = new HashMap<String,Flashcard>();
-        }
-
         /* Initializing widgets */
         deleteBtn = (Button)viewRoot.findViewById(R.id.btnDelete);
         listView = (ListView)viewRoot.findViewById(R.id.lvFlashcards);
@@ -118,6 +113,7 @@ public class Flashcards_Fragment extends Fragment {
             case R.id.menu_action_create_flashcard:
                 Intent i = new Intent(getContext(),CreateFlashcard.class);
                 startActivity(i);
+                getActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

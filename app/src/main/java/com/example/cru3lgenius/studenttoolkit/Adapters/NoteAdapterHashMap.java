@@ -4,6 +4,7 @@ package com.example.cru3lgenius.studenttoolkit.Adapters;
  * Created by denis on 2/21/17.
  */
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NoteAdapterHashMap extends BaseAdapter{
-    private ArrayList mData;
+    private ArrayList mData = new ArrayList();
 
     public NoteAdapterHashMap(Map<String, Note> map) {
-
-        mData = new ArrayList();
         mData.addAll(map.entrySet());
 
     }
@@ -74,6 +73,10 @@ public class NoteAdapterHashMap extends BaseAdapter{
     public void updateAdapter(HashMap<String,Note> map){
         this.mData.clear();
         this.mData.addAll(map.entrySet());
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
+    }
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {
+        super.registerDataSetObserver(observer);
     }
 }

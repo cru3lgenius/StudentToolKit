@@ -46,9 +46,10 @@ public class CreateFlashcard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveFlashcard();
-                answer.setText("");
-                question.setText("");
-                flashCardName.setText("");
+                Intent intent = new Intent(getApplicationContext(),TabsActivity.class);
+                startActivity(intent);
+                finish();
+
             }
         });
 
@@ -71,6 +72,7 @@ public class CreateFlashcard extends AppCompatActivity {
         /* Initialize the card with the above attributes */
         Flashcard card = new Flashcard(flashcardId, questStr, answerStr, flashCardNameStr);
         Flashcard_Utilities.saveFlashcard(getApplicationContext(),card);
+
     }
 
     /* Create new Flashcard */

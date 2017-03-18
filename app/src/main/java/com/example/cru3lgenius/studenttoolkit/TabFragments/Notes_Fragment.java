@@ -35,7 +35,7 @@ public class Notes_Fragment extends Fragment {
     View viewRoot;
     private ProgressDialog progressDialog;
     private ListView displayNotes;
-    private static NoteAdapterHashMap noteAdapter;
+    public static NoteAdapterHashMap noteAdapter;
     private DatabaseReference mDatabaseReference;
     final private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
     public View onCreateView(LayoutInflater inflater,
@@ -92,8 +92,6 @@ public class Notes_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
     }
 
     public static NoteAdapterHashMap getNoteAdapter() {
