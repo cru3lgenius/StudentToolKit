@@ -39,7 +39,7 @@ public class Profile_Fragment extends Fragment{
     private KeyListener gender1_listener,age1_listener,profilename1_listener;
     private Button logout,edit;
     private boolean clicked = false;
-    private FirebaseAuth auth;
+    private static FirebaseAuth auth;
     private RelativeLayout layout;
     private static EditText profileName1,age1,gender1;
     public View onCreateView(LayoutInflater inflater,
@@ -68,7 +68,7 @@ public class Profile_Fragment extends Fragment{
         });
         //profileName.setText("Hello, " + auth.getCurrentUser().getEmail().toString());
         if(currUser==null){
-            reloadUser(currUser);
+            reloadUser(currUser,profileName1,gender1,age1);
         }
 
 
@@ -112,12 +112,9 @@ public class Profile_Fragment extends Fragment{
         return viewRoot;
     }
 
-    public static void reloadUser(User user){
-        user = User_Utilities.loadUserFirebase();
-        System.out.println("userNAME " + user.getName());
-        profileName1.setText(user.getName());
-        age1.setText(Integer.toString(user.getAge()));
-        gender1.setText(user.getGender());
+    public static void reloadUser(User user,EditText name,EditText gender,EditText age){
+        user = new User(auth.getCurrentUser().getEmail().replace('.','_').toString());
+        User_Utilities.loadUserFirebase(user,name,gender,age);
     }
     /* Hides the keyboard by clicking somewhere */
     protected void hideKeyboard(View view)

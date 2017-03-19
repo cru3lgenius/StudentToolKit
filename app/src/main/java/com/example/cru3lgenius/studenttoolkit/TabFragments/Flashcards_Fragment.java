@@ -85,8 +85,8 @@ public class Flashcards_Fragment extends Fragment {
                 }
                 deleteCards(selectedCards);
                 selectedCards.clear();
+                resetCheckboxes();
                 adapter.updateAdapter(allFlashcards);
-
             }
         });
         reviewSelectedCards.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +101,8 @@ public class Flashcards_Fragment extends Fragment {
                 startActivity(i);
                 getActivity().finish();
                 selectedCards.clear();
+                resetCheckboxes();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -134,6 +136,14 @@ public class Flashcards_Fragment extends Fragment {
     public void deleteCards(ArrayList<Flashcard> cards){
         Flashcard_Utilities.deleteFlashcardsFirebase(cards);
     }
+    public void resetCheckboxes(){
+        CheckBox cb;
 
+        for(int i=0; i<listView.getChildCount();i++)
+        {
+            cb = (CheckBox)listView.getChildAt(i).findViewById(R.id.cbFlashcardToReview);
+            cb.setChecked(false);
+        }
+    }
 
 }

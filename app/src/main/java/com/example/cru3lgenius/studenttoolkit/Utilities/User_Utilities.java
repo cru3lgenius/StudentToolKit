@@ -1,6 +1,7 @@
 package com.example.cru3lgenius.studenttoolkit.Utilities;
 
 import android.provider.ContactsContract;
+import android.widget.EditText;
 
 import com.example.cru3lgenius.studenttoolkit.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,19 +20,23 @@ public class User_Utilities {
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-    public static User loadUserFirebase(){
-        final User currUser = new User(auth.getCurrentUser().toString());
+    public static User loadUserFirebase(final User currUser, final EditText name,final EditText gender,final EditText age){
+        System.out.println("KOGA?!??!?");
         ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String name = (String) dataSnapshot.child("name").getValue();
+                String user_name = (String) dataSnapshot.child("name").getValue();
                 System.out.println("Tuka koga vlizam?!!?!?!?! " + name);
-                long age =  (long)dataSnapshot.child("age").getValue();
-                String gender = (String)dataSnapshot.child("gender").getValue();
-                currUser.setAge((int)age);
-                currUser.setGender(gender);
-                currUser.setName(name);
+                long user_age =  (long)dataSnapshot.child("age").getValue();
+                String user_gender = (String)dataSnapshot.child("gender").getValue();
+                currUser.setAge((int)user_age);
+                currUser.setGender(user_gender);
+                currUser.setName(user_name);
+                name.setText(user_name);
+                gender.setText(user_gender);
+                age.setText(Integer.toString((int)user_age));
+
             }
 
             @Override
