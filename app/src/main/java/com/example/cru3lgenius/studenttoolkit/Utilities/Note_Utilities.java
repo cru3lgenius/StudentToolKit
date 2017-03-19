@@ -2,6 +2,7 @@ package com.example.cru3lgenius.studenttoolkit.Utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
@@ -70,7 +71,7 @@ public class Note_Utilities  {
         adapter.updateAdapter(allNotes);
 
     }
-    public static void loadNotesFirebase( final ProgressDialog dialog, Context context, final HashMap<String,Note> allNotes){
+    public static void loadNotesFirebase( final ProgressDialog dialog, final Context context, final HashMap<String,Note> allNotes){
         if(dialog!=null){
             dialog.show();
         }

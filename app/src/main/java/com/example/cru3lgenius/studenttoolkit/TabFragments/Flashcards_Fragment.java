@@ -37,9 +37,9 @@ public class Flashcards_Fragment extends Fragment {
     private Button reviewSelectedCards,deleteBtn;
     private ListView listView;
     private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();
-    private static FlashcardsAdapterHashMap adapter;
-    private HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
 
+    private static HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
+    private static FlashcardsAdapterHashMap adapter = new FlashcardsAdapterHashMap(allFlashcards);;
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,7 +51,7 @@ public class Flashcards_Fragment extends Fragment {
         deleteBtn = (Button)viewRoot.findViewById(R.id.btnDelete);
         listView = (ListView)viewRoot.findViewById(R.id.lvFlashcards);
         reviewSelectedCards = (Button) viewRoot.findViewById(R.id.btnReviewSelectedCards);
-        adapter = new FlashcardsAdapterHashMap(allFlashcards);
+
         listView.setAdapter(adapter);
 
 

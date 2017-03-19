@@ -3,6 +3,7 @@ package com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activit
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.text.TextUtilsCompat;
@@ -23,18 +24,22 @@ import android.widget.Toast;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.User;
 import com.example.cru3lgenius.studenttoolkit.R;
+import com.example.cru3lgenius.studenttoolkit.Utilities.User_Utilities;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class Register extends AppCompatActivity {
 
     private Button register;
     private EditText email,password;
     private TextView signIn;
+    private static StorageReference storageReference =  FirebaseStorage.getInstance().getReferenceFromUrl("gs://studenttoolkit-c9f0f.appspot.com");;
     private ProgressDialog progressDialog;
     private FirebaseAuth auth;
     private DatabaseReference ref;

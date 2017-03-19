@@ -35,9 +35,10 @@ public class Notes_Fragment extends Fragment {
     View viewRoot;
     private ProgressDialog progressDialog;
     private ListView displayNotes;
-    public static NoteAdapterHashMap noteAdapter;
     private DatabaseReference mDatabaseReference;
-    final private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
+    final static private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
+    public static NoteAdapterHashMap noteAdapter = new NoteAdapterHashMap(allNotes);
+
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -45,11 +46,9 @@ public class Notes_Fragment extends Fragment {
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
-
         progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setMessage("Loading Notes...");
         progressDialog.setTitle("Notes");
-        noteAdapter = new NoteAdapterHashMap(allNotes);
         displayNotes.setAdapter(noteAdapter);
         System.out.println("WTF BE BRAT 1");
         if(allNotes.isEmpty()){
@@ -67,6 +66,7 @@ public class Notes_Fragment extends Fragment {
 
             }
         });
+
         return viewRoot;
     }
 

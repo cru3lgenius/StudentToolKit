@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "290854259421-dknh329cjqn1ce47740johbokkhmrsk7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cru3lgenius.studenttoolkit",
+            "certificate_hash": "723b1db4dc1920dba10fcdacfeb59f4b90f07388"
+          }
+        },
+        {
           "client_id": "290854259421-mj41btgn8n37henisbsjeakl21tfi7i5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.cru3lgenius.studenttoolkit",
-            "certificate_hash": "DE9156B356013E668C01D643B83BD324AF13305D"
+            "certificate_hash": "de9156b356013e668c01d643b83bd324af13305d"
           }
         },
         {
