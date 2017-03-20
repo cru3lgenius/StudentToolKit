@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.cru3lgenius.studenttoolkit.Models.User;
+import com.example.cru3lgenius.studenttoolkit.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -101,6 +102,7 @@ public class User_Utilities {
         Glide.with(context /* context */)
                 .using(new FirebaseImageLoader())
                 .load(storageRef)
+                .error(R.drawable.profile_icon)
                 .into(imageView);
     }
 }
