@@ -104,6 +104,9 @@ public class Profile_Fragment extends Fragment{
                 startActivity(new Intent(getActivity(), SignIn.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 TabsActivity.getAllCards().clear();
                 TabsActivity.getAllNotes().clear();
+                Flashcards_Fragment.getAdapter().updateAdapter(TabsActivity.getAllCards());
+                Notes_Fragment.getNoteAdapter().updateAdapter(TabsActivity.getAllNotes());
+                profilePicture.setImageDrawable(null);
                 getActivity().finish();
 
             }
@@ -140,10 +143,8 @@ public class Profile_Fragment extends Fragment{
     public static void reloadUser(User user,EditText name,EditText gender,EditText age,Context context){
         user = new User(auth.getCurrentUser().getEmail().replace('.','_').toString());
         User_Utilities.loadUserFirebase(user,name,gender,age);
-        if(profilePicture.getDrawable()==null){
-            System.out.println("I TOQ PRINT");
-            User_Utilities.downloadProfilePicture(context,storageRef,profilePicture);
-        }
+        User_Utilities.downloadProfilePicture(context,storageRef,profilePicture);
+
 
     }
     /* Hides the keyboard by clicking somewhere */
@@ -166,6 +167,7 @@ public class Profile_Fragment extends Fragment{
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),filePath);
+                profilePicture.setImageBitmap(bitmap);
                 User_Utilities.uploadProfilePicture(getContext(),filePath,storageRef);
             } catch (IOException e) {
                 e.printStackTrace();

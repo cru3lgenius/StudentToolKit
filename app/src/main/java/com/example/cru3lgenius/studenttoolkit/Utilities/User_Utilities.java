@@ -88,6 +88,7 @@ public class User_Utilities {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
+                        progressDialog.dismiss();
                         Toast.makeText(context,exception.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
