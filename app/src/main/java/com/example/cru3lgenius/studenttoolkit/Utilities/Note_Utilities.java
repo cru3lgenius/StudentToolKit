@@ -40,25 +40,28 @@ public class Note_Utilities  {
         /* Save the note in firebase */
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(note.getId()).setValue(note);
 
-        /* Save the note locally using Shared Preferences*/
+        /* Local Save
+        // Save the note locally using Shared Preferences
         SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
         HashMap<String,Note> allNotes = new HashMap<String,Note>();
         if(!jsonAllNotes.equals("default")){
-            /* Translate JSon to HashMap */
+            // Translate JSon to HashMap
             allNotes = gson.fromJson(jsonAllNotes,new TypeToken<HashMap<String,Note>>() {}.getType());
         }
 
         allNotes.put(note.getId(),note);
 
-        /* Translate HashMap to JSon and save the string as Shared Preferences */
+        //Translate HashMap to JSon and save the string as Shared Preferences
         jsonAllNotes = gson.toJson(allNotes);
         prefsEditor.putString(NOTES_HASHMAP,jsonAllNotes);
         String jsonNote = gson.toJson(note);
         prefsEditor.putString(note.getId(),jsonNote);
 
         prefsEditor.commit();
+        */
+
     }
 
 
@@ -79,7 +82,7 @@ public class Note_Utilities  {
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                adapter.updateAdapter(allNotes);
+
                 dialog.dismiss();
             }
 
@@ -96,13 +99,14 @@ public class Note_Utilities  {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 /* Retrieving data from Firebase */
-                System.out.println("VLiza v change-a !!!!");
                 String id = (String) dataSnapshot.child("id").getValue();
                 String title = (String) dataSnapshot.child("mTitle").getValue();
                 String content = (String) dataSnapshot.child("mContent").getValue();
                 long date = (long) dataSnapshot.child("mDateTime").getValue();
                 Note changedNote = new Note(title,date,content,id);
                 allNotes.put(id,changedNote);
+                System.out.println("Trqbva da sum tuka!!!!");
+                adapter.updateAdapter(allNotes);
             }
 
             @Override

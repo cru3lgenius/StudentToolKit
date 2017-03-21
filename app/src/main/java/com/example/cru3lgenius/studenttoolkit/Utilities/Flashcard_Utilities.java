@@ -75,13 +75,11 @@ public class Flashcard_Utilities {
 
     }
     public static void loadFlashcardsFirebase(final HashMap<String,Flashcard> cards){
-        System.out.println(auth.getCurrentUser().getEmail().toString() + "DJFIAJIFIJFIJFIJFIJFIJAFIJIJFJIAJIF");
         database.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("flashcards").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 /* Retrieving data from Firebase */
-                System.out.println("KFOSTAVABEBRAT");
                 String id = (String) dataSnapshot.child("id").getValue();
                 String question = (String) dataSnapshot.child("question").getValue();
                 String answer = (String) dataSnapshot.child("answer").getValue();

@@ -75,7 +75,7 @@ public class User_Utilities {
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Uploading your new profile picture...");
 //        progressDialog.show();
-        StorageReference riversRef = storageRef.child("image/profile.jpg");
+        StorageReference riversRef = storageRef.child(new String(auth.getCurrentUser().getEmail().replace('.','_')+"/profile.png"));
 
         riversRef.putFile(filepath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -95,8 +95,8 @@ public class User_Utilities {
     public static void downloadProfilePicture(Context context,StorageReference storageReference,ImageView profilePicture){
         // Reference to an image file in Firebase Storage
         // ImageView in your Activity
-        StorageReference storageRef =  storageReference.child("image/profile.jpg");
-
+        System.out.println("ajIJDAJAJIDJADIJDAJDIOAJDOAJDOIJIODAJDAO");
+        StorageReference storageRef =  storageReference.child(new String(auth.getCurrentUser().getEmail().replace('.','_')+"/profile.png"));
         ImageView imageView = profilePicture;
         // Load the image using Glide
         Glide.with(context /* context */)

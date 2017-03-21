@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
+import com.example.cru3lgenius.studenttoolkit.Models.User;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
@@ -47,9 +48,10 @@ public class TabsActivity extends AppCompatActivity {
 
     /* Keep the cards and notes loaded all the time*/
 
-    public static HashMap<String,Note> allNotes;
+    private static HashMap<String,Note> allNotes;
+    private static User currUser;
     private CoordinatorLayout layout;
-    public static HashMap<String,Flashcard> allCards;
+    private static HashMap<String,Flashcard> allCards;
     private ViewPager mViewPager;
 
     public static HashMap<String,Note> getAllNotes(){
@@ -57,6 +59,9 @@ public class TabsActivity extends AppCompatActivity {
     }
     public static HashMap<String,Flashcard> getAllCards (){
         return allCards;
+    }
+    public static User getCurrUser(){
+        return currUser;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

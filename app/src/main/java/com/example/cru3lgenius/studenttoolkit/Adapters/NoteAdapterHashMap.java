@@ -15,8 +15,13 @@ import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class NoteAdapterHashMap extends BaseAdapter{
     private ArrayList mData = new ArrayList();
@@ -32,8 +37,8 @@ public class NoteAdapterHashMap extends BaseAdapter{
     }
 
     @Override
-    public Map.Entry<String, Note> getItem(int position) {
-        return (Map.Entry) mData.get(position);
+    public Entry<String, Note> getItem(int position) {
+        return (Entry) mData.get(position);
     }
 
     @Override
@@ -72,11 +77,25 @@ public class NoteAdapterHashMap extends BaseAdapter{
     }
     public void updateAdapter(HashMap<String,Note> map){
         this.mData.clear();
+        Set<Entry<String,Note>> entries = map.entrySet();
         this.mData.addAll(map.entrySet());
+        Collections.sort(this.mData, DATE_ORDER);
         this.notifyDataSetChanged();
     }
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
         super.registerDataSetObserver(observer);
     }
+
+    public Comparator<Entry<String,Note>> DATE_ORDER = new Comparator<Entry<String,Note>>() {
+        @Override
+        public int compare(Entry<String, Note> o1, Entry<String, Note> o2) {
+            if(o1.getValue().getmDateTime()<o2.getValue().getmDateTime()){
+                return 1;
+            }
+            return -1;
+        }
+
+
+    };
 }

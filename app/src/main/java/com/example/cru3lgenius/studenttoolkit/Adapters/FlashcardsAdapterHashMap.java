@@ -16,8 +16,11 @@ import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by denis on 3/8/17.
@@ -78,8 +81,19 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
     }
     public void updateAdapter(HashMap<String,Flashcard> map){
         this.mData.clear();
+        Set<Map.Entry<String,Flashcard>> entries = map.entrySet();
         this.mData.addAll(map.entrySet());
+        Collections.sort(this.mData, NAME_ORDER);
         this.notifyDataSetChanged();
 
     }
+    public Comparator<Map.Entry<String,Flashcard>> NAME_ORDER = new Comparator<Map.Entry<String,Flashcard>>() {
+        @Override
+        public int compare(Map.Entry<String, Flashcard> o1, Map.Entry<String, Flashcard> o2) {
+            int result = String.CASE_INSENSITIVE_ORDER.compare(o1.getValue().getFlashcardName(),o2.getValue().getFlashcardName());
+            return result;
+        }
+
+
+    };
 }

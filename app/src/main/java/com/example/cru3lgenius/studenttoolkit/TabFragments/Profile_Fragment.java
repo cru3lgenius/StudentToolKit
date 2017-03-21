@@ -47,7 +47,7 @@ import static android.app.Activity.RESULT_OK;
 public class Profile_Fragment extends Fragment{
     private static final int PICK_IMAGE = 200;
     View viewRoot;
-    private User currUser;
+    private User currUser = TabsActivity.getCurrUser();
     private static ImageView profilePicture;
     private static StorageReference storageRef;
 
@@ -92,6 +92,7 @@ public class Profile_Fragment extends Fragment{
             }
         });
         if(currUser==null){
+
             reloadUser(currUser,profileName1,gender1,age1,getContext());
         }
 
@@ -139,7 +140,11 @@ public class Profile_Fragment extends Fragment{
     public static void reloadUser(User user,EditText name,EditText gender,EditText age,Context context){
         user = new User(auth.getCurrentUser().getEmail().replace('.','_').toString());
         User_Utilities.loadUserFirebase(user,name,gender,age);
-        User_Utilities.downloadProfilePicture(context,storageRef,profilePicture);
+        if(profilePicture.getDrawable()==null){
+            System.out.println("I TOQ PRINT");
+            User_Utilities.downloadProfilePicture(context,storageRef,profilePicture);
+        }
+
     }
     /* Hides the keyboard by clicking somewhere */
     protected void hideKeyboard(View view)

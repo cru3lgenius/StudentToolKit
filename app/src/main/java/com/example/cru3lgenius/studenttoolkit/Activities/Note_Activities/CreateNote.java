@@ -53,6 +53,10 @@ public class CreateNote extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_action_SaveNote:
+                if(noteTitle.getText().toString().isEmpty()||noteContent.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(),"No empty fields are allowed!",Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 saveNote();
                 break;
             case R.id.menu_action_deleteNote:
@@ -103,8 +107,7 @@ public class CreateNote extends AppCompatActivity {
             Note note = new Note(noteTitle.getText().toString(), System.currentTimeMillis(), noteContent.getText().toString(), Id);
             Note_Utilities.saveNote(getApplicationContext(), note);
         }
-        Intent i = new Intent(getApplicationContext(), TabsActivity.class);
-        startActivity(i);
+
         finish();
 
     }
