@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.cru3lgenius.studenttoolkit.Activities.Note_Activities.CreateNote;
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.Session;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
@@ -36,7 +37,7 @@ public class Notes_Fragment extends Fragment {
     private ProgressDialog progressDialog;
     private ListView displayNotes;
     private DatabaseReference mDatabaseReference;
-    final static private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
+    final static private HashMap<String,Note> allNotes = (HashMap<String,Note>) Session.getAllNotes();
     public static NoteAdapterHashMap noteAdapter = new NoteAdapterHashMap(allNotes);
 
     public View onCreateView(LayoutInflater inflater,

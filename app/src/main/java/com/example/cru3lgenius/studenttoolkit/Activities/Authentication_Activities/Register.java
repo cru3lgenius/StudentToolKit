@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.text.TextUtilsCompat;
@@ -34,6 +35,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 public class Register extends AppCompatActivity {
 
     private Button register;
@@ -60,6 +64,7 @@ public class Register extends AppCompatActivity {
                 return false;
             }
         });
+        System.out.println("SHAMARA");
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference();
@@ -101,11 +106,12 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    User new_user = new User(email_str);
+                    String ver = UUID.randomUUID().toString();
+                    User new_user = new User(email_str,ver);
                     String email = email_str.replace('.','_');
                     ref.child("users").child(email).setValue(new_user);
                     makeToast("You registered successfully");
-                    Intent intent = new Intent(getApplicationContext(),TabsActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),SignIn.class);
                     startActivity(intent);
                     finish();
                 }else{

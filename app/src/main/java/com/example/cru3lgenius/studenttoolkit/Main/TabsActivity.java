@@ -1,6 +1,8 @@
 package com.example.cru3lgenius.studenttoolkit.Main;
 
 import android.content.Context;
+import android.media.Image;
+import android.provider.ContactsContract;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
@@ -26,6 +29,7 @@ import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Flashcards_Fragment;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Profile_Fragment;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,30 +52,22 @@ public class TabsActivity extends AppCompatActivity {
 
     /* Keep the cards and notes loaded all the time*/
 
-    private static HashMap<String,Note> allNotes;
-    private static User currUser;
-    private CoordinatorLayout layout;
-    private static HashMap<String,Flashcard> allCards;
-    private ViewPager mViewPager;
 
-    public static HashMap<String,Note> getAllNotes(){
-        return allNotes;
-    }
-    public static HashMap<String,Flashcard> getAllCards (){
-        return allCards;
-    }
-    public static User getCurrUser(){
-        return currUser;
-    }
+    private Session session;
+    private CoordinatorLayout layout;
+    private ViewPager mViewPager;
+    Gson gson = new Gson();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
-        if(allNotes == null){
-           allNotes = new HashMap<String,Note>();
-        }
-        if(allCards == null){
-            allCards = new HashMap<String,Flashcard>();
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            String jsonSession = (String) bundle.get("jsonSession");
+            session = gson.fromJson(jsonSession,Session.class);
         }
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 

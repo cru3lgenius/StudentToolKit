@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.CreateFlashcard;
 import com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities.ReviewSelectedCards;
 import com.example.cru3lgenius.studenttoolkit.Adapters.FlashcardsAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.Session;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
@@ -38,7 +39,7 @@ public class Flashcards_Fragment extends Fragment {
     private ListView listView;
     private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();
 
-    private static HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
+    private static HashMap<String,Flashcard> allFlashcards = Session.getAllCards();
     private static FlashcardsAdapterHashMap adapter = new FlashcardsAdapterHashMap(allFlashcards);;
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

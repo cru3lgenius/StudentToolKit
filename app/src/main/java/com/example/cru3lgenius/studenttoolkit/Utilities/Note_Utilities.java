@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.cru3lgenius.studenttoolkit.Adapters.NoteAdapterHashMap;
+import com.example.cru3lgenius.studenttoolkit.Main.Session;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.TabFragments.Notes_Fragment;
@@ -69,7 +70,7 @@ public class Note_Utilities  {
 
     public static void deleteNoteFirebase(String noteId) {
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(noteId).removeValue();
-        HashMap<String,Note> allNotes = TabsActivity.getAllNotes();
+        HashMap<String,Note> allNotes = Session.getAllNotes();
         allNotes.remove(noteId);
         adapter.updateAdapter(allNotes);
 

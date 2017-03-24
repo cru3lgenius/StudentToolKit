@@ -1,26 +1,41 @@
 package com.example.cru3lgenius.studenttoolkit.Models;
 
+import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
+
+import java.io.File;
+import java.io.Serializable;
+
 /**
  * Created by denis on 3/16/17.
  */
 
-public class User {
+public class User  {
 
     private String email_id;
     private String name = "Unknown";
     private String gender = "Unknown";
     private int age;
+    private String version;
 
-    public User(String email_id){
+    public User(String email_id,String version){
         this.email_id = email_id;
+        this.version = version;
     }
-    public User(String email_id,String name,String gender,String email,int age){
+    public User(String email_id,String name,String gender,String email,int age,String version){
         this.email_id = email_id;
         this.name = name;
         this.gender = gender;
         this.age = age;
+        this.version = version;
      }
 
+    public String getVersion(){
+        return this.version;
+    }
+    public void setVersion(String ver){
+        this.version = ver;
+    }
     public int getAge() {
         return age;
     }
@@ -45,5 +60,8 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public void setEmail_id(String email){
+        email_id = email;
     }
 }

@@ -5,11 +5,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.example.cru3lgenius.studenttoolkit.Models.User;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -21,12 +25,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by denis on 3/18/17.
@@ -37,8 +45,9 @@ public class User_Utilities {
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-    public static User loadUserFirebase(final User currUser, final EditText name,final EditText gender,final EditText age){
+    public static void loadUserFirebase(final User currUser, final EditText name,final EditText gender,final EditText age){
         System.out.println("KOGA?!??!?");
+
         ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -62,7 +71,6 @@ public class User_Utilities {
             }
         });
 
-        return currUser;
     }
     public static void saveProfileChanges(String name,String gender,long age){
         ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("age").setValue(age);
@@ -93,17 +101,14 @@ public class User_Utilities {
                     }
                 });
     }
-    public static void downloadProfilePicture(Context context,StorageReference storageReference,ImageView profilePicture){
-        // Reference to an image file in Firebase Storage
-        // ImageView in your Activity
-        System.out.println("ajIJDAJAJIDJADIJDAJDIOAJDOAJDOIJIODAJDAO");
-        StorageReference storageRef =  storageReference.child(new String(auth.getCurrentUser().getEmail().replace('.','_')+"/profile.png"));
-        ImageView imageView = profilePicture;
-        // Load the image using Glide
-        Glide.with(context /* context */)
+    public static void downloadProfilePicture(final User user, final Context context, StorageReference storageReference, final ImageView profilePicture) throws IOException {
+        final StorageReference storageRef =  storageReference.child(new String(auth.getCurrentUser().getEmail().replace('.','_')+"/profile.png"));
+        Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(storageRef)
                 .error(R.drawable.profile_icon)
-                .into(imageView);
+                .signature(new StringSignature(user.getVersion()))
+                .into(profilePicture);
     }
+
 }

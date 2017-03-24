@@ -6,10 +6,12 @@ import android.content.UriMatcher;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.text.method.KeyListener;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities.Register;
 import com.example.cru3lgenius.studenttoolkit.Activities.Authentication_Activities.SignIn;
+import com.example.cru3lgenius.studenttoolkit.Main.Session;
 import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.User;
 import com.example.cru3lgenius.studenttoolkit.R;
@@ -33,10 +36,12 @@ import com.example.cru3lgenius.studenttoolkit.Utilities.User_Utilities;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,7 +52,7 @@ import static android.app.Activity.RESULT_OK;
 public class Profile_Fragment extends Fragment{
     private static final int PICK_IMAGE = 200;
     View viewRoot;
-    private User currUser = TabsActivity.getCurrUser();
+    private User currUser = Session.getCurrUser();
     private static ImageView profilePicture;
     private static StorageReference storageRef;
 
@@ -62,11 +67,13 @@ public class Profile_Fragment extends Fragment{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        System.out.println("purvi");
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
         logout = (Button) viewRoot.findViewById(R.id.btnLogout);
         edit = (Button) viewRoot.findViewById(R.id.btnEditProfile);
-        profilePicture = (ImageView) viewRoot.findViewById(R.id.ivProfilePicture);
         auth = FirebaseAuth.getInstance();
+        profilePicture = (ImageView)viewRoot.findViewById(R.id.ivProfilePicture);
+
         profileName1 = (EditText) viewRoot.findViewById(R.id.etProfileName1);
         age1 = (EditText) viewRoot.findViewById(R.id.etAge1);
         gender1 = (EditText) viewRoot.findViewById(R.id.etGender1);
@@ -91,10 +98,11 @@ public class Profile_Fragment extends Fragment{
                 return false;
             }
         });
-        if(currUser==null){
+        profileName1.setText(currUser.getName());
+        gender1.setText(currUser.getGender());
+        age1.setText(Integer.toString(currUser.getAge()));
 
-            reloadUser(currUser,profileName1,gender1,age1,getContext());
-        }
+
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +110,10 @@ public class Profile_Fragment extends Fragment{
             public void onClick(View view) {
                 auth.signOut();
                 startActivity(new Intent(getActivity(), SignIn.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                TabsActivity.getAllCards().clear();
-                TabsActivity.getAllNotes().clear();
-                Flashcards_Fragment.getAdapter().updateAdapter(TabsActivity.getAllCards());
-                Notes_Fragment.getNoteAdapter().updateAdapter(TabsActivity.getAllNotes());
+                Session.getAllCards().clear();
+                Session.getAllNotes().clear();
+                Flashcards_Fragment.getAdapter().updateAdapter(Session.getAllCards());
+                Notes_Fragment.getNoteAdapter().updateAdapter(Session.getAllNotes());
                 profilePicture.setImageDrawable(null);
                 getActivity().finish();
 
@@ -140,10 +148,9 @@ public class Profile_Fragment extends Fragment{
         return viewRoot;
     }
 
-    public static void reloadUser(User user,EditText name,EditText gender,EditText age,Context context){
-        user = new User(auth.getCurrentUser().getEmail().replace('.','_').toString());
+    public static void reloadUser(User user,EditText name,EditText gender,EditText age,Context context) throws IOException {
         User_Utilities.loadUserFirebase(user,name,gender,age);
-        User_Utilities.downloadProfilePicture(context,storageRef,profilePicture);
+        User_Utilities.downloadProfilePicture(user,context,storageRef,profilePicture);
 
 
     }

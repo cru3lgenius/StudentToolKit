@@ -11,21 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/myTheme">
         <activity android:name=".Main.TabsActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".Activities.Authentication_Activities.Register" >
-
-        <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Activities.Authentication_Activities.Register" ></activity>
         <activity android:name=".Activities.Flashcard_Activities.CreateFlashcard" />
         <activity android:name=".Activities.Flashcard_Activities.ReviewSelectedCards" />
         <activity android:name=".Activities.Flashcard_Activities.CheckAnswers" />
         <activity android:name=".Activities.Flashcard_Activities.ShowResults" />
         <activity android:name=".Activities.Note_Activities.CreateNote" />
 
-        <activity android:name=".Activities.Authentication_Activities.SignIn" android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".Activities.Authentication_Activities.SignIn" android:theme="@style/NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
