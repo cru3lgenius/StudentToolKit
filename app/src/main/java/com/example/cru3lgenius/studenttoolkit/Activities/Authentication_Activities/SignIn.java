@@ -50,6 +50,7 @@ public class SignIn extends AppCompatActivity {
     private EditText emailLogin,passLogin;
     private ProgressDialog progressDialog;
     private RelativeLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +70,7 @@ public class SignIn extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
 
+        //If you are already in your profile skip the sign in process
         if(auth.getCurrentUser()!=null){
             progressDialog.setMessage("Loading Profile...");
             progressDialog.show();
@@ -98,10 +100,13 @@ public class SignIn extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        //Loading user data from firebase
                         String version = (String) dataSnapshot.child("version").getValue();
                         String user_name = (String) dataSnapshot.child("name").getValue();
                         long user_age =  (long)dataSnapshot.child("age").getValue();
                         String user_gender = (String)dataSnapshot.child("gender").getValue();
+
+                        //Creating new user with the retrieved data
                         User currUser =  new User(auth.getCurrentUser().getEmail().replace('.','_'),version);
                         currUser.setAge((int)user_age);
                         currUser.setGender(user_gender);
@@ -149,7 +154,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void loadMain(User user){
-
+        //Start new session with the loaded user and start application
         Session session = new Session(getApplicationContext());
         session.storeUser(user);
         startActivity(new Intent(getApplicationContext(),TabsActivity.class));

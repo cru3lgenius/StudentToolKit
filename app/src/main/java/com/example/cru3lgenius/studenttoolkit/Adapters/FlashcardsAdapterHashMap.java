@@ -80,13 +80,19 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
         return result;
     }
     public void updateAdapter(HashMap<String,Flashcard> map){
+
+        // ArrayList update
         this.mData.clear();
         Set<Map.Entry<String,Flashcard>> entries = map.entrySet();
         this.mData.addAll(map.entrySet());
+
+        // Sort flashcards
         Collections.sort(this.mData, NAME_ORDER);
         this.notifyDataSetChanged();
 
     }
+
+    // Comparator for sorting flashcards
     public Comparator<Map.Entry<String,Flashcard>> NAME_ORDER = new Comparator<Map.Entry<String,Flashcard>>() {
         @Override
         public int compare(Map.Entry<String, Flashcard> o1, Map.Entry<String, Flashcard> o2) {

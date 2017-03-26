@@ -48,6 +48,7 @@ public class Notes_Fragment extends Fragment {
 
         viewRoot = inflater.inflate(R.layout.fragment_notes, container, false);
 
+        // Initialize widgets
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
@@ -55,6 +56,8 @@ public class Notes_Fragment extends Fragment {
         progressDialog.setMessage("Loading Notes...");
         progressDialog.setTitle("Notes");
         displayNotes.setAdapter(noteAdapter);
+
+        //In case there are no notes load from firebase
         if(allNotes.isEmpty()){
             Note_Utilities.loadNotesFirebase(progressDialog,getContext(),allNotes);
         }

@@ -38,8 +38,8 @@ public class Flashcards_Fragment extends Fragment {
     View viewRoot;
     private Button reviewSelectedCards,deleteBtn;
     private ListView listView;
-    private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();
-    private static HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
+    private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();                        //Stores cards to be either reviewed or deleted
+    private static HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();    //Stores all cards
     private static FlashcardsAdapterHashMap adapter = new FlashcardsAdapterHashMap(allFlashcards);;
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,12 +52,14 @@ public class Flashcards_Fragment extends Fragment {
         deleteBtn = (Button)viewRoot.findViewById(R.id.btnDelete);
         listView = (ListView)viewRoot.findViewById(R.id.lvFlashcards);
         reviewSelectedCards = (Button) viewRoot.findViewById(R.id.btnReviewSelectedCards);
-
         listView.setAdapter(adapter);
 
 
+        // Loading Flashcards from Firebase and updating the adapter after that
         Flashcard_Utilities.loadFlashcardsFirebase(allFlashcards);
         adapter.updateAdapter(allFlashcards);
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -111,7 +113,7 @@ public class Flashcards_Fragment extends Fragment {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        //On clicking on the + sign starts new Activity that handles creating a new flashcard
         switch(item.getItemId()){
             case R.id.menu_action_create_flashcard:
                 Intent i = new Intent(getContext(),CreateFlashcard.class);
@@ -133,9 +135,12 @@ public class Flashcards_Fragment extends Fragment {
         return adapter;
     }
 
+    // Deletes flashcards
     public void deleteCards(ArrayList<Flashcard> cards){
         Flashcard_Utilities.deleteFlashcardsFirebase(cards);
     }
+
+    // Reset checkboxes ticks
     public void resetCheckboxes(){
         CheckBox cb;
 

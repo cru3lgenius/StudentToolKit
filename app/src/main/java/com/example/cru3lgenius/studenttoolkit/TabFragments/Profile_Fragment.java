@@ -76,24 +76,31 @@ public class Profile_Fragment extends Fragment{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // Initialize widgets and used objects
         session = new Session(getContext());
         currUser = Session.retrieveUser();
-
         logout = (Button) viewRoot.findViewById(R.id.btnLogout);
         edit = (Button) viewRoot.findViewById(R.id.btnEditProfile);
         auth = FirebaseAuth.getInstance();
         profilePicture = (ImageView)viewRoot.findViewById(R.id.ivProfilePicture);
-
         profileName1 = (EditText) viewRoot.findViewById(R.id.etProfileName1);
         age1 = (EditText) viewRoot.findViewById(R.id.etAge1);
         gender1 = (EditText) viewRoot.findViewById(R.id.etGender1);
         storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://studenttoolkit-c9f0f.appspot.com");
+
+        // Temps to handle editable and not editable EditTexts
         gender1_listener = gender1.getKeyListener();
         age1_listener = age1.getKeyListener();
         profilename1_listener = profileName1.getKeyListener();
+
+
+        // Makes the EditTexts not editable
         gender1.setKeyListener(null);
         age1.setKeyListener(null);
         profileName1.setKeyListener(null);
+
+
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,18 +117,20 @@ public class Profile_Fragment extends Fragment{
                 return false;
             }
         });
+
+        // Update EditTexts with the information about the current user
         profileName1.setText(currUser.getName());
-        profileName1.setVisibility(View.GONE);
-        profileName1.setVisibility(View.VISIBLE);
         gender1.setText(currUser.getGender());
         age1.setText(Integer.toString(currUser.getAge()));
+
+
         try {
             User_Utilities.downloadProfilePicture(currUser,getContext(),storageRef,profilePicture);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+        // By loging out clear all the data you stored
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,6 +151,8 @@ public class Profile_Fragment extends Fragment{
 
                 /* Edit and Save mode */
                 if(!clicked){
+
+                    //Makes editable
                     age1.setKeyListener(age1_listener);
                     profileName1.setKeyListener(profilename1_listener);
                     gender1.setKeyListener(gender1_listener);
@@ -152,6 +163,8 @@ public class Profile_Fragment extends Fragment{
                     String gender = gender1.getText().toString();
                     String name = profileName1.getText().toString();
                     User_Utilities.saveProfileChanges(name,gender,age);
+
+                    //Makes not Editable again
                     age1.setKeyListener(null);
                     profileName1.setKeyListener(null);
                     gender1.setKeyListener(null);
@@ -161,6 +174,8 @@ public class Profile_Fragment extends Fragment{
                 clicked = !clicked;
             }
         });
+
+        // Updates personal Data on Edit
         ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -187,12 +202,6 @@ public class Profile_Fragment extends Fragment{
         return viewRoot;
     }
 
-    private void handleProfilePictureUpdate() throws IOException {
-        String ver = UUID.randomUUID().toString();
-        currUser.setVersion(ver);
-        ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("version").setValue(ver);
-        User_Utilities.downloadProfilePicture(currUser,getContext(),storageRef,profilePicture);
-    }
 
     /* Hides the keyboard by clicking somewhere */
     protected void hideKeyboard(View view)
@@ -201,6 +210,8 @@ public class Profile_Fragment extends Fragment{
         in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
     private void pictureChooser(){
+
+        // Opens a window to choose your new profile picture
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -213,6 +224,7 @@ public class Profile_Fragment extends Fragment{
         if(requestCode==PICK_IMAGE && resultCode == RESULT_OK && data!=null){
             filePath = data.getData();
             try {
+                // Upload your new picture and make necessary updates to make that clear to all users
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),filePath);
                 String ver = UUID.randomUUID().toString();
                 currUser.setVersion(ver);

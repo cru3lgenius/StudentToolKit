@@ -32,6 +32,8 @@ public class CreateNote extends AppCompatActivity {
         noteContent = (EditText)findViewById(R.id.etNoteContent);
         ref = FirebaseDatabase.getInstance().getReference();
         Bundle b = getIntent().getExtras();
+
+        //Checks if there is a loaded note from the previous activity
         if(getIntent().hasExtra("noteToDisplay")&&getIntent().hasExtra("noteId")){
             currNote = (Note) b.get("noteToDisplay");
             noteContent.setText(currNote.getmContent());
@@ -68,7 +70,7 @@ public class CreateNote extends AppCompatActivity {
 
     private void deleteNote() {
 
-        /* Checks you have opened an existing note */
+        /* Checks you have opened an existing note and reacts accordingly */
         if(currNote!=null){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setTitle("delete")

@@ -25,6 +25,8 @@ public class Session {
     static SharedPreferences preferences;
     static SharedPreferences.Editor editor;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+
+
     public Session(Context ctx){
         this.ctx = ctx;
         USER_PREFERENCES_KEY = auth.getCurrentUser().getEmail().replace('.','_');
@@ -32,12 +34,14 @@ public class Session {
         editor = preferences.edit();
     }
 
+    // Converts user to json and stores it as shared preferences
     public static void storeUser(User user){
         String jsonUser = gson.toJson(user);
         editor.putString(USER_KEY,jsonUser);
         editor.commit();
     }
 
+    // Loads the user from shared preferences
     public static User retrieveUser(){
 
         String jsonUser = preferences.getString(USER_KEY,"default");

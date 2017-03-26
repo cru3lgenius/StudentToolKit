@@ -29,6 +29,8 @@ public class ShowResults extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.lvResults);
         goBack =  (Button) findViewById(R.id.btnGoBackToMenu);
         yourResultTextView = (TextView)findViewById(R.id.tvYourResults);
+
+        //Load data from the previous activity
         Bundle b = getIntent().getExtras();
         int correctAnswersCount = (Integer) b.get("correctAnswersCount");
         HashMap<Flashcard,Boolean>correctAnswersMap = (HashMap<Flashcard,Boolean>)b.get("correctAnswersMap");
