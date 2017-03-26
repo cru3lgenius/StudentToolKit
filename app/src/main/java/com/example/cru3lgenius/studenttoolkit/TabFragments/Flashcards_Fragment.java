@@ -25,6 +25,7 @@ import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +39,7 @@ public class Flashcards_Fragment extends Fragment {
     private Button reviewSelectedCards,deleteBtn;
     private ListView listView;
     private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();
-
-    private static HashMap<String,Flashcard> allFlashcards = Session.getAllCards();
+    private static HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
     private static FlashcardsAdapterHashMap adapter = new FlashcardsAdapterHashMap(allFlashcards);;
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +116,6 @@ public class Flashcards_Fragment extends Fragment {
             case R.id.menu_action_create_flashcard:
                 Intent i = new Intent(getContext(),CreateFlashcard.class);
                 startActivity(i);
-                getActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

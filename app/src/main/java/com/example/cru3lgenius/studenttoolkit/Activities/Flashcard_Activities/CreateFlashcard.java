@@ -46,8 +46,6 @@ public class CreateFlashcard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveFlashcard();
-                Intent intent = new Intent(getApplicationContext(),TabsActivity.class);
-                startActivity(intent);
                 finish();
 
             }

@@ -20,8 +20,10 @@ import com.example.cru3lgenius.studenttoolkit.Main.TabsActivity;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.Note_Utilities;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,14 +38,16 @@ public class Notes_Fragment extends Fragment {
     View viewRoot;
     private ProgressDialog progressDialog;
     private ListView displayNotes;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
     private DatabaseReference mDatabaseReference;
-    final static private HashMap<String,Note> allNotes = (HashMap<String,Note>) Session.getAllNotes();
+    final static private HashMap<String,Note> allNotes = (HashMap<String,Note>) TabsActivity.getAllNotes();
     public static NoteAdapterHashMap noteAdapter = new NoteAdapterHashMap(allNotes);
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_notes, container, false);
+
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         setHasOptionsMenu(true);
@@ -51,7 +55,6 @@ public class Notes_Fragment extends Fragment {
         progressDialog.setMessage("Loading Notes...");
         progressDialog.setTitle("Notes");
         displayNotes.setAdapter(noteAdapter);
-        System.out.println("WTF BE BRAT 1");
         if(allNotes.isEmpty()){
             Note_Utilities.loadNotesFirebase(progressDialog,getContext(),allNotes);
         }

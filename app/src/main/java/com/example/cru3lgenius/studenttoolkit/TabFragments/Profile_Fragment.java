@@ -3,6 +3,7 @@ package com.example.cru3lgenius.studenttoolkit.TabFragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
+import android.content.pm.PackageInstaller;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -34,6 +35,12 @@ import com.example.cru3lgenius.studenttoolkit.Models.User;
 import com.example.cru3lgenius.studenttoolkit.R;
 import com.example.cru3lgenius.studenttoolkit.Utilities.User_Utilities;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -52,7 +59,8 @@ import static android.app.Activity.RESULT_OK;
 public class Profile_Fragment extends Fragment{
     private static final int PICK_IMAGE = 200;
     View viewRoot;
-    private User currUser = Session.getCurrUser();
+    private Session session;
+    private User currUser;
     private static ImageView profilePicture;
     private static StorageReference storageRef;
 
@@ -60,15 +68,17 @@ public class Profile_Fragment extends Fragment{
     private Button logout,edit;
     private boolean clicked = false;
     private static FirebaseAuth auth;
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private RelativeLayout layout;
     private Uri filePath;
 
     private static EditText profileName1,age1,gender1;
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        System.out.println("purvi");
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
+        session = new Session(getContext());
+        currUser = Session.retrieveUser();
+
         logout = (Button) viewRoot.findViewById(R.id.btnLogout);
         edit = (Button) viewRoot.findViewById(R.id.btnEditProfile);
         auth = FirebaseAuth.getInstance();
@@ -87,7 +97,9 @@ public class Profile_Fragment extends Fragment{
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    pictureChooser();
+                pictureChooser();
+
+
             }
         });
         layout = (RelativeLayout) viewRoot.findViewById(R.id.fragment_profile);
@@ -99,10 +111,15 @@ public class Profile_Fragment extends Fragment{
             }
         });
         profileName1.setText(currUser.getName());
+        profileName1.setVisibility(View.GONE);
+        profileName1.setVisibility(View.VISIBLE);
         gender1.setText(currUser.getGender());
         age1.setText(Integer.toString(currUser.getAge()));
-
-
+        try {
+            User_Utilities.downloadProfilePicture(currUser,getContext(),storageRef,profilePicture);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -110,11 +127,10 @@ public class Profile_Fragment extends Fragment{
             public void onClick(View view) {
                 auth.signOut();
                 startActivity(new Intent(getActivity(), SignIn.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                Session.getAllCards().clear();
-                Session.getAllNotes().clear();
-                Flashcards_Fragment.getAdapter().updateAdapter(Session.getAllCards());
-                Notes_Fragment.getNoteAdapter().updateAdapter(Session.getAllNotes());
-                profilePicture.setImageDrawable(null);
+                TabsActivity.getAllCards().clear();
+                TabsActivity.getAllNotes().clear();
+                Flashcards_Fragment.getAdapter().updateAdapter(TabsActivity.getAllCards());
+                Notes_Fragment.getNoteAdapter().updateAdapter(TabsActivity.getAllNotes());
                 getActivity().finish();
 
             }
@@ -145,15 +161,39 @@ public class Profile_Fragment extends Fragment{
                 clicked = !clicked;
             }
         });
+        ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()==null||dataSnapshot.getChildrenCount()==0)
+                {
+                    return;
+                }
+
+                String name = (String) dataSnapshot.child("name").getValue();
+                String gender = (String) dataSnapshot.child("gender").getValue();
+                long age = (long) dataSnapshot.child("age").getValue();
+                User currUser = Session.retrieveUser();
+                currUser.setName(name);
+                currUser.setGender(gender);
+                currUser.setAge((int)age);
+                Session.storeUser(currUser);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return viewRoot;
     }
 
-    public static void reloadUser(User user,EditText name,EditText gender,EditText age,Context context) throws IOException {
-        User_Utilities.loadUserFirebase(user,name,gender,age);
-        User_Utilities.downloadProfilePicture(user,context,storageRef,profilePicture);
-
-
+    private void handleProfilePictureUpdate() throws IOException {
+        String ver = UUID.randomUUID().toString();
+        currUser.setVersion(ver);
+        ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("version").setValue(ver);
+        User_Utilities.downloadProfilePicture(currUser,getContext(),storageRef,profilePicture);
     }
+
     /* Hides the keyboard by clicking somewhere */
     protected void hideKeyboard(View view)
     {
@@ -174,12 +214,18 @@ public class Profile_Fragment extends Fragment{
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),filePath);
+                String ver = UUID.randomUUID().toString();
+                currUser.setVersion(ver);
+                Session.storeUser(currUser);
+                User_Utilities.uploadProfilePicture(currUser,getContext(),filePath,storageRef);
                 profilePicture.setImageBitmap(bitmap);
-                User_Utilities.uploadProfilePicture(getContext(),filePath,storageRef);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+    
+
 }
 

@@ -67,7 +67,7 @@ public class Flashcard_Utilities {
 
     /* Blocks that handle flashcards in Firebase */
     public static void deleteFlashcardsFirebase(ArrayList<Flashcard> cards){
-        HashMap<String,Flashcard> allFlashcards = Session.getAllCards();
+        HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();
         for(Flashcard each: cards){
             database.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("flashcards").child(each.getId()).removeValue();
             allFlashcards.remove(each.getId());

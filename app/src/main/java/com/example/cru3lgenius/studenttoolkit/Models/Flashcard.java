@@ -25,7 +25,6 @@ public class Flashcard  implements Serializable{
         this.answer = answer;
         this.flashcardName = flashcardName;
         this.date = System.currentTimeMillis();
-        System.out.println("DATEDATEDATEDATE " + this.date);
     }
 
     public String getAnswer(){

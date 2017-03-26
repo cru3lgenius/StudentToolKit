@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,22 +68,25 @@ public class SignIn extends AppCompatActivity {
         passLogin =  (EditText) findViewById(R.id.etPasswordLogin);
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
-        System.out.println("STAVA SI");
 
         if(auth.getCurrentUser()!=null){
-            ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).
+            progressDialog.setMessage("Loading Profile...");
+            progressDialog.show();
+            ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").
                     addListenerForSingleValueEvent(new ValueEventListener() {
               @Override
               public void onDataChange(DataSnapshot dataSnapshot) {
-                  String version = UUID.randomUUID().toString();
-                  User currUser =  new User(version,auth.getCurrentUser().getEmail().replace('.','_'));
+
+                  String version = (String) dataSnapshot.child("version").getValue();
                   String user_name = (String) dataSnapshot.child("name").getValue();
                   long user_age =  (long)dataSnapshot.child("age").getValue();
                   String user_gender = (String)dataSnapshot.child("gender").getValue();
+                  User currUser =  new User(auth.getCurrentUser().getEmail().replace('.','_'),version);
                   currUser.setAge((int)user_age);
                   currUser.setGender(user_gender);
                   currUser.setName(user_name);
                   loadMain(currUser);
+                  progressDialog.dismiss();
                 }
 
                 @Override
@@ -91,6 +95,7 @@ public class SignIn extends AppCompatActivity {
                 }
             });
         }
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,10 +145,10 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void loadMain(User user){
-        System.out.println("KRISKO");
-        Session session = new Session(user);
-        String jsonSession = gson.toJson(session);
-        startActivity(new Intent(getApplicationContext(),TabsActivity.class).putExtra("jsonSession", jsonSession));
+
+        Session session = new Session(getApplicationContext());
+        session.storeUser(user);
+        startActivity(new Intent(getApplicationContext(),TabsActivity.class));
         finish();
     }
 

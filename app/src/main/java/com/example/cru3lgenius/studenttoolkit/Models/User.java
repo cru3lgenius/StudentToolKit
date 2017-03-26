@@ -15,9 +15,11 @@ public class User  {
     private String email_id;
     private String name = "Unknown";
     private String gender = "Unknown";
-    private int age;
-    private String version;
+    private int age = 0;
+    private String version = " Unknown";
 
+    public User(){
+    }
     public User(String email_id,String version){
         this.email_id = email_id;
         this.version = version;

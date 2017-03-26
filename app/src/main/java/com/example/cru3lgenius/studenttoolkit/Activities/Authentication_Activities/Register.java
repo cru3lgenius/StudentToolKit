@@ -64,7 +64,6 @@ public class Register extends AppCompatActivity {
                 return false;
             }
         });
-        System.out.println("SHAMARA");
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference();
@@ -109,7 +108,10 @@ public class Register extends AppCompatActivity {
                     String ver = UUID.randomUUID().toString();
                     User new_user = new User(email_str,ver);
                     String email = email_str.replace('.','_');
-                    ref.child("users").child(email).setValue(new_user);
+                    ref.child("users").child(email).child("version").setValue(new_user.getVersion());
+                    ref.child("users").child(email).child("personal_data").child("name").setValue(new_user.getName());
+                    ref.child("users").child(email).child("personal_data").child("gender").setValue(new_user.getGender());
+                    ref.child("users").child(email).child("personal_data").child("age").setValue(new_user.getAge());
                     makeToast("You registered successfully");
                     Intent intent = new Intent(getApplicationContext(),SignIn.class);
                     startActivity(intent);

@@ -52,22 +52,26 @@ public class TabsActivity extends AppCompatActivity {
 
     /* Keep the cards and notes loaded all the time*/
 
-
-    private Session session;
+    private static HashMap<String,Note> allNotes;
     private CoordinatorLayout layout;
+    private static HashMap<String,Flashcard> allCards;
     private ViewPager mViewPager;
-    Gson gson = new Gson();
 
-
-
+    public static HashMap<String,Note> getAllNotes(){
+        return allNotes;
+    }
+    public static HashMap<String,Flashcard> getAllCards (){
+        return allCards;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
-            String jsonSession = (String) bundle.get("jsonSession");
-            session = gson.fromJson(jsonSession,Session.class);
+        if(allNotes == null){
+            allNotes = new HashMap<String,Note>();
+        }
+        if(allCards == null){
+            allCards = new HashMap<String,Flashcard>();
         }
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -153,10 +157,12 @@ public class TabsActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 1:
+
                     return new Notes_Fragment();
                 case 2:
                     return new Flashcards_Fragment();
                 case 0:
+
                     return new Profile_Fragment();
             }
             return new Flashcards_Fragment();

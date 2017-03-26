@@ -1,50 +1,52 @@
 package com.example.cru3lgenius.studenttoolkit.Main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
 import com.example.cru3lgenius.studenttoolkit.Models.Note;
 import com.example.cru3lgenius.studenttoolkit.Models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by denis on 3/22/17.
+ * Created by denis on 3/26/17.
  */
-
 public class Session {
-    private static HashMap<String,Flashcard> allCards;
-    private static HashMap<String,Note> allNotes;
-    private static User currUser;
-
-
-    public Session(User user){
-        this.currUser = user;
-        allNotes = new HashMap<String, Note>();
-        allCards = new HashMap<String, Flashcard>();
+    private Context ctx;
+    static Gson gson = new Gson();
+    final private String USER_PREFERENCES_KEY;
+    static final private String USER_KEY = "user";
+    static final private String ALLCARDS_KEY = "flashcards";
+    static final private String ALLNOTES_KEY = "notes";
+    static SharedPreferences preferences;
+    static SharedPreferences.Editor editor;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    public Session(Context ctx){
+        this.ctx = ctx;
+        USER_PREFERENCES_KEY = auth.getCurrentUser().getEmail().replace('.','_');
+        preferences = this.ctx.getSharedPreferences(USER_PREFERENCES_KEY,Context.MODE_PRIVATE);
+        editor = preferences.edit();
     }
 
-    public static HashMap<String, Flashcard> getAllCards() {
-        return allCards;
+    public static void storeUser(User user){
+        String jsonUser = gson.toJson(user);
+        editor.putString(USER_KEY,jsonUser);
+        editor.commit();
     }
 
-    public void setAllCards(HashMap<String, Flashcard> allCards) {
-        this.allCards = allCards;
+    public static User retrieveUser(){
+
+        String jsonUser = preferences.getString(USER_KEY,"default");
+        User user = new User();
+        if(!jsonUser.equals("default")){
+            user = gson.fromJson(jsonUser,User.class);
+        }
+        return user;
     }
 
-    public static HashMap<String, Note> getAllNotes() {
-        return allNotes;
-    }
-
-    public void setAllNotes(HashMap<String, Note> allNotes) {
-        this.allNotes = allNotes;
-    }
-
-    public static User getCurrUser() {
-        return currUser;
-    }
-
-    public void setCurrUser(User currUser) {
-        this.currUser = currUser;
-    }
 }
 

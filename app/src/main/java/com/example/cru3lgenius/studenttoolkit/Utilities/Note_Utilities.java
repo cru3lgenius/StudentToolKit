@@ -70,7 +70,7 @@ public class Note_Utilities  {
 
     public static void deleteNoteFirebase(String noteId) {
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(noteId).removeValue();
-        HashMap<String,Note> allNotes = Session.getAllNotes();
+        HashMap<String,Note> allNotes = TabsActivity.getAllNotes();
         allNotes.remove(noteId);
         adapter.updateAdapter(allNotes);
 
@@ -106,7 +106,6 @@ public class Note_Utilities  {
                 long date = (long) dataSnapshot.child("mDateTime").getValue();
                 Note changedNote = new Note(title,date,content,id);
                 allNotes.put(id,changedNote);
-                System.out.println("Trqbva da sum tuka!!!!");
                 adapter.updateAdapter(allNotes);
             }
 

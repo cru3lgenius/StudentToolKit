@@ -39,7 +39,7 @@ public class ReviewSelectedCards extends AppCompatActivity {
 
                 /* These changes will happen only if there are still cards to be added */
                 if(cardCounter!=flashcardsToReview.size()) {
-                    System.out.println(flashcardsToReview.size());
+
                     answersMap.put(flashcardsToReview.get(cardCounter), answer.getText().toString());
                     cardCounter++;
                 }
