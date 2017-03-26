@@ -117,12 +117,14 @@ public class Note_Utilities  {
                 long date = (long) dataSnapshot.child("mDateTime").getValue();
                 Note changedNote = new Note(title,date,content,id);
                 allNotes.put(id,changedNote);
+                adapter.updateAdapter(allNotes);
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                TabsActivity.getAllNotes().remove(dataSnapshot.getKey());
+                adapter.updateAdapter(TabsActivity.getAllNotes());
             }
 
             @Override

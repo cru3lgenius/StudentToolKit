@@ -72,28 +72,7 @@ public class SignIn extends AppCompatActivity {
         if(auth.getCurrentUser()!=null){
             progressDialog.setMessage("Loading Profile...");
             progressDialog.show();
-            ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").
-                    addListenerForSingleValueEvent(new ValueEventListener() {
-              @Override
-              public void onDataChange(DataSnapshot dataSnapshot) {
-
-                  String version = (String) dataSnapshot.child("version").getValue();
-                  String user_name = (String) dataSnapshot.child("name").getValue();
-                  long user_age =  (long)dataSnapshot.child("age").getValue();
-                  String user_gender = (String)dataSnapshot.child("gender").getValue();
-                  User currUser =  new User(auth.getCurrentUser().getEmail().replace('.','_'),version);
-                  currUser.setAge((int)user_age);
-                  currUser.setGender(user_gender);
-                  currUser.setName(user_name);
-                  loadMain(currUser);
-                  progressDialog.dismiss();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            loadUserFromFirebase();
         }
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +91,32 @@ public class SignIn extends AppCompatActivity {
 
         });
     }
+
+    private void loadUserFromFirebase() {
+        ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        String version = (String) dataSnapshot.child("version").getValue();
+                        String user_name = (String) dataSnapshot.child("name").getValue();
+                        long user_age =  (long)dataSnapshot.child("age").getValue();
+                        String user_gender = (String)dataSnapshot.child("gender").getValue();
+                        User currUser =  new User(auth.getCurrentUser().getEmail().replace('.','_'),version);
+                        currUser.setAge((int)user_age);
+                        currUser.setGender(user_gender);
+                        currUser.setName(user_name);
+                        loadMain(currUser);
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
     private void user_login() {
         String email = emailLogin.getText().toString();
         String pass = passLogin.getText().toString();
@@ -128,8 +133,7 @@ public class SignIn extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(), TabsActivity.class));
-                            finish();
+                            loadUserFromFirebase();
                         }else{
                             Toast.makeText(getApplicationContext(),"Signing in was unsuccessful",Toast.LENGTH_SHORT).show();
                         }
