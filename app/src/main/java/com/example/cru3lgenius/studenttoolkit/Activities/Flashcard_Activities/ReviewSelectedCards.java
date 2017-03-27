@@ -1,11 +1,15 @@
 package com.example.cru3lgenius.studenttoolkit.Activities.Flashcard_Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.cru3lgenius.studenttoolkit.Models.Flashcard;
@@ -20,11 +24,20 @@ public class ReviewSelectedCards extends AppCompatActivity {
     Button nextCard;
     private int cardCounter;
     EditText answer;
+    RelativeLayout layout;
     HashMap<Flashcard,String>answersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_selected_cards);
+        layout = (RelativeLayout) findViewById(R.id.activity_review_selected_cards);
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
         answersMap = new HashMap<Flashcard,String >();
 
         answer = (EditText) findViewById(R.id.etAnswerGuess);
@@ -73,5 +86,12 @@ public class ReviewSelectedCards extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    /* Hides the keyboard by clicking somewhere */
+    protected void hideKeyboard(View view)
+    {
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
