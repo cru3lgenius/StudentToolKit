@@ -28,6 +28,8 @@ public class CreateNote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         noteTitle = (EditText)findViewById(R.id.etNoteTitle);
         noteContent = (EditText)findViewById(R.id.etNoteContent);
         ref = FirebaseDatabase.getInstance().getReference();
@@ -64,6 +66,7 @@ public class CreateNote extends AppCompatActivity {
             case R.id.menu_action_deleteNote:
                 deleteNote();
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -112,5 +115,10 @@ public class CreateNote extends AppCompatActivity {
 
         finish();
 
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

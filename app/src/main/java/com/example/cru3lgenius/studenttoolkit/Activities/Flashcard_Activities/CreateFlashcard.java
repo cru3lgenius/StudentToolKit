@@ -73,12 +73,11 @@ public class CreateFlashcard extends AppCompatActivity {
 
     }
 
-    /* Create new Flashcard */
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), TabsActivity.class);
-        startActivityForResult(myIntent, 0);
+    // Return to Flashcard fragment button
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
         return true;
-
     }
 
     /* Hides the keyboard by clicking somewhere */

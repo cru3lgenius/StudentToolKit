@@ -100,14 +100,11 @@ public class Profile_Fragment extends Fragment{
         age1.setKeyListener(null);
         profileName1.setKeyListener(null);
 
-
+        //On click on the Profile picture pops a new Window
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pictureChooser();
-
-
-            }
+                pictureChooser();}
         });
         layout = (RelativeLayout) viewRoot.findViewById(R.id.fragment_profile);
         layout.setOnTouchListener(new View.OnTouchListener() {
@@ -179,8 +176,7 @@ public class Profile_Fragment extends Fragment{
         ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()==null||dataSnapshot.getChildrenCount()==0)
-                {
+                if(dataSnapshot.getValue()==null||dataSnapshot.getChildrenCount()==0) {
                     return;
                 }
 

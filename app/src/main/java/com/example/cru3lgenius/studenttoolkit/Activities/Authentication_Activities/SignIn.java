@@ -99,7 +99,9 @@ public class SignIn extends AppCompatActivity {
                 addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
+                        if(dataSnapshot.getValue()==null||dataSnapshot.getChildrenCount()==0) {
+                            return;
+                        }
                         //Loading user data from firebase
                         String version = (String) dataSnapshot.child("version").getValue();
                         String user_name = (String) dataSnapshot.child("name").getValue();

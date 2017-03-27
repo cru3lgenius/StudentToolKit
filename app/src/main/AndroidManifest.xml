@@ -12,7 +12,7 @@
         android:theme="@style/myTheme">
         <activity android:name=".Main.TabsActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Activities.Authentication_Activities.Register" ></activity>
-        <activity android:name=".Activities.Flashcard_Activities.CreateFlashcard" />
+        <activity android:name=".Activities.Flashcard_Activities.CreateFlashcard"/>
         <activity android:name=".Activities.Flashcard_Activities.ReviewSelectedCards" />
         <activity android:name=".Activities.Flashcard_Activities.CheckAnswers" />
         <activity android:name=".Activities.Flashcard_Activities.ShowResults" />
