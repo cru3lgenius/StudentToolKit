@@ -19,7 +19,7 @@ import java.util.List;
 
 public class FlashcardWithAnswersAdapter extends ArrayAdapter<Flashcard> {
     private List <Flashcard> flashcards ;
-    ArrayList<Boolean> results;
+    private ArrayList<Boolean> results;
     private static LayoutInflater layoutInflater;
     public FlashcardWithAnswersAdapter(Context context, int resource , List<Flashcard>flashcards, ArrayList<Boolean> results) {
         super(context, resource);

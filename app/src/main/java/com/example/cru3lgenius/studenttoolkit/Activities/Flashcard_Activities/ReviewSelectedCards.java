@@ -20,12 +20,12 @@ import java.util.HashMap;
 
 public class ReviewSelectedCards extends AppCompatActivity {
 
-    TextView question;
-    Button nextCard;
+    private TextView question;
+    private Button nextCard;
     private int cardCounter;
-    EditText answer;
-    RelativeLayout layout;
-    HashMap<Flashcard,String>answersMap;
+    private EditText answer;
+    private RelativeLayout layout;
+    private HashMap<Flashcard,String>answersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -22,23 +22,27 @@ public class Session {
     static final private String USER_KEY = "user";
     static final private String ALLCARDS_KEY = "flashcards";
     static final private String ALLNOTES_KEY = "notes";
-    static SharedPreferences preferences;
-    static SharedPreferences.Editor editor;
+    static private SharedPreferences preferences;
+    static private SharedPreferences.Editor editor;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
     public Session(Context ctx){
+
         this.ctx = ctx;
         USER_PREFERENCES_KEY = auth.getCurrentUser().getEmail().replace('.','_');
         preferences = this.ctx.getSharedPreferences(USER_PREFERENCES_KEY,Context.MODE_PRIVATE);
         editor = preferences.edit();
+
     }
 
     // Converts user to json and stores it as shared preferences
     public static void storeUser(User user){
+
         String jsonUser = gson.toJson(user);
         editor.putString(USER_KEY,jsonUser);
         editor.commit();
+
     }
 
     // Loads the user from shared preferences

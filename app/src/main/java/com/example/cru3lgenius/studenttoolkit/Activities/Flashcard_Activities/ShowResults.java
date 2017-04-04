@@ -19,9 +19,9 @@ import java.util.Set;
 
 public class ShowResults extends AppCompatActivity {
 
-    ListView listView;
-    Button goBack;
-    TextView yourResultTextView;
+    private ListView listView;
+    private Button goBack;
+    private TextView yourResultTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

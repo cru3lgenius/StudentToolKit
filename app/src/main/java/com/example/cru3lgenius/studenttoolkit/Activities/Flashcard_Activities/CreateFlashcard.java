@@ -20,10 +20,10 @@ import com.example.cru3lgenius.studenttoolkit.Utilities.Flashcard_Utilities;
 import java.util.UUID;
 
 public class CreateFlashcard extends AppCompatActivity {
-    Button saveFlashcardButton;
+    private Button saveFlashcardButton;
 
-    EditText answer,question,flashCardName;
-    RelativeLayout layout;
+    private EditText answer,question,flashCardName;
+    private RelativeLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().setDisplayShowTitleEnabled(false);

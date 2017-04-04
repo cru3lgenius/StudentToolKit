@@ -20,10 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.UUID;
 
 public class CreateNote extends AppCompatActivity {
-    EditText noteTitle,noteContent;
+    private EditText noteTitle,noteContent;
     private Note currNote = null;
     private String id;
-    DatabaseReference ref;
+    private DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -23,13 +23,13 @@ import java.util.Set;
 
 public class CheckAnswers extends AppCompatActivity {
 
-    Button nextAnswerCheck;
-    TextView yourAnswer,correctAnswer,cardName;
-    RadioGroup radioGroup;
-    RadioButton rbCorrectAnswer,rbFalseAnswer;
+    private Button nextAnswerCheck;
+    private TextView yourAnswer,correctAnswer,cardName;
+    private RadioGroup radioGroup;
+    private RadioButton rbCorrectAnswer,rbFalseAnswer;
     int counter,correctAnswersCount;
-    RelativeLayout layout;
-    HashMap<Flashcard,Boolean> correctAnswersMap;
+    private RelativeLayout layout;
+    private HashMap<Flashcard,Boolean> correctAnswersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

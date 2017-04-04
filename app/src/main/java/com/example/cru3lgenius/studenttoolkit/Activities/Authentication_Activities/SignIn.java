@@ -43,7 +43,7 @@ import java.util.UUID;
 public class SignIn extends AppCompatActivity {
 
     private Button signIn;
-    Gson gson = new Gson();
+    private Gson gson = new Gson();
     private TextView register;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private FirebaseAuth auth;
