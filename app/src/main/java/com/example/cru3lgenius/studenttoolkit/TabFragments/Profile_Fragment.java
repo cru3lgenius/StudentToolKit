@@ -61,47 +61,47 @@ public class Profile_Fragment extends Fragment{
     View viewRoot;
     private Session session;
     private User currUser;
-    private static ImageView profilePicture;
+    private static ImageView profilePictureImageView;
     private static StorageReference storageRef;
 
     private KeyListener gender1_listener,age1_listener,profilename1_listener;
-    private Button logout,edit;
+    private Button logoutButton,editButton;
     private boolean clicked = false;
     private static FirebaseAuth auth;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private RelativeLayout layout;
     private Uri filePath;
 
-    private static EditText profileName1,age1,gender1;
+    private static EditText profileName1TextField,age1TextField,gender1TextField;
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // Initialize widgets and used objects
         session = new Session(getContext());
-        currUser = Session.retrieveUser();
-        logout = (Button) viewRoot.findViewById(R.id.btnLogout);
-        edit = (Button) viewRoot.findViewById(R.id.btnEditProfile);
+        currUser = session.retrieveUser();
+        logoutButton = (Button) viewRoot.findViewById(R.id.btnLogout);
+        editButton = (Button) viewRoot.findViewById(R.id.btnEditProfile);
         auth = FirebaseAuth.getInstance();
-        profilePicture = (ImageView)viewRoot.findViewById(R.id.ivProfilePicture);
-        profileName1 = (EditText) viewRoot.findViewById(R.id.etProfileName1);
-        age1 = (EditText) viewRoot.findViewById(R.id.etAge1);
-        gender1 = (EditText) viewRoot.findViewById(R.id.etGender1);
+        profilePictureImageView = (ImageView)viewRoot.findViewById(R.id.ivProfilePicture);
+        profileName1TextField = (EditText) viewRoot.findViewById(R.id.etProfileName1);
+        age1TextField = (EditText) viewRoot.findViewById(R.id.etAge1);
+        gender1TextField = (EditText) viewRoot.findViewById(R.id.etGender1);
         storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://studenttoolkit-c9f0f.appspot.com");
 
         // Temps to handle editable and not editable EditTexts
-        gender1_listener = gender1.getKeyListener();
-        age1_listener = age1.getKeyListener();
-        profilename1_listener = profileName1.getKeyListener();
+        gender1_listener = gender1TextField.getKeyListener();
+        age1_listener = age1TextField.getKeyListener();
+        profilename1_listener = profileName1TextField.getKeyListener();
 
 
         // Makes the EditTexts not editable
-        gender1.setKeyListener(null);
-        age1.setKeyListener(null);
-        profileName1.setKeyListener(null);
+        gender1TextField.setKeyListener(null);
+        age1TextField.setKeyListener(null);
+        profileName1TextField.setKeyListener(null);
 
         //On click on the Profile picture pops a new Window
-        profilePicture.setOnClickListener(new View.OnClickListener() {
+        profilePictureImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pictureChooser();}
@@ -116,63 +116,57 @@ public class Profile_Fragment extends Fragment{
         });
 
         // Update EditTexts with the information about the current user
-        profileName1.setText(currUser.getName());
-        gender1.setText(currUser.getGender());
-        age1.setText(Integer.toString(currUser.getAge()));
+        profileName1TextField.setText(currUser.getName());
+        gender1TextField.setText(currUser.getGender());
+        age1TextField.setText(Integer.toString(currUser.getAge()));
 
 
         try {
-            User_Utilities.downloadProfilePicture(currUser,getContext(),storageRef,profilePicture);
+            User_Utilities.downloadProfilePicture(currUser,getContext(),storageRef,profilePictureImageView);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // By loging out clear all the data you stored
-        logout.setOnClickListener(new View.OnClickListener() {
+        /* By loging out clear all the data you stored */
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.signOut();
-                startActivity(new Intent(getActivity(), SignIn.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                TabsActivity.getAllCards().clear();
-                TabsActivity.getAllNotes().clear();
-                Flashcards_Fragment.getAdapter().updateAdapter(TabsActivity.getAllCards());
-                Notes_Fragment.getNoteAdapter().updateAdapter(TabsActivity.getAllNotes());
-                getActivity().finish();
+                logout();
 
             }
         });
 
-        edit.setOnClickListener(new View.OnClickListener() {
+        editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 /* Edit and Save mode */
                 if(!clicked){
 
-                    //Makes editable
-                    age1.setKeyListener(age1_listener);
-                    profileName1.setKeyListener(profilename1_listener);
-                    gender1.setKeyListener(gender1_listener);
-                    edit.setText("Save Changes");
+                    /* Makes editable Edittexts*/
+                    age1TextField.setKeyListener(age1_listener);
+                    profileName1TextField.setKeyListener(profilename1_listener);
+                    gender1TextField.setKeyListener(gender1_listener);
+                    editButton.setText("Save Changes");
 
                 }else{
-                    long age = Long.parseLong(age1.getText().toString());
-                    String gender = gender1.getText().toString();
-                    String name = profileName1.getText().toString();
+                    long age = Long.parseLong(age1TextField.getText().toString());
+                    String gender = gender1TextField.getText().toString();
+                    String name = profileName1TextField.getText().toString();
                     User_Utilities.saveProfileChanges(name,gender,age);
 
-                    //Makes not Editable again
-                    age1.setKeyListener(null);
-                    profileName1.setKeyListener(null);
-                    gender1.setKeyListener(null);
-                    edit.setText("Edit Profile");
+                    /* Makes not Editable again EditTexts */
+                    age1TextField.setKeyListener(null);
+                    profileName1TextField.setKeyListener(null);
+                    gender1TextField.setKeyListener(null);
+                    editButton.setText("Edit Profile");
 
                 }
                 clicked = !clicked;
             }
         });
 
-        // Updates personal Data on Edit
+        /* Updates personal Data on Edit */
         ref.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("personal_data").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -183,11 +177,11 @@ public class Profile_Fragment extends Fragment{
                 String name = (String) dataSnapshot.child("name").getValue();
                 String gender = (String) dataSnapshot.child("gender").getValue();
                 long age = (long) dataSnapshot.child("age").getValue();
-                User currUser = Session.retrieveUser();
+                User currUser = session.retrieveUser();
                 currUser.setName(name);
                 currUser.setGender(gender);
                 currUser.setAge((int)age);
-                Session.storeUser(currUser);
+                session.storeUser(currUser);
             }
 
             @Override
@@ -196,6 +190,16 @@ public class Profile_Fragment extends Fragment{
             }
         });
         return viewRoot;
+    }
+
+    private void logout() {
+        auth.signOut();
+        startActivity(new Intent(getActivity(), SignIn.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        TabsActivity.getAllCards().clear();
+        TabsActivity.getAllNotes().clear();
+        Flashcards_Fragment.getAdapter().updateAdapter(TabsActivity.getAllCards());
+        Notes_Fragment.getNoteAdapter().updateAdapter(TabsActivity.getAllNotes());
+        getActivity().finish();
     }
 
 
@@ -207,7 +211,7 @@ public class Profile_Fragment extends Fragment{
     }
     private void pictureChooser(){
 
-        // Opens a window to choose your new profile picture
+        /* Opens a window to choose your new profile picture */
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -220,19 +224,20 @@ public class Profile_Fragment extends Fragment{
         if(requestCode==PICK_IMAGE && resultCode == RESULT_OK && data!=null){
             filePath = data.getData();
             try {
-                // Upload your new picture and make necessary updates to make that clear to all users
+                /* Upload your new picture and make necessary updates to make that clear to all users */
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),filePath);
                 String ver = UUID.randomUUID().toString();
                 currUser.setVersion(ver);
-                Session.storeUser(currUser);
+                session.storeUser(currUser);
                 User_Utilities.uploadProfilePicture(currUser,getContext(),filePath,storageRef);
-                profilePicture.setImageBitmap(bitmap);
+                profilePictureImageView.setImageBitmap(bitmap);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
     
 
 }

@@ -20,16 +20,25 @@ import java.util.HashMap;
 
 public class ReviewSelectedCards extends AppCompatActivity {
 
-    private TextView question;
+    private TextView questionLabel;
     private Button nextCard;
     private int cardCounter;
-    private EditText answer;
+    private EditText answerTextField ;
     private RelativeLayout layout;
     private HashMap<Flashcard,String>answersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_selected_cards);
+
+        answersMap = new HashMap<Flashcard,String >();
+
+        /* Initialize widgets */
+        answerTextField = (EditText) findViewById(R.id.etAnswerGuess);
+        questionLabel = (TextView)findViewById(R.id.tvQuestionField);
+        nextCard = (Button)findViewById(R.id.btnNextCard);
+
+        /* Hide the keyboard */
         layout = (RelativeLayout) findViewById(R.id.activity_review_selected_cards);
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -38,14 +47,15 @@ public class ReviewSelectedCards extends AppCompatActivity {
                 return false;
             }
         });
-        answersMap = new HashMap<Flashcard,String >();
 
-        answer = (EditText) findViewById(R.id.etAnswerGuess);
-        question = (TextView)findViewById(R.id.tvQuestionField);
-        nextCard = (Button)findViewById(R.id.btnNextCard);
-        cardCounter = 0;
+
+        cardCounter = 0; // Help variable
+
+        /* Extract values from previous activity */
         Bundle bundle = getIntent().getExtras();
         final ArrayList<Flashcard>flashcardsToReview = (ArrayList<Flashcard>)bundle.get("flashcardsToReview");
+
+
         nextCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +63,7 @@ public class ReviewSelectedCards extends AppCompatActivity {
                 /* These changes will happen only if there are still cards to be added */
                 if(cardCounter!=flashcardsToReview.size()) {
 
-                    answersMap.put(flashcardsToReview.get(cardCounter), answer.getText().toString());
+                    answersMap.put(flashcardsToReview.get(cardCounter), answerTextField.getText().toString());
                     cardCounter++;
                 }
                 /* Handles the case when this was the last card */
@@ -68,12 +78,14 @@ public class ReviewSelectedCards extends AppCompatActivity {
                 if(checkIfLastcard(flashcardsToReview)){
                     nextCard.setText("Finish!");
                 }
-                answer.setText("");
-                question.setText(flashcardsToReview.get(cardCounter).getQuestion());
+                answerTextField .setText("");
+                questionLabel.setText(flashcardsToReview.get(cardCounter).getQuestion());
             }
         });
+
         /* Loads the question from the first card */
-        question.setText(flashcardsToReview.get(cardCounter).getQuestion());
+        questionLabel.setText(flashcardsToReview.get(cardCounter).getQuestion());
+
         /* Checks if there is only one card */
         if(checkIfLastcard(flashcardsToReview)){
             nextCard.setText("Finish!");
@@ -81,7 +93,8 @@ public class ReviewSelectedCards extends AppCompatActivity {
 
     }
 
-    boolean checkIfLastcard(ArrayList<Flashcard>arr){
+
+    private boolean checkIfLastcard(ArrayList<Flashcard>arr){
         if(cardCounter==arr.size()-1){
             return true;
         }

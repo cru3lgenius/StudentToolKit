@@ -30,38 +30,16 @@ public class Note_Utilities  {
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     final static Gson gson = new Gson();
-    static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
-    final static String NOTES_HASHMAP = "notesHashMap";
-    final static NoteAdapterHashMap adapter = Notes_Fragment.getNoteAdapter();
+    private static final String NOTE_PREFERENCES = "notePreferences";  // The key to Load all sharedPreferences related to Notes
+    private final static String NOTES_HASHMAP = "notesHashMap";
+    private final static NoteAdapterHashMap adapter = Notes_Fragment.getNoteAdapter();
 
 
 
-    public static void saveNote(Context context, Note note){
+    public static void saveNote(Note note){
 
         /* Save the note in firebase */
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(note.getId()).setValue(note);
-
-        /* Local Save
-        // Save the note locally using Shared Preferences
-        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
-        HashMap<String,Note> allNotes = new HashMap<String,Note>();
-        if(!jsonAllNotes.equals("default")){
-            // Translate JSon to HashMap
-            allNotes = gson.fromJson(jsonAllNotes,new TypeToken<HashMap<String,Note>>() {}.getType());
-        }
-
-        allNotes.put(note.getId(),note);
-
-        //Translate HashMap to JSon and save the string as Shared Preferences
-        jsonAllNotes = gson.toJson(allNotes);
-        prefsEditor.putString(NOTES_HASHMAP,jsonAllNotes);
-        String jsonNote = gson.toJson(note);
-        prefsEditor.putString(note.getId(),jsonNote);
-
-        prefsEditor.commit();
-        */
 
     }
 
@@ -69,7 +47,13 @@ public class Note_Utilities  {
     /* Blocks dedicated to storing and retrieving data from Firebase */
 
     public static void deleteNoteFirebase(String noteId) {
+
+
+        /* Delete from firebase */
         databaseReference.child("users").child(auth.getCurrentUser().getEmail().replace('.','_').toString()).child("notes").child(noteId).removeValue();
+
+
+        /* Update the app view as well*/
         HashMap<String,Note> allNotes = TabsActivity.getAllNotes();
         allNotes.remove(noteId);
         adapter.updateAdapter(allNotes);
@@ -111,11 +95,15 @@ public class Note_Utilities  {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                /* Retrieving data about the changed child */
                 String id = (String) dataSnapshot.child("id").getValue();
                 String title = (String) dataSnapshot.child("mTitle").getValue();
                 String content = (String) dataSnapshot.child("mContent").getValue();
                 long date = (long) dataSnapshot.child("mDateTime").getValue();
                 Note changedNote = new Note(title,date,content,id);
+
+                /* Update the list as well */
                 allNotes.put(id,changedNote);
                 adapter.updateAdapter(allNotes);
 
@@ -123,6 +111,8 @@ public class Note_Utilities  {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                /* Show changes in the app as well */
                 TabsActivity.getAllNotes().remove(dataSnapshot.getKey());
                 adapter.updateAdapter(TabsActivity.getAllNotes());
             }
@@ -141,7 +131,7 @@ public class Note_Utilities  {
     }
 
     /* Blocks that work when notes are stored locally and not in firebase */
-    public static void deleteNoteLocally(Context context,String noteId){
+    private static void deleteNoteLocally(Context context,String noteId){
         SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
@@ -157,7 +147,7 @@ public class Note_Utilities  {
         }
     }
 
-    public static HashMap<String,Note> loadNotesLocally(Context context){
+    private static HashMap<String,Note> loadNotesLocally(Context context){
         SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
@@ -169,6 +159,29 @@ public class Note_Utilities  {
     }
 
 
+    private static void saveNoteLocally(Context context, Note note){
+        /* Local Save
+        // Save the note locally using Shared Preferences
+        SharedPreferences prefs = context.getSharedPreferences(NOTE_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        String jsonAllNotes = prefs.getString(NOTES_HASHMAP,"default");
+        HashMap<String,Note> allNotes = new HashMap<String,Note>();
+        if(!jsonAllNotes.equals("default")){
+            // Translate JSon to HashMap
+            allNotes = gson.fromJson(jsonAllNotes,new TypeToken<HashMap<String,Note>>() {}.getType());
+        }
+
+        allNotes.put(note.getId(),note);
+
+        //Translate HashMap to JSon and save the string as Shared Preferences
+        jsonAllNotes = gson.toJson(allNotes);
+        prefsEditor.putString(NOTES_HASHMAP,jsonAllNotes);
+        String jsonNote = gson.toJson(note);
+        prefsEditor.putString(note.getId(),jsonNote);
+
+        prefsEditor.commit();
+        */
+    }
 
 
 }

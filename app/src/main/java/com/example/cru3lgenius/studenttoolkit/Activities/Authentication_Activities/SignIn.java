@@ -42,12 +42,12 @@ import java.util.UUID;
 
 public class SignIn extends AppCompatActivity {
 
-    private Button signIn;
+    private Button signInButton;
     private Gson gson = new Gson();
-    private TextView register;
+    private TextView registerLabel;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private FirebaseAuth auth;
-    private EditText emailLogin,passLogin;
+    private EditText emailLoginTextField,passLoginTextField;
     private ProgressDialog progressDialog;
     private RelativeLayout layout;
 
@@ -55,6 +55,18 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        /* Initialize widgets */
+        signInButton = (Button) findViewById(R.id.btnSignIn);
+        registerLabel = (TextView)findViewById(R.id.tvSignIn);
+        emailLoginTextField = (EditText) findViewById(R.id.etEmailLogin);
+        passLoginTextField =  (EditText) findViewById(R.id.etPasswordLogin);
+        progressDialog = new ProgressDialog(this);
+
+        /* Get firebase reference variables */
+        auth = FirebaseAuth.getInstance();
+
+        /* Hide the keyboard on click */
         layout = (RelativeLayout) findViewById(R.id.activity_sign_in);
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,31 +75,28 @@ public class SignIn extends AppCompatActivity {
                 return false;
             }
         });
-        signIn = (Button) findViewById(R.id.btnSignIn);
-        register = (TextView)findViewById(R.id.tvSignIn);
-        emailLogin = (EditText) findViewById(R.id.etEmailLogin);
-        passLogin =  (EditText) findViewById(R.id.etPasswordLogin);
-        progressDialog = new ProgressDialog(this);
-        auth = FirebaseAuth.getInstance();
 
-        //If you are already in your profile skip the sign in process
+        /* If you are already in your profile skip the sign in process */
         if(auth.getCurrentUser()!=null){
             progressDialog.setMessage("Loading Profile...");
             progressDialog.show();
             loadUserFromFirebase();
         }
 
-        register.setOnClickListener(new View.OnClickListener() {
+        /* On click on register label start register activity */
+        registerLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),Register.class));
                 finish();
             }
         });
-        signIn.setOnClickListener(new View.OnClickListener() {
+
+        /* On click start login */
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user_login();
+                userLogin();
             }
 
 
@@ -124,9 +133,9 @@ public class SignIn extends AppCompatActivity {
                 });
     }
 
-    private void user_login() {
-        String email = emailLogin.getText().toString();
-        String pass = passLogin.getText().toString();
+    private void userLogin() {
+        String email = emailLoginTextField.getText().toString();
+        String pass = passLoginTextField.getText().toString();
 
         if(TextUtils.isEmpty(email) ||TextUtils.isEmpty(pass)){
             Toast.makeText(getApplicationContext(),"No empty fields are allowed!",Toast.LENGTH_SHORT).show();
@@ -149,14 +158,14 @@ public class SignIn extends AppCompatActivity {
     }
 
     /* Hides the keyboard by clicking somewhere */
-    protected void hideKeyboard(View view)
+    private void hideKeyboard(View view)
     {
         InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void loadMain(User user){
-        //Start new session with the loaded user and start application
+        /* Start new session with the loaded user and start application */
         Session session = new Session(getApplicationContext());
         session.storeUser(user);
         startActivity(new Intent(getApplicationContext(),TabsActivity.class));

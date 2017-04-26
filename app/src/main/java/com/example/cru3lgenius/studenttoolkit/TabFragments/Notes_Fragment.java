@@ -48,16 +48,17 @@ public class Notes_Fragment extends Fragment {
 
         viewRoot = inflater.inflate(R.layout.fragment_notes, container, false);
 
-        // Initialize widgets
+        /* Initialize widgets */
         displayNotes = (ListView) viewRoot.findViewById(R.id.lvNotes);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
         setHasOptionsMenu(true);
         progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setMessage("Loading Notes...");
         progressDialog.setTitle("Notes");
         displayNotes.setAdapter(noteAdapter);
 
-        //In case there are no notes load from firebase
+        /* In case there are no notes load from firebase */
         if(allNotes.isEmpty()){
             Note_Utilities.loadNotesFirebase(progressDialog,getContext(),allNotes);
         }
@@ -65,6 +66,7 @@ public class Notes_Fragment extends Fragment {
         displayNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /* Start acitivity to edit/create new note */
                 Intent i = new Intent(getActivity(), CreateNote.class);
                 Map.Entry<String,Note> noteEntry = (Map.Entry<String,Note>)  displayNotes.getItemAtPosition(position);
                 Note note = noteEntry.getValue();

@@ -23,18 +23,19 @@ import java.util.Set;
 
 public class CheckAnswers extends AppCompatActivity {
 
-    private Button nextAnswerCheck;
-    private TextView yourAnswer,correctAnswer,cardName;
+    private Button nextAnswerCheckButton;
+    private TextView yourAnswerLabel,correctAnswerLabel,cardNameLabel;
     private RadioGroup radioGroup;
-    private RadioButton rbCorrectAnswer,rbFalseAnswer;
-    int counter,correctAnswersCount;
+    private RadioButton correctAnswerRadioButton,falseAnswerRadioButton;
+    private int counter,correctAnswersCount;
     private RelativeLayout layout;
     private HashMap<Flashcard,Boolean> correctAnswersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_answers);
-        /* Initialize widgets */
+
+        /* Hide keyboard */
         layout = (RelativeLayout) findViewById(R.id.activity_check_answers);
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -43,51 +44,56 @@ public class CheckAnswers extends AppCompatActivity {
                 return false;
             }
         });
+
+        /* Initialize widgets */
         radioGroup = (RadioGroup) findViewById(R.id.rgCheckAnswerRadioButtons);
-        nextAnswerCheck = (Button)findViewById(R.id.btnNextAnswerCheck);
-        yourAnswer = (TextView) findViewById(R.id.tvYourAnswer);
-        correctAnswer = (TextView)findViewById(R.id.tvCorrectAnswer);
-        cardName = (TextView)findViewById(R.id.tvCardNameLabel);
-        rbCorrectAnswer = (RadioButton) findViewById(R.id.rbCorrectAnswer);
-        rbFalseAnswer = (RadioButton) findViewById(R.id.rbFalseAnswer);
+        nextAnswerCheckButton = (Button)findViewById(R.id.btnNextAnswerCheck);
+        yourAnswerLabel = (TextView) findViewById(R.id.tvYourAnswer);
+        correctAnswerLabel = (TextView)findViewById(R.id.tvCorrectAnswer);
+        cardNameLabel = (TextView)findViewById(R.id.tvCardNameLabel);
+        correctAnswerRadioButton= (RadioButton) findViewById(R.id.rbCorrectAnswer);
+        falseAnswerRadioButton = (RadioButton) findViewById(R.id.rbFalseAnswer);
         correctAnswersMap = new HashMap<Flashcard,Boolean>();
+
+
         /* Extract data transfered from previous activity */
         Bundle b = getIntent().getExtras();
         final HashMap<Flashcard,String> answersMap = (HashMap<Flashcard,String>)b.get("answersMap");
 
-        /* Put the information on the display */
+        /* Put the information on display */
         counter = 0;    // index showing which card is currently displayed
         correctAnswersCount = 0; // Showing how many cards user guessed right
         Set<Flashcard> revisitedCardsSet = answersMap.keySet();
         final ArrayList<Flashcard> allRevisitedCards = new ArrayList<Flashcard>(revisitedCardsSet);
         Flashcard currCard = allRevisitedCards.get(counter);
-        cardName.setText(currCard.getFlashcardName());
-        yourAnswer.setText(answersMap.get(currCard));
-        correctAnswer.setText(currCard.getAnswer());
+        cardNameLabel.setText(currCard.getFlashcardName());
+        yourAnswerLabel.setText(answersMap.get(currCard));
+        correctAnswerLabel.setText(currCard.getAnswer());
 
         /* If there is only one card to review */
         if(counter==allRevisitedCards.size()){
-            nextAnswerCheck.setText("Check your results");
+            nextAnswerCheckButton.setText("Check your results");
         }
 
-        /* On click of the button */
-        nextAnswerCheck.setOnClickListener(new View.OnClickListener() {
+        /* Button Action */
+        nextAnswerCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(!rbCorrectAnswer.isChecked()&&!rbFalseAnswer.isChecked()){
+                /* Check if user input was correct */
+                if(!correctAnswerRadioButton.isChecked()&&!falseAnswerRadioButton.isChecked()){
                     Toast.makeText(getApplicationContext(),"Before you continue you must select if your answer was correct or false!",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 /* Put in the map whether the answer is correct or not */
-                correctAnswersMap.put(allRevisitedCards.get(counter),rbCorrectAnswer.isChecked());
+                correctAnswersMap.put(allRevisitedCards.get(counter),correctAnswerRadioButton.isChecked());
 
                 /* If you are at the last card */
                 if(counter == allRevisitedCards.size()-1){
 
                     /* Increment the number of correct guessed cards */
-                    if(rbCorrectAnswer.isChecked()){
+                    if(correctAnswerRadioButton.isChecked()){
                         correctAnswersCount++;
                     }
 
@@ -102,19 +108,19 @@ public class CheckAnswers extends AppCompatActivity {
                 if(counter<allRevisitedCards.size()-1){
 
                     /* Increment the number of correct guessed cards */
-                    if(rbCorrectAnswer.isChecked()){
+                    if(correctAnswerRadioButton.isChecked()){
                         correctAnswersCount++;
                     }
 
                     counter++;
                     Flashcard currCard = allRevisitedCards.get(counter);
-                    cardName.setText(currCard.getFlashcardName());
-                    yourAnswer.setText(answersMap.get(currCard));
-                    correctAnswer.setText(currCard.getAnswer());
+                    cardNameLabel.setText(currCard.getFlashcardName());
+                    yourAnswerLabel.setText(answersMap.get(currCard));
+                    correctAnswerLabel.setText(currCard.getAnswer());
 
                     /* If the next flashcard is the last one */
                     if(counter==allRevisitedCards.size()-1){
-                        nextAnswerCheck.setText("Check your results");
+                        nextAnswerCheckButton.setText("Check your results");
                     }
                     radioGroup.clearCheck();
                 }

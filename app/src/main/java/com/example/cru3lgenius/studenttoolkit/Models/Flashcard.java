@@ -27,31 +27,36 @@ public class Flashcard  implements Serializable{
         this.date = System.currentTimeMillis();
     }
 
+    /* Setter and Getter methods for Flashcard */
     public String getAnswer(){
         return this.answer;
     };
     public void setAnswer(String answer){
         this.answer = answer;
     }
+
+    public String getQuestion(){
+        return this.question;
+    }
     public void setQuestion(String question){
         this.question = question;
+    }
+
+    public String getFlashcardName(){
+        return this.flashcardName;
     }
     public void setFlashcardName(String flashcardName){
         this.flashcardName = flashcardName;
     }
-    public String getFlashcardName(){
-        return this.flashcardName;
-    }
+
     public String getId(){
         return this.Id;
     }
     public void setId(String Id){
         this.Id = Id;
+    }
 
-    }
-    public String getQuestion(){
-        return this.question;
-    }
+
     public String getDateFormatted(Context context){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getDefault());

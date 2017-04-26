@@ -20,30 +20,33 @@ import java.util.Set;
 public class ShowResults extends AppCompatActivity {
 
     private ListView listView;
-    private Button goBack;
-    private TextView yourResultTextView;
+    private Button goBackButton;
+    private TextView yourResultLabel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_results);
-        listView = (ListView) findViewById(R.id.lvResults);
-        goBack =  (Button) findViewById(R.id.btnGoBackToMenu);
-        yourResultTextView = (TextView)findViewById(R.id.tvYourResults);
 
-        //Load data from the previous activity
+        /* Initialize widgets */
+        listView = (ListView) findViewById(R.id.lvResults);
+        goBackButton =  (Button) findViewById(R.id.btnGoBackToMenu);
+        yourResultLabel = (TextView)findViewById(R.id.tvYourResults);
+
+        /* Load data from the previous activity */
         Bundle b = getIntent().getExtras();
         int correctAnswersCount = (Integer) b.get("correctAnswersCount");
         HashMap<Flashcard,Boolean>correctAnswersMap = (HashMap<Flashcard,Boolean>)b.get("correctAnswersMap");
 
+        /* Initializing collections representing the results */
         Set<Flashcard> allCardsSet = correctAnswersMap.keySet();
         ArrayList<Boolean> boolArr = new ArrayList<Boolean>(correctAnswersMap.values());
         ArrayList<Flashcard> allRevisitedFlashcards = new ArrayList<Flashcard>(allCardsSet);
 
 
         FlashcardWithAnswersAdapter adapter = new FlashcardWithAnswersAdapter(getApplicationContext(),R.layout.listview_layout,allRevisitedFlashcards,boolArr);
-        yourResultTextView.setText("Results: " + "You answered " +correctAnswersCount + " (out of " + allRevisitedFlashcards.size() +")"+ " questions correctly");
         listView.setAdapter(adapter);
-        goBack.setOnClickListener(new View.OnClickListener() {
+        yourResultLabel.setText("Results: " + "You answered " +correctAnswersCount + " (out of " + allRevisitedFlashcards.size() +")"+ " questions correctly");
+        goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), TabsActivity.class);

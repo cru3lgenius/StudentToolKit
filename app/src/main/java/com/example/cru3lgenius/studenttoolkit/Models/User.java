@@ -18,6 +18,7 @@ public class User  {
     private int age = 0;
     private String version = " Unknown";
 
+    /* Different constructors for the user */
     public User(){
     }
     public User(String email_id,String version){
@@ -32,38 +33,33 @@ public class User  {
         this.version = version;
      }
 
+    /* Setter and getter methods for the User */
     public String getVersion(){
         return this.version;
     }
     public void setVersion(String ver){
         this.version = ver;
     }
+
     public int getAge() {
         return age;
     }
-
     public void setAge(int age) {
         this.age = age;
     }
 
     public String getGender() {
-
         return gender;
     }
-
     public void setGender(String gender) {
         this.gender = gender;
     }
 
     public String getName() {
-
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-    public void setEmail_id(String email){
-        email_id = email;
-    }
+
 }

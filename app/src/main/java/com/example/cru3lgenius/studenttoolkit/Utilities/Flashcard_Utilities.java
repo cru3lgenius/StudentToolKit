@@ -100,6 +100,7 @@ public class Flashcard_Utilities {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                /* Remove data from the app as well */
                 TabsActivity.getAllCards().remove(dataSnapshot.getKey());
                 adapter.updateAdapter(TabsActivity.getAllCards());
             }

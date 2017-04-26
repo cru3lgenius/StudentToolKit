@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.UUID;
 
 public class CreateNote extends AppCompatActivity {
-    private EditText noteTitle,noteContent;
+    private EditText noteTitleTextField,noteContentTextField;
     private Note currNote = null;
     private String id;
     private DatabaseReference ref;
@@ -28,24 +28,31 @@ public class CreateNote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
+
+        /* Adjust the actionbar return button */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        noteTitle = (EditText)findViewById(R.id.etNoteTitle);
-        noteContent = (EditText)findViewById(R.id.etNoteContent);
-        ref = FirebaseDatabase.getInstance().getReference();
-        Bundle b = getIntent().getExtras();
 
-        //Checks if there is a loaded note from the previous activity
+
+        noteTitleTextField = (EditText)findViewById(R.id.etNoteTitle);
+        noteContentTextField = (EditText)findViewById(R.id.etNoteContent);
+        ref = FirebaseDatabase.getInstance().getReference();
+
+
+        /* Extract data and checks if there is a loaded note from the previous activity */
+        Bundle b = getIntent().getExtras();
         if(getIntent().hasExtra("noteToDisplay")&&getIntent().hasExtra("noteId")){
             currNote = (Note) b.get("noteToDisplay");
-            noteContent.setText(currNote.getmContent());
-            noteTitle.setText(currNote.getmTitle());
+            noteContentTextField.setText(currNote.getmContent());
+            noteTitleTextField.setText(currNote.getmTitle());
             id = b.getString("noteId");
             getIntent().removeExtra("noteToDisplay");
             getIntent().removeExtra("noteId");
         }
 
     }
+
+    /* Initializing save button on actionbar */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -53,11 +60,19 @@ public class CreateNote extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /* Creating return button in actionbar */
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
+    /* Handle different icon-actions in the actionbar */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_action_SaveNote:
-                if(noteTitle.getText().toString().isEmpty()||noteContent.getText().toString().isEmpty()){
+                if(noteTitleTextField.getText().toString().isEmpty()||noteContentTextField.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(),"No empty fields are allowed!",Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -71,6 +86,7 @@ public class CreateNote extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void deleteNote() {
 
         /* Checks you have opened an existing note and reacts accordingly */
@@ -82,7 +98,7 @@ public class CreateNote extends AppCompatActivity {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //Note_Utilities.deleteNoteLocally(getApplicationContext(),Id);
+
                             Note_Utilities.deleteNoteFirebase(currNote.getId());
                             startActivity(new Intent(getApplicationContext(), TabsActivity.class));
                             Toast.makeText(getApplicationContext(),"Note was deleted",Toast.LENGTH_SHORT).show();
@@ -99,26 +115,22 @@ public class CreateNote extends AppCompatActivity {
 
     }
 
-    public void saveNote(){
+    private void saveNote(){
         /* If you are editing a note */
         if(currNote != null){
-            currNote.setmTitle(noteTitle.getText().toString());
-            currNote.setmContent(noteContent.getText().toString());
+            currNote.setmTitle(noteTitleTextField.getText().toString());
+            currNote.setmContent(noteContentTextField.getText().toString());
             currNote.setmDateTime(System.currentTimeMillis());
-            Note_Utilities.saveNote(getApplicationContext(),currNote);
+            Note_Utilities.saveNote(currNote);
             }else{
             /* If you are creating new Note */
             String Id = UUID.randomUUID().toString();
-            Note note = new Note(noteTitle.getText().toString(), System.currentTimeMillis(), noteContent.getText().toString(), Id);
-            Note_Utilities.saveNote(getApplicationContext(), note);
+            Note note = new Note(noteTitleTextField.getText().toString(), System.currentTimeMillis(), noteContentTextField.getText().toString(), Id);
+            Note_Utilities.saveNote(note);
         }
 
         finish();
 
     }
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
+
 }

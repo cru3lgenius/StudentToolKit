@@ -20,8 +20,6 @@ public class Session {
     static Gson gson = new Gson();
     final private String USER_PREFERENCES_KEY;
     static final private String USER_KEY = "user";
-    static final private String ALLCARDS_KEY = "flashcards";
-    static final private String ALLNOTES_KEY = "notes";
     static private SharedPreferences preferences;
     static private SharedPreferences.Editor editor;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -36,8 +34,8 @@ public class Session {
 
     }
 
-    // Converts user to json and stores it as shared preferences
-    public static void storeUser(User user){
+    /* Converts user to json and stores it as shared preferences */
+    public void storeUser(User user){
 
         String jsonUser = gson.toJson(user);
         editor.putString(USER_KEY,jsonUser);
@@ -45,9 +43,10 @@ public class Session {
 
     }
 
-    // Loads the user from shared preferences
-    public static User retrieveUser(){
+    /* Loads the user from shared preferences */
+    public User retrieveUser(){
 
+        /* Parsing jsonString to User Object */
         String jsonUser = preferences.getString(USER_KEY,"default");
         User user = new User();
         if(!jsonUser.equals("default")){

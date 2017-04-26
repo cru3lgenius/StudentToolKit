@@ -36,11 +36,12 @@ import java.util.HashMap;
 
 public class Flashcards_Fragment extends Fragment {
     View viewRoot;
-    private Button reviewSelectedCards,deleteBtn;
+    private Button reviewSelectedCards,deleteButton ;
     private ListView listView;
     private ArrayList<Flashcard> selectedCards = new ArrayList<Flashcard>();                        //Stores cards to be either reviewed or deleted
     private static HashMap<String,Flashcard> allFlashcards = TabsActivity.getAllCards();    //Stores all cards
-    private static FlashcardsAdapterHashMap adapter = new FlashcardsAdapterHashMap(allFlashcards);;
+    private static FlashcardsAdapterHashMap adapter = new FlashcardsAdapterHashMap(allFlashcards);
+
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -49,13 +50,13 @@ public class Flashcards_Fragment extends Fragment {
         setHasOptionsMenu(true);
 
         /* Initializing widgets */
-        deleteBtn = (Button)viewRoot.findViewById(R.id.btnDelete);
+        deleteButton = (Button)viewRoot.findViewById(R.id.btnDelete);
         listView = (ListView)viewRoot.findViewById(R.id.lvFlashcards);
         reviewSelectedCards = (Button) viewRoot.findViewById(R.id.btnReviewSelectedCards);
         listView.setAdapter(adapter);
 
 
-        // Loading Flashcards from Firebase and updating the adapter after that
+        /* Loading Flashcards from Firebase and updating the adapter after that */
         Flashcard_Utilities.loadFlashcardsFirebase(allFlashcards);
         adapter.updateAdapter(allFlashcards);
 
@@ -64,10 +65,14 @@ public class Flashcards_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                /* Adjust "checked or unchecked" checkbox */
                 CheckBox cb =(CheckBox)view.findViewById(R.id.cbFlashcardToReview);
                 cb.setChecked(!cb.isChecked());
+
+                /* Load the current card */
                 Flashcard toReview = (Flashcard)adapter.getItem(i).getValue();
 
+                /* Adding/Removing from container depending on the "check-value" of the checkbox */
                 if(cb.isChecked()){
                     selectedCards.add(toReview);
                 }
@@ -79,29 +84,35 @@ public class Flashcards_Fragment extends Fragment {
             }
         });
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(selectedCards.isEmpty()){
                     Toast.makeText(getContext(),"You haven't selected any cards for deletion",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                deleteCards(selectedCards);
-                selectedCards.clear();
+
+                clearSelectedCards();
                 resetCheckboxes();
                 adapter.updateAdapter(allFlashcards);
             }
         });
+
         reviewSelectedCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(selectedCards.isEmpty()){
                     Toast.makeText(getContext(),"You haven't selected any cards yet!",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                /* Start the new activity */
                 Intent i = new Intent(getContext(),ReviewSelectedCards.class);
                 i.putExtra("flashcardsToReview",selectedCards);
                 startActivity(i);
+
+                /* Close current activity*/
                 getActivity().finish();
                 selectedCards.clear();
                 resetCheckboxes();
@@ -111,9 +122,15 @@ public class Flashcards_Fragment extends Fragment {
 
         return viewRoot;
     }
+
+    private void clearSelectedCards() {
+        deleteCards(selectedCards);
+        selectedCards.clear();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //On clicking on the + sign starts new Activity that handles creating a new flashcard
+        /* On clicking on the + sign starts new Activity that handles creating a new flashcard */
         switch(item.getItemId()){
             case R.id.menu_action_create_flashcard:
                 Intent i = new Intent(getContext(),CreateFlashcard.class);
@@ -135,12 +152,12 @@ public class Flashcards_Fragment extends Fragment {
         return adapter;
     }
 
-    // Deletes flashcards
+    /* Deletes flashcards from firebase */
     public void deleteCards(ArrayList<Flashcard> cards){
         Flashcard_Utilities.deleteFlashcardsFirebase(cards);
     }
 
-    // Reset checkboxes ticks
+    /* Reset checkboxes ticks */
     public void resetCheckboxes(){
         CheckBox cb;
 

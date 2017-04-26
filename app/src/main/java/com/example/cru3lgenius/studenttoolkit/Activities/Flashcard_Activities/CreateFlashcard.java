@@ -22,26 +22,24 @@ import java.util.UUID;
 public class CreateFlashcard extends AppCompatActivity {
     private Button saveFlashcardButton;
 
-    private EditText answer,question,flashCardName;
+    private EditText answerTextField,questionTextField,flashCardNameTextField;
     private RelativeLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_flashcard);
-        layout = (RelativeLayout) findViewById(R.id.activity_create_flashcard);
-        layout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(v);
-                return false;
-            }
-        });
+
+        /* Adjust the actionbar */
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /* Initialize widgets */
         saveFlashcardButton = (Button)findViewById(R.id.btnSaveFlashcard);
-        answer = (EditText) findViewById(R.id.etAnswer);
-        question = (EditText) findViewById(R.id.etQuestion);
-        flashCardName = (EditText) findViewById(R.id.etFlashcardName);
+        answerTextField = (EditText) findViewById(R.id.etAnswer);
+        questionTextField = (EditText) findViewById(R.id.etQuestion);
+        flashCardNameTextField = (EditText) findViewById(R.id.etFlashcardName);
+
+        /* Start saving action on click */
         saveFlashcardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,15 +49,26 @@ public class CreateFlashcard extends AppCompatActivity {
             }
         });
 
+         /* hide the keyboard on click */
+        layout = (RelativeLayout) findViewById(R.id.activity_create_flashcard);
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
+
+
 
     }
 
     private void saveFlashcard(){
         /* Generates attributes for the card */
         String flashcardId = UUID.randomUUID().toString();
-        String flashCardNameStr = flashCardName.getText().toString();
-        String answerStr = answer.getText().toString();
-        String questStr = question.getText().toString();
+        String flashCardNameStr = flashCardNameTextField.getText().toString();
+        String answerStr = answerTextField.getText().toString();
+        String questStr = questionTextField.getText().toString();
 
         /* Handle the case when the user does not give appropriate information */
         if(flashCardNameStr.equals("") || answerStr.equals("") || questStr.equals("")){
@@ -81,7 +90,7 @@ public class CreateFlashcard extends AppCompatActivity {
     }
 
     /* Hides the keyboard by clicking somewhere */
-    protected void hideKeyboard(View view)
+    private void hideKeyboard(View view)
     {
         InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

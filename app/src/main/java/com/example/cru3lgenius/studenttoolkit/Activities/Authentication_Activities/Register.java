@@ -40,9 +40,9 @@ import java.util.UUID;
 
 public class Register extends AppCompatActivity {
 
-    private Button register;
-    private EditText email,password;
-    private TextView signIn;
+    private Button registerButton;
+    private EditText emailTextField,passwordTextField;
+    private TextView signInLabel;
     private static StorageReference storageReference =  FirebaseStorage.getInstance().getReferenceFromUrl("gs://studenttoolkit-c9f0f.appspot.com");;
     private ProgressDialog progressDialog;
     private FirebaseAuth auth;
@@ -52,10 +52,15 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        register = (Button) findViewById(R.id.btnRegister);
-        email = (EditText) findViewById(R.id.etEmailRegister);
-        password = (EditText) findViewById(R.id.etPasswordRegister);
-        signIn = (TextView) findViewById(R.id.tvSignIn);
+
+        /* Initialize widgets */
+        registerButton = (Button) findViewById(R.id.btnRegister);
+        emailTextField = (EditText) findViewById(R.id.etEmailRegister);
+        passwordTextField = (EditText) findViewById(R.id.etPasswordRegister);
+        signInLabel = (TextView) findViewById(R.id.tvSignIn);
+        progressDialog = new ProgressDialog(this);
+
+        /* Hide keyboard on click */
         layout = (RelativeLayout) findViewById(R.id.activity_register);
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -64,7 +69,8 @@ public class Register extends AppCompatActivity {
                 return false;
             }
         });
-        progressDialog = new ProgressDialog(this);
+
+        /* Intialize Firebase variables */
         auth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference();
 
@@ -73,7 +79,9 @@ public class Register extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), TabsActivity.class));
             finish();
         }
-        signIn.setOnClickListener(new View.OnClickListener() {
+
+        /* On click on signIn label open the SignIn activity */
+        signInLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),SignIn.class));
@@ -81,18 +89,23 @@ public class Register extends AppCompatActivity {
 
             }
         });
-        register.setOnClickListener(new View.OnClickListener() {
+
+        /* On click on register button register user */
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user_register();
+                userRegister();
             }
         });
     }
 
-    private void user_register() {
-        final String email_str = email.getText().toString();
-        String password_str = password.getText().toString();
 
+
+    private void userRegister() {
+        final String email_str = emailTextField.getText().toString();
+        String password_str = passwordTextField.getText().toString();
+
+        /* Check user input */
         if(TextUtils.isEmpty(email_str)){
             makeToast("You cannot leave the email field empty");
             return;
@@ -101,8 +114,11 @@ public class Register extends AppCompatActivity {
             makeToast("You cannot leave the password field empty");
             return;
         }
+
         progressDialog.setMessage("Registering....");
         progressDialog.show();
+
+        /* Registering the user in firebase */
         auth.createUserWithEmailAndPassword(email_str,password_str ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -133,6 +149,7 @@ public class Register extends AppCompatActivity {
 
     }
 
+    /* Toast helper function */
     private void makeToast(String toShow){
         Toast.makeText(getApplicationContext(),toShow,Toast.LENGTH_SHORT).show();
     }

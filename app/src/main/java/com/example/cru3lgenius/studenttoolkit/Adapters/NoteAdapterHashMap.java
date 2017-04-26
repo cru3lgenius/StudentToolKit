@@ -59,6 +59,8 @@ public class NoteAdapterHashMap extends BaseAdapter{
 
         Note note = getItem(position).getValue();
         if(note!=null){
+
+            /* Adjust the View for the adapter */
             TextView title = (TextView) result.findViewById(R.id.list_note_title);
             TextView date = (TextView) result.findViewById(R.id.list_note_date);
             TextView content = (TextView) result.findViewById(R.id.list_note_content);
@@ -76,12 +78,13 @@ public class NoteAdapterHashMap extends BaseAdapter{
         return result;
     }
     public void updateAdapter(HashMap<String,Note> map){
-        // Updates ArrayList
+
+        /* Updates ArrayList */
         this.mData.clear();
         Set<Entry<String,Note>> entries = map.entrySet();
         this.mData.addAll(map.entrySet());
 
-        //Sorts the data
+        /* Sorts the data */
         Collections.sort(this.mData, DATE_ORDER);
         this.notifyDataSetChanged();
     }
@@ -90,7 +93,7 @@ public class NoteAdapterHashMap extends BaseAdapter{
         super.registerDataSetObserver(observer);
     }
 
-    //Comparator for sorting notes
+    /* Comparator for sorting notes */
     public Comparator<Entry<String,Note>> DATE_ORDER = new Comparator<Entry<String,Note>>() {
         @Override
         public int compare(Entry<String, Note> o1, Entry<String, Note> o2) {

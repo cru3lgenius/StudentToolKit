@@ -55,11 +55,14 @@ public class User_Utilities {
 
     public static void uploadProfilePicture(final User user, final Context context, Uri filepath, final StorageReference storageRef){
 
+        /* Intialize the progressDialog */
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Upload");
         progressDialog.setMessage("Uploading your new profile picture...");
         StorageReference riversRef = storageRef.child(new String(auth.getCurrentUser().getEmail().replace('.','_')+"/profile.png"));
         progressDialog.show();
+
+        /* Putfile in firebase storage */
         riversRef.putFile(filepath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -80,6 +83,8 @@ public class User_Utilities {
 
     }
     public static void downloadProfilePicture(final User user, final Context context, StorageReference storageReference, final ImageView profilePicture) throws IOException {
+
+        /* Loading picture from firebase using Glide */
         final StorageReference storageRef =  storageReference.child(new String(auth.getCurrentUser().getEmail().replace('.','_')+"/profile.png"));
         Glide.with(context)
                 .using(new FirebaseImageLoader())

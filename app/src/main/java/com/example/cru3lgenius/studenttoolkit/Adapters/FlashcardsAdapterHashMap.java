@@ -27,13 +27,16 @@ import java.util.Set;
  */
 
 public class FlashcardsAdapterHashMap extends BaseAdapter {
-    private ArrayList mData;
-    public FlashcardsAdapterHashMap(Map<String, Flashcard> map) {
 
+
+
+    private ArrayList mData;
+
+
+    public FlashcardsAdapterHashMap(Map<String, Flashcard> map) {
+        /* ArrayList to store the data from the MAP */
         mData = new ArrayList();
         mData.addAll(map.entrySet());
-
-
     }
 
     @Override
@@ -48,7 +51,7 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        // TODO implement logic with ID
+
         return 0;
     }
 
@@ -64,6 +67,8 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
 
         Flashcard flashcard = getItem(position).getValue();
         if(flashcard!=null){
+
+            /* Adjust the view for the adapter */
             CheckBox flashcardCB = (CheckBox) result.findViewById(R.id.cbFlashcardToReview);
             TextView flashcardTV = (TextView) result.findViewById(R.id.tvFlashcardItem);
             flashcardTV.setTextAppearance(android.R.style.TextAppearance_Small);
@@ -71,9 +76,6 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
             flashcardCB.setTextAppearance(android.R.style.TextAppearance_Large);
             flashcardCB.setTypeface(null, Typeface.BOLD);
             flashcardCB.setText(flashcard.getFlashcardName());
-
-
-
         }
 
 
@@ -81,18 +83,18 @@ public class FlashcardsAdapterHashMap extends BaseAdapter {
     }
     public void updateAdapter(HashMap<String,Flashcard> map){
 
-        // ArrayList update
+        /* ArrayList update */
         this.mData.clear();
         Set<Map.Entry<String,Flashcard>> entries = map.entrySet();
         this.mData.addAll(map.entrySet());
 
-        // Sort flashcards
+        /*  Sort flashcards */
         Collections.sort(this.mData, NAME_ORDER);
         this.notifyDataSetChanged();
 
     }
 
-    // Comparator for sorting flashcards
+    /* Comparator for sorting flashcards */
     public Comparator<Map.Entry<String,Flashcard>> NAME_ORDER = new Comparator<Map.Entry<String,Flashcard>>() {
         @Override
         public int compare(Map.Entry<String, Flashcard> o1, Map.Entry<String, Flashcard> o2) {
